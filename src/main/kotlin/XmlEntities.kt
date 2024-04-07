@@ -1,9 +1,42 @@
 
 
 sealed interface Element {
+
     val name: String
     val parent: DirectoryElement?
-    val attributes : MutableList<Attribute>?
+    var attributes : MutableList<Attribute>?
+
+    /**
+     * Adds an [attribute] to a [DirectoryElement].
+     * @return [DirectoryElement]
+     */
+    fun addAttribute(attribute: Attribute): Element{
+        if (this.attributes == null) {
+            this.attributes = mutableListOf(attribute)
+        } else {
+            attributes!!.add(attribute)
+        }
+        return this
+    }
+
+
+    /**
+     * return a String with DirectoryElement and attributes
+     * @return [String]
+     */
+    fun print(): String{
+        var dirString = "<"
+        dirString += this.name
+        if(!this.attributes.isNullOrEmpty()){
+            val attributesString = attributes!!.joinToString(separator = " ") { "${it.name}=\"${it.value}\"" }
+            dirString += " $attributesString"
+        }
+        if(this is LeafElement)
+            dirString += "/>"
+        else
+            dirString += ">"
+        return dirString
+    }
 }
 
 // TODO
@@ -11,21 +44,13 @@ sealed interface Element {
 data class DirectoryElement(
     override val name: String,
     override val parent: DirectoryElement? = null,
-    override val attributes : MutableList<Attribute>? = null
+    override var attributes : MutableList<Attribute>? = null
 ) : Element {
 
     val children: MutableList<Element> = mutableListOf()
 
     init {
         parent?.children?.add(this) //this chain returns null if any of the properties is null
-    }
-
-    /**
-     * Adds an [attribute] to a [DirectoryElement].
-     * @return [DirectoryElement]
-     */
-    fun addAttributeToEntity(attribute: Attribute): DirectoryElement{
-        return this
     }
 
     // fun changeAttribute(n: String, v: Any) // To Do
@@ -37,7 +62,7 @@ data class LeafElement(
     override val name: String,
     // val leafType: String, //leafType pode ser tag (ex <componente>) ou text (ex "Programacao Avanacada")
     override val parent: DirectoryElement?,
-    override val attributes : MutableList<Attribute>? = null
+    override var attributes : MutableList<Attribute>? = null
 ) : Element {
 
     init {
@@ -62,8 +87,8 @@ data class LeafElement(
  * @constructor Creates an attribute with name not empty.
  */
 public class Attribute(
-    private val name:String,
-    private val value:String
+    public val name:String,
+    public val value:String
 ){
     init {
         require(name.isNotEmpty()) { "name required" }
