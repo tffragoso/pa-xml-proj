@@ -1,4 +1,3 @@
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -14,12 +13,12 @@ class Test {
     private val plano = DirectoryElement("plano")
     private var curso = DirectoryElement("curso", plano)
     private val mei = LeafElement("MEI", curso)
-    val fuc1 = DirectoryElement("fuc", plano)
-    private val nomefuc1 = LeafElement("nome", fuc1)
-    private val ectsfuc1 = LeafElement("6.0", fuc1)
-    val avaliacaofuc1 = DirectoryElement("avaliacao", fuc1)
+    private val fuc1 = DirectoryElement("fuc", plano)
+    //private val nomefuc1 = LeafElement("nome", fuc1)
+    //private val ectsfuc1 = LeafElement("6.0", fuc1)
+    private val avaliacaofuc1 = DirectoryElement("avaliacao", fuc1)
     private var componente1fuc1 = LeafElement("componente", avaliacaofuc1)
-    private val componente2fuc1 = LeafElement("componente", avaliacaofuc1)
+    //private val componente2fuc1 = LeafElement("componente", avaliacaofuc1)
 
 
     @Test
@@ -29,12 +28,11 @@ class Test {
     }
 
     /**
-     * Test adding attribute to entity
+     * Test adding attribute to element
      */
     @Test
     fun testAddAttribute(){
         var expected : String
-        var xml : String
         try {
             // TODO Perguntar ao prof como testar os requisitos de inicialização
             /*
@@ -49,7 +47,7 @@ class Test {
 
         try {
             expected = "<curso codigo=\"M4310\">"
-            curso.addAttribute(Attribute("codigo","M4310")).print()
+            curso.addAttribute(Attribute("codigo","M4310"))
             assertEquals(expected,curso.print())
         }catch(e: Throwable){
             println("testAddAttributeToEntity Error Test 2")
@@ -65,16 +63,69 @@ class Test {
             println("testAddAttributeToEntity Error Test 3")
             throw e
         }
+
+        try {
+            expected = "<componente nome=\"Quizzes\" peso=\"20%\"/>"
+            componente1fuc1.addAttribute(Attribute("nome","Quizzes"))
+            componente1fuc1.addAttribute(Attribute("peso","20%"))
+            componente1fuc1.addAttribute(Attribute("peso","40%"))
+            //TODO
+            // se tentarmos adicionar um atributo com o mesmo nome?
+            // atualiza o valor, ignora ou envia uma mensagem de erro?
+            assertEquals(expected,componente1fuc1.print())
+        }catch(e: Throwable){
+            println("testAddAttributeToEntity Error Test 3")
+            throw e
+        }
     }
 
     /**
-     * Test removing attribute to entity
+     * Test removing attribute from element
      */
     @Test
-    fun testRemoveAttributeFromEntity(){
-        //TODO
-        // validar se o método pode ser igual ao das Leafs
-        // Se sim, atualizar o nome do método e do teste
+    fun testRemoveAttribute(){
+
+        var expected : String
+
+        try {
+            expected = "<componente/>"
+            componente1fuc1.removeAttribute("nome")
+            assertEquals(expected,componente1fuc1.print())
+        }catch(e: Throwable){
+            println("testRemoveAttribute Error Test 1")
+            throw e
+        }
+
+        try {
+            componente1fuc1.addAttribute(Attribute("nome","Quizzes"))
+            expected = "<componente nome=\"Quizzes\"/>"
+            componente1fuc1.removeAttribute("peso")
+            assertEquals(expected,componente1fuc1.print())
+        }catch(e: Throwable){
+            println("testRemoveAttribute Error Test 2")
+            throw e
+        }
+
+        try {
+            componente1fuc1.addAttribute(Attribute("nome","Quizzes"))
+            expected = "<componente/>"
+            componente1fuc1.removeAttribute("nome")
+            assertEquals(expected,componente1fuc1.print())
+        }catch(e: Throwable){
+            println("testRemoveAttribute Error Test 2")
+            throw e
+        }
+
+        try {
+            componente1fuc1.addAttribute(Attribute("nome","Quizzes"))
+            componente1fuc1.addAttribute(Attribute("peso","20%"))
+            expected = "<componente peso=\"20%\"/>"
+            componente1fuc1.removeAttribute("nome")
+            assertEquals(expected,componente1fuc1.print())
+        }catch(e: Throwable){
+            println("testRemoveAttribute Error Test 3")
+            throw e
+        }
     }
 
     /**

@@ -4,24 +4,39 @@ sealed interface Element {
 
     val name: String
     val parent: DirectoryElement?
-    var attributes : MutableList<Attribute>?
+    var attributes : MutableSet<Attribute>?
 
     /**
-     * Adds an [attribute] to a [DirectoryElement].
-     * @return [DirectoryElement]
+     * Adds an [attribute] to an [Element].
+     * @return [Element]
      */
     fun addAttribute(attribute: Attribute): Element{
         if (this.attributes == null) {
-            this.attributes = mutableListOf(attribute)
-        } else {
+            this.attributes = mutableSetOf(attribute)
+        } else if (attribute.name !in this.attributes!!.map{it.name}){
             attributes!!.add(attribute)
         }
         return this
     }
 
+    /**
+     * Removes the attribute with the [name] from an [Element].
+     * @return [Element]
+     */
+    fun removeAttribute(name: String): Element{
+        val i = this.attributes?.iterator()
+        while (i?.hasNext() == true) {
+            val attribute = i.next()
+            if (attribute.name == name) {
+                i.remove()
+                break
+            }
+        }
+        return this
+    }
 
     /**
-     * return a String with DirectoryElement and attributes
+     * return a String with Element and attributes
      * @return [String]
      */
     fun print(): String{
@@ -31,10 +46,10 @@ sealed interface Element {
             val attributesString = attributes!!.joinToString(separator = " ") { "${it.name}=\"${it.value}\"" }
             dirString += " $attributesString"
         }
-        if(this is LeafElement)
-            dirString += "/>"
+        dirString += if(this is LeafElement)
+            "/>"
         else
-            dirString += ">"
+            ">"
         return dirString
     }
 }
@@ -44,7 +59,7 @@ sealed interface Element {
 data class DirectoryElement(
     override val name: String,
     override val parent: DirectoryElement? = null,
-    override var attributes : MutableList<Attribute>? = null
+    override var attributes : MutableSet<Attribute>? = null
 ) : Element {
 
     val children: MutableList<Element> = mutableListOf()
@@ -62,7 +77,7 @@ data class LeafElement(
     override val name: String,
     // val leafType: String, //leafType pode ser tag (ex <componente>) ou text (ex "Programacao Avanacada")
     override val parent: DirectoryElement?,
-    override var attributes : MutableList<Attribute>? = null
+    override var attributes : MutableSet<Attribute>? = null
 ) : Element {
 
     init {
