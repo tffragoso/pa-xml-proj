@@ -4,6 +4,9 @@ sealed interface Element {
 
     val name: String
     val parent: DirectoryElement?
+    // TODO
+    // Perguntar ao professor sobre a utilização de var em vez de val
+    // é melhor prática ou não?
     var attributes : MutableSet<Attribute>?
 
     /**
@@ -31,6 +34,18 @@ sealed interface Element {
                 i.remove()
                 break
             }
+        }
+        return this
+    }
+
+    /**
+     * Updates [attribute] with the [attribute] value.
+     * @return [Element]
+     */
+    fun updateAttribute(attribute: Attribute): Element{
+        this.attributes?.map{
+            if(it.name == attribute.name)
+                it.value=attribute.value
         }
         return this
     }
@@ -75,6 +90,8 @@ data class DirectoryElement(
 
 data class LeafElement(
     override val name: String,
+    // TODO
+    // Acho que se deve utilizar esta propriedade, então atualizar os métodos
     // val leafType: String, //leafType pode ser tag (ex <componente>) ou text (ex "Programacao Avanacada")
     override val parent: DirectoryElement?,
     override var attributes : MutableSet<Attribute>? = null
@@ -103,7 +120,7 @@ data class LeafElement(
  */
 class Attribute(
     val name:String,
-    val value:String
+    var value:String
 ){
     init {
         require(name.isNotEmpty()) { "name required" }

@@ -112,7 +112,7 @@ class Test {
             componente1fuc1.removeAttribute("nome")
             assertEquals(expected,componente1fuc1.print())
         }catch(e: Throwable){
-            println("testRemoveAttribute Error Test 2")
+            println("testRemoveAttribute Error Test 3")
             throw e
         }
 
@@ -123,7 +123,17 @@ class Test {
             componente1fuc1.removeAttribute("nome")
             assertEquals(expected,componente1fuc1.print())
         }catch(e: Throwable){
-            println("testRemoveAttribute Error Test 3")
+            println("testRemoveAttribute Error Test 4")
+            throw e
+        }
+
+        try {
+            expected = "<curso>"
+            curso.addAttribute(Attribute("codigo","M4310"))
+            curso.removeAttribute("codigo")
+            assertEquals(expected,curso.print())
+        }catch(e: Throwable){
+            println("testRemoveAttribute Error Test 5")
             throw e
         }
     }
@@ -132,10 +142,57 @@ class Test {
      * Test update attribute from entity
      */
     @Test
-    fun testUpdateAttributeFromEntity(){
-        //TODO
-        // validar se o método pode ser igual ao das Leafs
-        // Se sim, atualizar o nome do método e do teste
+    fun testUpdateAttribute(){
+        var expected : String
+
+        try {
+            expected = "<componente/>"
+            componente1fuc1.updateAttribute(Attribute("nome","Quizzes"))
+            assertEquals(expected,componente1fuc1.print())
+        }catch(e: Throwable){
+            println("testUpdateAttribute Error Test 1")
+            throw e
+        }
+
+        try {
+            componente1fuc1.addAttribute(Attribute("nome","Quizzes"))
+            expected = "<componente nome=\"Quizz1\"/>"
+            componente1fuc1.updateAttribute(Attribute("nome","Quizz1"))
+            assertEquals(expected,componente1fuc1.print())
+        }catch(e: Throwable){
+            println("testUpdateAttribute Error Test 2")
+            throw e
+        }
+
+        try {
+            expected = "<componente nome=\"Quizz1\"/>"
+            componente1fuc1.updateAttribute(Attribute("peso","20%"))
+            assertEquals(expected,componente1fuc1.print())
+        }catch(e: Throwable){
+            println("testUpdateAttribute Error Test 3")
+            throw e
+        }
+
+        try {
+            componente1fuc1.addAttribute(Attribute("peso","20%"))
+            expected = "<componente nome=\"Projeto\" peso=\"80%\"/>"
+            componente1fuc1.updateAttribute(Attribute("nome","Projeto"))
+            componente1fuc1.updateAttribute(Attribute("peso","80%"))
+            assertEquals(expected,componente1fuc1.print())
+        }catch(e: Throwable){
+            println("testUpdateAttribute Error Test 4")
+            throw e
+        }
+
+        try {
+            expected = "<fuc codigo=\"M1111\">"
+            fuc1.addAttribute(Attribute("codigo","M4310"))
+            fuc1.updateAttribute(Attribute("codigo","M1111"))
+            assertEquals(expected,fuc1.print())
+        }catch(e: Throwable){
+            println("testUpdateAttribute Error Test 5")
+            throw e
+        }
     }
 
 }
