@@ -101,9 +101,9 @@ data class LeafElement(
  * @property [value] the value of the attribute.
  * @constructor Creates an attribute with name not empty.
  */
-public class Attribute(
-    public val name:String,
-    public val value:String
+class Attribute(
+    val name:String,
+    val value:String
 ){
     init {
         require(name.isNotEmpty()) { "name required" }
