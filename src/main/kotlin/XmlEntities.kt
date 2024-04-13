@@ -1,19 +1,15 @@
 
 
-sealed interface Element {
-
+sealed interface XmlElement {
     val name: String
-    val parent: DirectoryElement?
-    // TODO
-    // Perguntar ao professor sobre a utilização de var em vez de val
-    // é melhor prática ou não?
-    var attributes : MutableSet<Attribute>?
+    val parent: XmlTag?
+    var attributes : MutableSet<Attribute>? //o prof na aula disse que devia ser MutableList ou percebi mal?
 
     /**
-     * Adds an [attribute] to an [Element].
-     * @return [Element]
+     * Adds an [attribute] to an [XmlElement].
+     * @return [XmlElement]
      */
-    fun addAttribute(attribute: Attribute): Element{
+    fun addAttribute(attribute: Attribute): XmlElement{
         if (this.attributes == null) {
             this.attributes = mutableSetOf(attribute)
         } else if (attribute.name !in this.attributes!!.map{it.name}){
@@ -23,10 +19,10 @@ sealed interface Element {
     }
 
     /**
-     * Removes the attribute with the [name] from an [Element].
-     * @return [Element]
+     * Removes the attribute with the [name] from an [XmlElement].
+     * @return [XmlElement]
      */
-    fun removeAttribute(name: String): Element{
+    fun removeAttribute(name: String): XmlElement{
         val i = this.attributes?.iterator()
         while (i?.hasNext() == true) {
             val attribute = i.next()
@@ -40,9 +36,9 @@ sealed interface Element {
 
     /**
      * Updates [attribute] with the [attribute] value.
-     * @return [Element]
+     * @return [XmlElement]
      */
-    fun updateAttribute(attribute: Attribute): Element{
+    fun updateAttribute(attribute: Attribute): XmlElement{
         this.attributes?.map{
             if(it.name == attribute.name)
                 it.value=attribute.value
@@ -51,7 +47,7 @@ sealed interface Element {
     }
 
     /**
-     * return a String with Element and attributes
+     * return a String with XmlElement and attributes
      * @return [String]
      */
     fun print(): String{
@@ -61,7 +57,7 @@ sealed interface Element {
             val attributesString = attributes!!.joinToString(separator = " ") { "${it.name}=\"${it.value}\"" }
             dirString += " $attributesString"
         }
-        dirString += if(this is LeafElement)
+        dirString += if(this is XmlLeaf)
             "/>"
         else
             ">"
@@ -69,15 +65,13 @@ sealed interface Element {
     }
 }
 
-// TODO
-// Deveremos chamar esta classe de Entity?
-data class DirectoryElement(
+data class XmlTag(
     override val name: String,
-    override val parent: DirectoryElement? = null,
+    override val parent: XmlTag? = null,
     override var attributes : MutableSet<Attribute>? = null
-) : Element {
+) : XmlElement {
 
-    val children: MutableList<Element> = mutableListOf()
+    val children: MutableList<XmlElement> = mutableListOf()
 
     init {
         parent?.children?.add(this) //this chain returns null if any of the properties is null
@@ -88,14 +82,14 @@ data class DirectoryElement(
     // fun removeAttribute(n: String, v: Any) // To Do
 }
 
-data class LeafElement(
+data class XmlLeaf(
     override val name: String,
     // TODO
     // Acho que se deve utilizar esta propriedade, então atualizar os métodos
     // val leafType: String, //leafType pode ser tag (ex <componente>) ou text (ex "Programacao Avanacada")
-    override val parent: DirectoryElement?,
+    override val parent: XmlTag?,
     override var attributes : MutableSet<Attribute>? = null
-) : Element {
+) : XmlElement {
 
     init {
         parent?.children?.add(this) //this chain returns null if any of the properties is null
@@ -123,6 +117,6 @@ class Attribute(
     var value:String
 ){
     init {
-        require(name.isNotEmpty()) { "name required" }
+        require(name.isNotEmpty()) { "Name required" }
     }
 }

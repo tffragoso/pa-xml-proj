@@ -10,15 +10,15 @@ class Test {
     //TODO
     // utilizar aqui os métodos implementados para adicionar?
     // caso contrário vai ser uma confusão para definir todo o xml
-    private val plano = DirectoryElement("plano")
-    private var curso = DirectoryElement("curso", plano)
-    private val mei = LeafElement("MEI", curso)
-    private val fuc1 = DirectoryElement("fuc", plano)
-    //private val nomefuc1 = LeafElement("nome", fuc1)
-    //private val ectsfuc1 = LeafElement("6.0", fuc1)
-    private val avaliacaofuc1 = DirectoryElement("avaliacao", fuc1)
-    private var componente1fuc1 = LeafElement("componente", avaliacaofuc1)
-    //private val componente2fuc1 = LeafElement("componente", avaliacaofuc1)
+    private val plano = XmlTag("plano")
+    private var curso = XmlTag("curso", plano)
+    private val mei = XmlLeaf("MEI", curso)
+    private val fuc1 = XmlTag("fuc", plano)
+    //private val nomefuc1 = XmlLeaf("nome", fuc1)
+    //private val ectsfuc1 = XmlLeaf("6.0", fuc1)
+    private val avaliacaofuc1 = XmlTag("avaliacao", fuc1)
+    private var componente1fuc1 = XmlLeaf("componente", avaliacaofuc1)
+    //private val componente2fuc1 = XmlLeaf("componente", avaliacaofuc1)
 
 
     @Test
