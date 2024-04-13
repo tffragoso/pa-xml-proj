@@ -1,9 +1,9 @@
 
 
 sealed interface XmlElement {
-    val name: String
-    val parent: XmlTag?
-    var attributes : MutableSet<Attribute>? //o prof na aula disse que devia ser MutableList ou percebi mal?
+    var name: String
+    var parent: XmlTag?
+    var attributes: MutableSet<Attribute>? //o prof na aula disse que devia ser MutableList ou percebi mal?
 
     /**
      * Adds an [attribute] to an [XmlElement].
@@ -63,18 +63,52 @@ sealed interface XmlElement {
             ">"
         return dirString
     }
+
+    fun accept(visitor: (XmlElement) -> Boolean) {
+        visitor(this)
+    }
 }
 
 data class XmlTag(
-    override val name: String,
-    override val parent: XmlTag? = null,
+    override var name: String,
+    override var parent: XmlTag? = null,
     override var attributes : MutableSet<Attribute>? = null
 ) : XmlElement {
 
     val children: MutableList<XmlElement> = mutableListOf()
-
     init {
         parent?.children?.add(this) //this chain returns null if any of the properties is null
+    }
+
+    /*
+    * Adds a XmlElement as child of a XmlElement.
+    * If the child already has a parent, this new parent is assigned to the child
+    * */
+    fun addChildElement(child: XmlElement) {
+        // Add child to the list of children
+        this.children.add(child)
+        // Remove child from previous parent list of children
+        child.parent?.children?.remove(child)
+        // Assign new parent to child
+        child.parent = this
+    }
+
+    /*
+    * Removes a XmlElement as child of a XmlElement.
+    * The child is assigned no parent.
+    * */
+    fun removeChildElement(child: XmlElement) {
+        // Remove child from the list of children
+        this.children.remove(child)
+        // Make child's parent null
+        child.parent = null
+    }
+
+    override fun accept(visitor: (XmlElement) -> Boolean) {
+        if (visitor(this))
+            children.forEach{
+                it.accept(visitor)
+            }
     }
 
     // fun changeAttribute(n: String, v: Any) // To Do
@@ -83,16 +117,16 @@ data class XmlTag(
 }
 
 data class XmlLeaf(
-    override val name: String,
+    override var name: String,
     // TODO
     // Acho que se deve utilizar esta propriedade, então atualizar os métodos
     // val leafType: String, //leafType pode ser tag (ex <componente>) ou text (ex "Programacao Avanacada")
-    override val parent: XmlTag?,
+    override var parent: XmlTag? = null,
     override var attributes : MutableSet<Attribute>? = null
 ) : XmlElement {
 
     init {
-        parent?.children?.add(this) //this chain returns null if any of the properties is null
+        parent?.children?.add(this)
     }
 
     //funçoes semelhantes às da DirectoryElement, mas aqui temos de ter em atençao o leafType

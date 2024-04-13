@@ -1,30 +1,50 @@
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 /**
  *  This is the class for unitary testing
  */
-
 class Test {
 
-    //TODO
-    // utilizar aqui os métodos implementados para adicionar?
-    // caso contrário vai ser uma confusão para definir todo o xml
-    private val plano = XmlTag("plano")
-    private var curso = XmlTag("curso", plano)
-    private val mei = XmlLeaf("MEI", curso)
-    private val fuc1 = XmlTag("fuc", plano)
+    val plano = XmlTag("plano")
+    val curso = XmlTag("curso", plano)
+    val mei = XmlLeaf("MEI", curso)
+    val fuc1 = XmlTag("fuc", plano)
     //private val nomefuc1 = XmlLeaf("nome", fuc1)
     //private val ectsfuc1 = XmlLeaf("6.0", fuc1)
-    private val avaliacaofuc1 = XmlTag("avaliacao", fuc1)
-    private var componente1fuc1 = XmlLeaf("componente", avaliacaofuc1)
+    val avaliacaofuc1 = XmlTag("avaliacao", fuc1)
+    val componente1fuc1 = XmlLeaf("componente", avaliacaofuc1)
     //private val componente2fuc1 = XmlLeaf("componente", avaliacaofuc1)
 
 
     @Test
-    fun main() {
-        println(mei.parent)
-        println(plano.children)
+    fun testParentAndChildren() {
+        assertNull(plano.parent)
+        assertEquals(plano, curso.parent)
+        assertEquals(fuc1, avaliacaofuc1.parent)
+        assertEquals(listOf(curso, fuc1), plano.children)
+        assertEquals(listOf(avaliacaofuc1), fuc1.children)
+    }
+    @Test
+    fun testAddChildElement() {
+        val fuc2 = XmlTag("fuc2")
+        assertNull(fuc2.parent)
+
+        plano.addChildElement(fuc2)
+        assertEquals(listOf(curso, fuc1, fuc2), plano.children)
+
+        curso.addChildElement(fuc1)
+        assertEquals(listOf(mei, fuc1), curso.children)
+        assertEquals(fuc1.parent, curso)
+        assertEquals(listOf(curso, fuc2), plano.children)
+    }
+
+    @Test
+    fun testRemoveChildElement() {
+        curso.removeChildElement(mei)
+        assertEquals(listOf<XmlElement>(), curso.children)
+        assertNull(mei.parent)
     }
 
     /**
