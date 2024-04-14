@@ -25,6 +25,12 @@ class Test {
         assertEquals(listOf(curso, fuc1), plano.children)
         assertEquals(listOf(avaliacaofuc1), fuc1.children)
     }
+
+    @Test
+    fun testListDistinctElementNames() {
+        assertEquals(setOf("plano", "curso", "fuc", "avaliacao", "componente"), plano.listDistinctElementNames())
+        assertEquals(setOf("curso"), curso.listDistinctElementNames())
+    }
     @Test
     fun testAddChildElement() {
         val fuc2 = XmlTag("fuc2")
@@ -44,6 +50,18 @@ class Test {
         fuc1.removeChildElement(avaliacaofuc1)
         assertEquals(listOf<XmlElement>(), fuc1.children)
         assertNull(avaliacaofuc1.parent)
+    }
+
+    @Test
+    fun testRenameElements() {
+        val fuc2 = XmlTag("fuc", plano)
+        plano.renameElements("fuc", "fichaUnidadeCurricular")
+        assertEquals("fichaUnidadeCurricular", fuc1.name)
+        assertEquals("fichaUnidadeCurricular", fuc2.name)
+        assertEquals(setOf("fichaUnidadeCurricular", "avaliacao", "componente"), fuc1.listDistinctElementNames())
+
+        plano.renameElements("abc", "def")
+        assertEquals(setOf("plano", "curso", "fichaUnidadeCurricular", "avaliacao", "componente"), plano.listDistinctElementNames())
     }
 
     /**

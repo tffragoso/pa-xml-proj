@@ -66,3 +66,28 @@ sealed interface XmlElement {
         visitor(this)
     }
 }
+
+/**
+ * Return a list of distinct names of all elements in the XmlElement´s tree.
+ * This list includes the XmlElement's name.
+ */
+fun XmlElement.listDistinctElementNames(): MutableSet<String>  {
+    val distinctElementNames: MutableSet<String> = mutableSetOf()
+    accept {
+        distinctElementNames.add(it.name)
+        true
+    }
+    return distinctElementNames
+}
+
+/**
+ * Given a XmlElement, this function renames all entities in that XmlElement's tree
+ * to newName, if their name matches the input elementName
+ */
+fun XmlElement.renameElements(elementName: String, newName: String) {
+    accept {
+        if(it.name == elementName )
+            it.name = newName
+        true
+    }
+}
