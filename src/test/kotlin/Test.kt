@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test
 class Test {
 
     val plano = XmlTag("plano")
-    val curso = XmlTag("curso", plano)
-    val mei = XmlLeaf("MEI", curso)
+    val curso = XmlLeaf("curso", plano, leafText = "MEI")
     val fuc1 = XmlTag("fuc", plano)
     //private val nomefuc1 = XmlLeaf("nome", fuc1)
     //private val ectsfuc1 = XmlLeaf("6.0", fuc1)
@@ -34,17 +33,17 @@ class Test {
         plano.addChildElement(fuc2)
         assertEquals(listOf(curso, fuc1, fuc2), plano.children)
 
-        curso.addChildElement(fuc1)
-        assertEquals(listOf(mei, fuc1), curso.children)
-        assertEquals(fuc1.parent, curso)
-        assertEquals(listOf(curso, fuc2), plano.children)
+        fuc2.addChildElement(avaliacaofuc1)
+        assertEquals(listOf(avaliacaofuc1), fuc2.children)
+        assertEquals(avaliacaofuc1.parent, fuc2)
+        assertEquals(listOf<XmlElement>(), fuc1.children)
     }
 
     @Test
     fun testRemoveChildElement() {
-        curso.removeChildElement(mei)
-        assertEquals(listOf<XmlElement>(), curso.children)
-        assertNull(mei.parent)
+        fuc1.removeChildElement(avaliacaofuc1)
+        assertEquals(listOf<XmlElement>(), fuc1.children)
+        assertNull(avaliacaofuc1.parent)
     }
 
     /**
