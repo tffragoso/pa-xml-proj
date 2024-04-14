@@ -67,53 +67,90 @@ class Test {
     /**
      * Test adding attribute to element
      */
-    @Test
+    @Test()
     fun testAddAttribute(){
-        var expected : String
-        try {
-            // TODO Perguntar ao prof como testar os requisitos de inicialização
-            /*
-            var expected = "testAddAttributeToEntity Error"
-            var xml: String = curso.addAttributeToEntity(Attribute("","")).toString()
-            assertEquals(expected,xml)
-            */
-        }catch(e: Throwable){
-            println("testAddAttributeToEntity Error Test 1")
-            throw e
-        }
+        val planoTest = XmlTag("plano")
+        val cursoTest = XmlLeaf("curso", plano, leafText = "MEI")
+        val componente1fuc1Test = XmlLeaf("componente", avaliacaofuc1)
 
-        try {
-            expected = "<curso codigo=\"M4310\">"
-            curso.addAttribute(Attribute("codigo","M4310"))
-            assertEquals(expected,curso.print())
-        }catch(e: Throwable){
-            println("testAddAttributeToEntity Error Test 2")
-            throw e
-        }
+        // adding attribute to a xml leaf
+        var attribute1 = Attribute("codigo","M4310")
+        cursoTest.addAttribute(attribute1)
+        assert(cursoTest.attributes!!.contains(attribute1))
 
-        try {
-            expected = "<componente nome=\"Quizzes\" peso=\"20%\"/>"
-            componente1fuc1.addAttribute(Attribute("nome","Quizzes"))
-            componente1fuc1.addAttribute(Attribute("peso","20%"))
-            assertEquals(expected,componente1fuc1.print())
-        }catch(e: Throwable){
-            println("testAddAttributeToEntity Error Test 3")
-            throw e
-        }
+        // adding two attributes to a xml leaf
+        attribute1 = Attribute("nome","Quizzes")
+        componente1fuc1Test.addAttribute(attribute1)
+        val attribute2 = Attribute("peso","20%")
+        componente1fuc1Test.addAttribute(attribute2)
+        assert(componente1fuc1Test.attributes!!.containsAll(listOf(attribute1,attribute2)))
 
-        try {
-            expected = "<componente nome=\"Quizzes\" peso=\"20%\"/>"
-            componente1fuc1.addAttribute(Attribute("nome","Quizzes"))
-            componente1fuc1.addAttribute(Attribute("peso","20%"))
-            componente1fuc1.addAttribute(Attribute("peso","40%"))
-            //TODO
-            // se tentarmos adicionar um atributo com o mesmo nome?
-            // atualiza o valor, ignora ou envia uma mensagem de erro?
-            assertEquals(expected,componente1fuc1.print())
-        }catch(e: Throwable){
-            println("testAddAttributeToEntity Error Test 3")
-            throw e
-        }
+        // adding an attribute to a xml leaf that already exist and doesn't update the value
+        val attribute3 = Attribute("peso","40%")
+        componente1fuc1Test.addAttribute(attribute3)
+        assert(componente1fuc1Test.attributes!!.containsAll(listOf(attribute1,attribute2)))
+
+        // adding attribute to a xml tag
+        attribute1 = Attribute("codigo","M4310")
+        planoTest.addAttribute(attribute1)
+        assert(planoTest.attributes!!.contains(attribute1))
+
+        // adding two attributes to a xml tag
+        planoTest.addAttribute(attribute2)
+        assert(planoTest.attributes!!.containsAll(listOf(attribute1,attribute2)))
+
+        // adding an attribute to a xml tag that already exist and doesn't update the value
+        planoTest.addAttribute(attribute3)
+        assert(planoTest.attributes!!.containsAll(listOf(attribute1,attribute2)))
+    }
+
+    /**
+     * Test adding attribute to element with prints
+     */
+    @Test
+    fun testAddAttributeWithPrint(){
+        val planoTest = XmlTag("plano")
+        val avaliacaofuc1Test = XmlTag("avaliacao", fuc1)
+        val cursoTest = XmlLeaf("curso", plano, leafText = "MEI")
+        val componente1fuc1Test = XmlLeaf("componente", avaliacaofuc1)
+
+        //add element to a Leaf with no attributes
+        var expected = "<curso codigo=\"M4310\">MEI</curso>"
+        cursoTest.addAttribute(Attribute("codigo","M4310"))
+        assertEquals(expected,cursoTest.print())
+
+        //add two attributes to a Leaf with no attributes
+        expected = "<componente nome=\"Quizzes\" peso=\"20%\"/>"
+        componente1fuc1Test.addAttribute(Attribute("nome","Quizzes"))
+        componente1fuc1Test.addAttribute(Attribute("peso","20%"))
+        assertEquals(expected,componente1fuc1Test.print())
+
+        //add two attributes to a Leaf with no attributes and adding a third one with name equal to an existing
+        //attribute
+        expected = "<componente nome=\"Quizzes\" peso=\"20%\"/>"
+        componente1fuc1Test.addAttribute(Attribute("nome","Quizzes"))
+        componente1fuc1Test.addAttribute(Attribute("peso","20%"))
+        componente1fuc1Test.addAttribute(Attribute("peso","40%"))
+        assertEquals(expected,componente1fuc1Test.print())
+
+        //add element to a Tag with no attributes
+        expected = "<plano codigo=\"M4310\">"
+        planoTest.addAttribute(Attribute("codigo","M4310"))
+        assertEquals(expected,planoTest.print())
+
+        //add two attributes to a Tag with no attributes
+        expected = "<avaliacao nome=\"Quizzes\" peso=\"20%\">"
+        avaliacaofuc1Test.addAttribute(Attribute("nome","Quizzes"))
+        avaliacaofuc1Test.addAttribute(Attribute("peso","20%"))
+        assertEquals(expected,avaliacaofuc1Test.print())
+
+        //add two attributes to a Tag with no attributes and adding a third one with name equal to an existing
+        //attribute
+        expected = "<avaliacao nome=\"Quizzes\" peso=\"20%\">"
+        avaliacaofuc1Test.addAttribute(Attribute("nome","Quizzes"))
+        avaliacaofuc1Test.addAttribute(Attribute("peso","20%"))
+        avaliacaofuc1Test.addAttribute(Attribute("peso","40%"))
+        assertEquals(expected,avaliacaofuc1Test.print())
     }
 
     /**
@@ -121,58 +158,73 @@ class Test {
      */
     @Test
     fun testRemoveAttribute(){
+        val componente1fuc1Test = XmlLeaf("componente", avaliacaofuc1)
 
+        // remove an attribute from a xml leaf that doesn't exist and the object doesn't have any attributes
+        var attribute1 = Attribute("nome","")
+        componente1fuc1Test.removeAttribute(attribute1.name)
+        assert(componente1fuc1Test.attributes.isNullOrEmpty())
+
+        // removing an attribute from a xml leaf that doesn't exist and the object has more attributes
+        attribute1 = Attribute("nome","Quizzes")
+        componente1fuc1Test.addAttribute(attribute1)
+        val componente1fuc1Test2 = componente1fuc1Test.copy()
+        val attribute2 = Attribute("peso","")
+        assertEquals(componente1fuc1Test2,componente1fuc1Test.removeAttribute(attribute2.name))
+
+        // removing the only attribute that exists from a xml leaf
+        componente1fuc1Test.removeAttribute(attribute1.name)
+        assert(componente1fuc1Test.attributes.isNullOrEmpty())
+
+        val planoTest = XmlTag("plano")
+
+        // remove an attribute from a xml tag that doesn't exist and the object doesn't have any attributes
+        attribute1 = Attribute("nome","")
+        planoTest.removeAttribute(attribute1.name)
+        assert(planoTest.attributes.isNullOrEmpty())
+
+        // removing an attribute from a xml tag that doesn't exist and the object has more attributes
+        attribute1 = Attribute("nome","Quizzes")
+        planoTest.addAttribute(attribute1)
+        val planoTest2 = planoTest.copy()
+        assertEquals(planoTest2,planoTest.removeAttribute(attribute2.name))
+
+        // removing the only attribute that exists from a xml tag
+        planoTest.removeAttribute(attribute1.name)
+        assert(componente1fuc1Test.attributes.isNullOrEmpty())
+    }
+
+    /**
+     * Test removing attribute from element with strings
+     */
+    @Test
+    fun testRemoveAttributeWithPrint(){
         var expected : String
 
-        try {
             expected = "<componente/>"
             componente1fuc1.removeAttribute("nome")
             assertEquals(expected,componente1fuc1.print())
-        }catch(e: Throwable){
-            println("testRemoveAttribute Error Test 1")
-            throw e
-        }
 
-        try {
             componente1fuc1.addAttribute(Attribute("nome","Quizzes"))
             expected = "<componente nome=\"Quizzes\"/>"
             componente1fuc1.removeAttribute("peso")
             assertEquals(expected,componente1fuc1.print())
-        }catch(e: Throwable){
-            println("testRemoveAttribute Error Test 2")
-            throw e
-        }
 
-        try {
             componente1fuc1.addAttribute(Attribute("nome","Quizzes"))
             expected = "<componente/>"
             componente1fuc1.removeAttribute("nome")
             assertEquals(expected,componente1fuc1.print())
-        }catch(e: Throwable){
-            println("testRemoveAttribute Error Test 3")
-            throw e
-        }
 
-        try {
             componente1fuc1.addAttribute(Attribute("nome","Quizzes"))
             componente1fuc1.addAttribute(Attribute("peso","20%"))
             expected = "<componente peso=\"20%\"/>"
             componente1fuc1.removeAttribute("nome")
             assertEquals(expected,componente1fuc1.print())
-        }catch(e: Throwable){
-            println("testRemoveAttribute Error Test 4")
-            throw e
-        }
 
-        try {
-            expected = "<curso>"
+            expected = "<curso>MEI</curso>"
             curso.addAttribute(Attribute("codigo","M4310"))
             curso.removeAttribute("codigo")
             assertEquals(expected,curso.print())
-        }catch(e: Throwable){
-            println("testRemoveAttribute Error Test 5")
-            throw e
-        }
     }
 
     /**
@@ -180,56 +232,90 @@ class Test {
      */
     @Test
     fun testUpdateAttribute(){
-        var expected : String
+        val componente1fuc1Test = XmlLeaf("componente", avaliacaofuc1)
+        val planoTest = XmlTag("plano")
 
-        try {
-            expected = "<componente/>"
-            componente1fuc1.updateAttribute(Attribute("nome","Quizzes"))
-            assertEquals(expected,componente1fuc1.print())
-        }catch(e: Throwable){
-            println("testUpdateAttribute Error Test 1")
-            throw e
-        }
+        val attribute1 = Attribute("nome","Quizzes")
+        val attribute2 = Attribute("nome","Quizz1")
 
-        try {
-            componente1fuc1.addAttribute(Attribute("nome","Quizzes"))
-            expected = "<componente nome=\"Quizz1\"/>"
-            componente1fuc1.updateAttribute(Attribute("nome","Quizz1"))
-            assertEquals(expected,componente1fuc1.print())
-        }catch(e: Throwable){
-            println("testUpdateAttribute Error Test 2")
-            throw e
-        }
+        //update attribute that doesn't exist in a xml leaf
+        assertEquals(componente1fuc1Test,componente1fuc1Test.updateAttribute(attribute1))
 
-        try {
-            expected = "<componente nome=\"Quizz1\"/>"
-            componente1fuc1.updateAttribute(Attribute("peso","20%"))
-            assertEquals(expected,componente1fuc1.print())
-        }catch(e: Throwable){
-            println("testUpdateAttribute Error Test 3")
-            throw e
-        }
+        //update attribute that exists in a xml leaf
+        componente1fuc1Test.addAttribute(attribute1)
+        componente1fuc1Test.updateAttribute(attribute2)
+        assert(componente1fuc1Test.attributes?.none { it.name == "nome" && it.value == "Quizzes" } ?: true &&
+                componente1fuc1Test.attributes?.any { it.name == "nome" && it.value == "Quizz1" } ?: false)
 
-        try {
-            componente1fuc1.addAttribute(Attribute("peso","20%"))
-            expected = "<componente nome=\"Projeto\" peso=\"80%\"/>"
-            componente1fuc1.updateAttribute(Attribute("nome","Projeto"))
-            componente1fuc1.updateAttribute(Attribute("peso","80%"))
-            assertEquals(expected,componente1fuc1.print())
-        }catch(e: Throwable){
-            println("testUpdateAttribute Error Test 4")
-            throw e
-        }
+        //update attribute that doesn't exist in a xml tag
+        assertEquals(planoTest,planoTest.updateAttribute(attribute1))
 
-        try {
-            expected = "<fuc codigo=\"M1111\">"
-            fuc1.addAttribute(Attribute("codigo","M4310"))
-            fuc1.updateAttribute(Attribute("codigo","M1111"))
-            assertEquals(expected,fuc1.print())
-        }catch(e: Throwable){
-            println("testUpdateAttribute Error Test 5")
-            throw e
-        }
+        //update attribute that exists in a xml tag
+        planoTest.addAttribute(attribute1)
+        planoTest.updateAttribute(attribute2)
+        assert(planoTest.attributes?.none { it.name == "nome" && it.value == "Quizzes" } ?: true &&
+                planoTest.attributes?.any { it.name == "nome" && it.value == "Quizz1" } ?: false)
     }
 
+    /**
+     * Test update attribute from entity with prints
+     */
+    @Test
+    fun testUpdateAttributeWithPrint(){
+        val componente1fuc1Test = XmlLeaf("componente", avaliacaofuc1)
+        val fuc1Test = XmlTag("fuc", plano)
+
+        var expected = "<componente/>"
+        componente1fuc1Test.updateAttribute(Attribute("nome","Quizzes"))
+            assertEquals(expected,componente1fuc1Test.print())
+        componente1fuc1Test.addAttribute(Attribute("nome","Quizzes"))
+
+            expected = "<componente nome=\"Quizz1\"/>"
+        componente1fuc1Test.updateAttribute(Attribute("nome","Quizz1"))
+            assertEquals(expected,componente1fuc1Test.print())
+
+            expected = "<componente nome=\"Quizz1\"/>"
+        componente1fuc1Test.updateAttribute(Attribute("peso","20%"))
+            assertEquals(expected,componente1fuc1Test.print())
+
+        componente1fuc1Test.addAttribute(Attribute("peso","20%"))
+            expected = "<componente nome=\"Projeto\" peso=\"80%\"/>"
+        componente1fuc1Test.updateAttribute(Attribute("nome","Projeto"))
+        componente1fuc1Test.updateAttribute(Attribute("peso","80%"))
+            assertEquals(expected,componente1fuc1Test.print())
+
+            expected = "<fuc codigo=\"M1111\">"
+        fuc1Test.addAttribute(Attribute("codigo","M4310"))
+        fuc1Test.updateAttribute(Attribute("codigo","M1111"))
+            assertEquals(expected,fuc1Test.print())
+    }
+
+    /**
+     * Test prettyprint
+     */
+    @Test
+    fun preattyPrint(){
+        var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        expected += "<plano>"
+        expected += "<curso>Mestrado em Engenharia Informática</curso>"
+        expected += "<fuc codigo=\"M4310\">"
+        expected += "<nome>Programação Avançada</nome>"
+        expected += "<ects>6.0</ects>"
+        expected += "<avaliacao>"
+        expected += "<componente nome=\"Quizzes\" peso=\"20%\"/>"
+        expected += "<componente nome=\"Projeto\" peso=\"80%\"/>"
+        expected += "</avaliacao>"
+        expected += "</fuc>"
+        expected += "<fuc codigo=\"03782\">"
+        expected += "<nome>Dissertação</nome>"
+        expected += "<ects>42.0</ects>"
+        expected += "<avaliacao>"
+        expected += "<componente nome=\"Dissertação\" peso=\"60%\"/>"
+        expected += "<componente nome=\"Apresentação\" peso=\"20%\"/>"
+        expected += "<componente nome=\"Discussão\" peso=\"20%\"/>"
+        expected += "</avaliacao>"
+        expected += "</fuc>"
+        expected += "</plano>"
+
+    }
 }

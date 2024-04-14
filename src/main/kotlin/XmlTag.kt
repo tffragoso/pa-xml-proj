@@ -1,7 +1,7 @@
 data class XmlTag(
     override var name: String,
     override var parent: XmlTag? = null,
-    override var attributes : MutableSet<Attribute>? = null
+    override var attributes : MutableList<Attribute>? = null
 ) : XmlElement {
 
     val children: MutableList<XmlElement> = mutableListOf()
@@ -43,4 +43,37 @@ data class XmlTag(
     // fun changeAttribute(n: String, v: Any) // To Do
 
     // fun removeAttribute(n: String, v: Any) // To Do
+
+    /**
+     * return a String with XmlElement and attributes
+     * @return [String]
+     */
+    fun print(): String{
+        var dirString = "<"
+        dirString += this.name
+        if(!this.attributes.isNullOrEmpty()){
+            val attributesString = attributes!!.joinToString(separator = " ") { "${it.name}=\"${it.value}\"" }
+            dirString += " $attributesString"
+        }
+        dirString += ">"
+        return dirString
+    }
+
+    fun prettyPrint():String{
+        var dirString = "<"
+        dirString += this.name
+        if(!this.attributes.isNullOrEmpty()){
+            val attributesString = attributes!!.joinToString(separator = " ") { "${it.name}=\"${it.value}\"" }
+            dirString += " $attributesString"
+        }
+        dirString += ">"
+        this.children.forEach { e ->
+            if(e is XmlLeaf)
+                dirString += e.print()
+            else if ( e is XmlTag)
+                dirString += e.prettyPrint()
+        }
+        return dirString
+    }
+
 }

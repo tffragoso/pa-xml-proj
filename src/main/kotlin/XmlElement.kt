@@ -1,7 +1,7 @@
 sealed interface XmlElement {
     var name: String
     var parent: XmlTag?
-    var attributes: MutableSet<Attribute>? //o prof na aula disse que devia ser MutableList ou percebi mal?
+    var attributes: MutableList<Attribute>? //o prof na aula disse que devia ser MutableList ou percebi mal?
 
     /**
      * Adds an [attribute] to an [XmlElement].
@@ -9,7 +9,7 @@ sealed interface XmlElement {
      */
     fun addAttribute(attribute: Attribute): XmlElement{
         if (this.attributes == null) {
-            this.attributes = mutableSetOf(attribute)
+            this.attributes = mutableListOf(attribute)
         } else if (attribute.name !in this.attributes!!.map{it.name}){
             attributes!!.add(attribute)
         }
@@ -37,29 +37,11 @@ sealed interface XmlElement {
      * @return [XmlElement]
      */
     fun updateAttribute(attribute: Attribute): XmlElement{
-        this.attributes?.map{
-            if(it.name == attribute.name)
-                it.value=attribute.value
+        this.attributes?.forEach { e ->
+            if(e.name == attribute.name)
+                e.value = attribute.value
         }
         return this
-    }
-
-    /**
-     * return a String with XmlElement and attributes
-     * @return [String]
-     */
-    fun print(): String{
-        var dirString = "<"
-        dirString += this.name
-        if(!this.attributes.isNullOrEmpty()){
-            val attributesString = attributes!!.joinToString(separator = " ") { "${it.name}=\"${it.value}\"" }
-            dirString += " $attributesString"
-        }
-        dirString += if(this is XmlLeaf)
-            "/>"
-        else
-            ">"
-        return dirString
     }
 
     fun accept(visitor: (XmlElement) -> Boolean) {
