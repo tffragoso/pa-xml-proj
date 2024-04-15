@@ -410,7 +410,7 @@ class Test {
         expected += "</fuc>"
 
         assertEquals(
-            expected, (createXML1("fuc", 1).addAtributeGlobally(
+            expected, (createXML1("fuc", 1).addAttributeGlobally(
                 elementName = "componente",
                 attributeName = "teste",
                 attributeValue = "valor"

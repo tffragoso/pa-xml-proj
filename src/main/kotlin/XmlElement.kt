@@ -19,7 +19,7 @@ sealed interface XmlElement {
      * Adds an attribute with [attributeName] and [attributeValue] to a [XmlElement].
      * @return [XmlElement]
      */
-    fun addAtributeGlobally(elementName: String, attributeName: String,attributeValue:String): XmlElement {
+    fun addAttributeGlobally(elementName: String, attributeName: String,attributeValue:String): XmlElement {
         accept {
             if (it.name == elementName)
                 it.addAttribute(Attribute(attributeName, attributeValue))
