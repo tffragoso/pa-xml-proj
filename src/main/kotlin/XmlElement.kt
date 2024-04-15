@@ -4,7 +4,7 @@ sealed interface XmlElement {
     var attributes: MutableList<Attribute>?
 
     /**
-     * Adds an [attribute] to an [XmlElement].
+     * Adds an [attribute] to a [XmlElement].
      * @return [XmlElement]
      */
     fun addAttribute(attribute: Attribute): XmlElement{
@@ -15,7 +15,18 @@ sealed interface XmlElement {
         }
         return this
     }
-
+    /**
+     * Adds an attribute with [attributeName] and [attributeValue] to a [XmlElement].
+     * @return [XmlElement]
+     */
+    fun addAtributeGlobally(elementName: String, attributeName: String,attributeValue:String): XmlElement {
+        accept {
+            if (it.name == elementName)
+                it.addAttribute(Attribute(attributeName, attributeValue))
+            true
+        }
+        return this
+    }
     /**
      * Removes the attribute with the [name] from an [XmlElement].
      * @return [XmlElement]
@@ -47,6 +58,7 @@ sealed interface XmlElement {
     fun accept(visitor: (XmlElement) -> Boolean) {
         visitor(this)
     }
+
 }
 
 /**
