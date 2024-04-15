@@ -40,10 +40,6 @@ data class XmlTag(
             }
     }
 
-    // fun changeAttribute(n: String, v: Any) // To Do
-
-    // fun removeAttribute(n: String, v: Any) // To Do
-
     /**
      * return a String with XmlElement and attributes
      * @return [String]

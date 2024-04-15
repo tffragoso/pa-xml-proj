@@ -10,12 +10,8 @@ class Test {
     val plano = XmlTag("plano")
     val curso = XmlLeaf("curso", plano, leafText = "MEI")
     val fuc1 = XmlTag("fuc", plano)
-
-    //private val nomefuc1 = XmlLeaf("nome", fuc1)
-    //private val ectsfuc1 = XmlLeaf("6.0", fuc1)
     val avaliacaofuc1 = XmlTag("avaliacao", fuc1)
     val componente1fuc1 = XmlLeaf("componente", avaliacaofuc1)
-    //private val componente2fuc1 = XmlLeaf("componente", avaliacaofuc1)
 
     /**
      * Return the [n] occurrence [XmlTag] with the name [elementName]
@@ -356,7 +352,7 @@ class Test {
      * Test prettyprint
      */
     @Test
-    fun preattyPrint() {
+    fun testPrettyPrint() {
         var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
         expected += "<plano>"
         expected += "<curso>Mestrado em Engenharia Informática</curso>"
@@ -393,7 +389,6 @@ class Test {
         assertEquals(expected, createXML1("fuc", 1).prettyPrint())
 
     }
-
 
     /**
      * Test adding attribute to element and all his children with the given name
