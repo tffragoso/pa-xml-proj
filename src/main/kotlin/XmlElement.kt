@@ -1,7 +1,7 @@
 sealed interface XmlElement {
     var name: String
     var parent: XmlTag?
-    var attributes: MutableList<Attribute>? //o prof na aula disse que devia ser MutableList ou percebi mal?
+    var attributes: MutableList<Attribute>?
 
     /**
      * Adds an [attribute] to an [XmlElement].

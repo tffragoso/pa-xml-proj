@@ -317,5 +317,34 @@ class Test {
         expected += "</fuc>"
         expected += "</plano>"
 
+        val planoTest = XmlTag("plano")
+        val cursoTest = XmlLeaf("curso",planoTest,attributes = null,"Mestrado em Engenharia Informática")
+        val fuc1Test = XmlTag("fuc",planoTest, mutableListOf(Attribute("codigo","M4310")))
+        val nomefuc1Test = XmlLeaf("nome",fuc1Test,null,"Programação Avançada")
+        val ectsfuc1Test = XmlLeaf("ects",fuc1Test,null,"6.0")
+        val avaliacaofuc1Test = XmlTag("avaliacao",fuc1Test,null)
+        val componente1fuc1Test = XmlLeaf("componente",avaliacaofuc1Test,mutableListOf(Attribute("nome","Quizzes"),Attribute("peso","20%")),null)
+        val componente2fuc1Test = XmlLeaf("componente",avaliacaofuc1Test,mutableListOf(Attribute("nome","Projeto"),Attribute("peso","80%")),null)
+        val fuc2Test = XmlTag("fuc",planoTest, mutableListOf(Attribute("codigo","03782")))
+        val nomefuc2Test = XmlLeaf("nome",fuc2Test,null,"Dissertação")
+        val ectsfuc2Test = XmlLeaf("ects",fuc2Test,null,"42.0")
+        val avaliacaofuc2Test = XmlTag("avaliacao",fuc2Test,null)
+        val componente1fuc2Test = XmlLeaf("componente",avaliacaofuc2Test,mutableListOf(Attribute("nome","Dissertação"),Attribute("peso","60%")),null)
+        val componente2fuc2Test = XmlLeaf("componente",avaliacaofuc2Test,mutableListOf(Attribute("nome","Apresentação"),Attribute("peso","20%")),null)
+        val componente3fuc2Test = XmlLeaf("componente",avaliacaofuc2Test,mutableListOf(Attribute("nome","Discussão"),Attribute("peso","20%")),null)
+
+        assertEquals(expected,planoTest.prettyPrint())
+
+        expected =  "<fuc codigo=\"M4310\">"
+        expected += "<nome>Programação Avançada</nome>"
+        expected += "<ects>6.0</ects>"
+        expected += "<avaliacao>"
+        expected += "<componente nome=\"Quizzes\" peso=\"20%\"/>"
+        expected += "<componente nome=\"Projeto\" peso=\"80%\"/>"
+        expected += "</avaliacao>"
+        expected += "</fuc>"
+
+        assertEquals(expected,fuc1Test.prettyPrint())
+
     }
 }

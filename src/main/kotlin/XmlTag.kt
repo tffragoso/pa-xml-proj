@@ -59,21 +59,25 @@ data class XmlTag(
         return dirString
     }
 
-    fun prettyPrint():String{
-        var dirString = "<"
+    fun prettyPrint():String {
+        var dirString = ""
+        if (this.parent == null) {
+            dirString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        }
+        dirString += "<"
         dirString += this.name
-        if(!this.attributes.isNullOrEmpty()){
-            val attributesString = attributes!!.joinToString(separator = " ") { "${it.name}=\"${it.value}\"" }
-            dirString += " $attributesString"
+        if (!this.attributes.isNullOrEmpty()) {
+             val attributesString = attributes!!.joinToString(separator = " ") { "${it.name}=\"${it.value}\"" }
+             dirString += " $attributesString"
         }
         dirString += ">"
         this.children.forEach { e ->
-            if(e is XmlLeaf)
-                dirString += e.print()
-            else if ( e is XmlTag)
-                dirString += e.prettyPrint()
-        }
+           if (e is XmlLeaf)
+               dirString += e.print()
+           else if (e is XmlTag)
+               dirString += e.prettyPrint()
+           }
+        dirString +="</" + this.name + ">"
         return dirString
     }
-
 }
