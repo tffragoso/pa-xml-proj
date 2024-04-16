@@ -10,7 +10,7 @@ sealed interface XmlElement {
     fun addAttribute(attribute: Attribute): XmlElement{
         if (this.attributes == null) {
             this.attributes = mutableListOf(attribute)
-        } else if (attribute.name !in this.attributes!!.map{it.name}){
+        } else if (attribute.getName() !in this.attributes!!.map{it.getName()}){
             attributes!!.add(attribute)
         }
         return this
@@ -23,7 +23,7 @@ sealed interface XmlElement {
         val i = this.attributes?.iterator()
         while (i?.hasNext() == true) {
             val attribute = i.next()
-            if (attribute.name == name) {
+            if (attribute.getName() == name) {
                 i.remove()
                 break
             }
@@ -37,8 +37,8 @@ sealed interface XmlElement {
      */
     fun updateAttribute(attribute: Attribute): XmlElement{
         this.attributes?.forEach { e ->
-            if(e.name == attribute.name)
-                e.value = attribute.value
+            if(e.getName() == attribute.getName())
+                e.setValue(attribute.getValue())
         }
         return this
     }
@@ -64,8 +64,8 @@ sealed interface XmlElement {
         accept {
             if(it.name==elementName && !it.attributes.isNullOrEmpty()) {
                 it.attributes!!.forEach() { e ->
-                    if (e.name == attributeName)
-                        e.name = newAttributeName
+                    if (e.getName() == attributeName)
+                        e.setName(newAttributeName)
                 }
             }
             true
@@ -81,7 +81,7 @@ sealed interface XmlElement {
         accept {
             if(it.name==elementName && !it.attributes.isNullOrEmpty()) {
                 it.attributes!!.forEach() { e ->
-                    if (e.name == attributeName)
+                    if (e.getName() == attributeName)
                         it.attributes!!.remove(e)
                 }
             }

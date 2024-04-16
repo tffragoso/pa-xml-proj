@@ -17,7 +17,7 @@ data class XmlLeaf(
         var dirString = "<"
         dirString += this.name
         if(!this.attributes.isNullOrEmpty()){
-            val attributesString = attributes!!.joinToString(separator = " ") { "${it.name}=\"${it.value}\"" }
+            val attributesString = attributes!!.joinToString(separator = " ") { "${it.getName()}=\"${it.getValue()}\"" }
             dirString += " $attributesString"
         }
         dirString += if(this.leafText== null)

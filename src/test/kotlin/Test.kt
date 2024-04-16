@@ -220,7 +220,7 @@ class Test {
 
         // remove an attribute from a xml leaf that doesn't exist and the object doesn't have any attributes
         var attribute1 = Attribute("nome", "")
-        componente1fuc1Test.removeAttribute(attribute1.name)
+        componente1fuc1Test.removeAttribute(attribute1.getName())
         assert(componente1fuc1Test.attributes.isNullOrEmpty())
 
         // removing an attribute from a xml leaf that doesn't exist and the object has more attributes
@@ -228,27 +228,27 @@ class Test {
         componente1fuc1Test.addAttribute(attribute1)
         val componente1fuc1Test2 = componente1fuc1Test.copy()
         val attribute2 = Attribute("peso", "")
-        assertEquals(componente1fuc1Test2, componente1fuc1Test.removeAttribute(attribute2.name))
+        assertEquals(componente1fuc1Test2, componente1fuc1Test.removeAttribute(attribute2.getName()))
 
         // removing the only attribute that exists from a xml leaf
-        componente1fuc1Test.removeAttribute(attribute1.name)
+        componente1fuc1Test.removeAttribute(attribute1.getName())
         assert(componente1fuc1Test.attributes.isNullOrEmpty())
 
         val planoTest = XmlTag("plano")
 
         // remove an attribute from a xml tag that doesn't exist and the object doesn't have any attributes
         attribute1 = Attribute("nome", "")
-        planoTest.removeAttribute(attribute1.name)
+        planoTest.removeAttribute(attribute1.getName())
         assert(planoTest.attributes.isNullOrEmpty())
 
         // removing an attribute from a xml tag that doesn't exist and the object has more attributes
         attribute1 = Attribute("nome", "Quizzes")
         planoTest.addAttribute(attribute1)
         val planoTest2 = planoTest.copy()
-        assertEquals(planoTest2, planoTest.removeAttribute(attribute2.name))
+        assertEquals(planoTest2, planoTest.removeAttribute(attribute2.getName()))
 
         // removing the only attribute that exists from a xml tag
-        planoTest.removeAttribute(attribute1.name)
+        planoTest.removeAttribute(attribute1.getName())
         assert(componente1fuc1Test.attributes.isNullOrEmpty())
     }
 
@@ -302,8 +302,8 @@ class Test {
         //update attribute that exists in a xml leaf
         componente1fuc1Test.addAttribute(attribute1)
         componente1fuc1Test.updateAttribute(attribute2)
-        assert(componente1fuc1Test.attributes?.none { it.name == "nome" && it.value == "Quizzes" } ?: true &&
-                componente1fuc1Test.attributes?.any { it.name == "nome" && it.value == "Quizz1" } ?: false)
+        assert(componente1fuc1Test.attributes?.none { it.getName() == "nome" && it.getValue() == "Quizzes" } ?: true &&
+                componente1fuc1Test.attributes?.any { it.getName() == "nome" && it.getValue() == "Quizz1" } ?: false)
 
         //update attribute that doesn't exist in a xml tag
         assertEquals(planoTest, planoTest.updateAttribute(attribute1))
@@ -311,8 +311,8 @@ class Test {
         //update attribute that exists in a xml tag
         planoTest.addAttribute(attribute1)
         planoTest.updateAttribute(attribute2)
-        assert(planoTest.attributes?.none { it.name == "nome" && it.value == "Quizzes" } ?: true &&
-                planoTest.attributes?.any { it.name == "nome" && it.value == "Quizz1" } ?: false)
+        assert(planoTest.attributes?.none { it.getName() == "nome" && it.getValue() == "Quizzes" } ?: true &&
+                planoTest.attributes?.any { it.getName() == "nome" && it.getValue() == "Quizz1" } ?: false)
     }
 
     /**

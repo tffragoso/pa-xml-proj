@@ -6,11 +6,22 @@
  * @constructor Creates an attribute with name not empty.
  */
 class Attribute(
-    var name:String,
-    var value:String
+    private var name:String,
+    private var value:String
 ){
     init {
         require(isValidAttributeName(this.name) && isValidAttributeValue(this.value)) { "Not valid name" }
+    }
+
+    fun getName() = this.name
+    fun getValue() = this.value
+    fun setName(newName:String) : Attribute{
+        this.name=newName
+        return this
+    }
+    fun setValue(newValue:String) : Attribute{
+        this.value=newValue
+        return this
     }
 }
 /**
