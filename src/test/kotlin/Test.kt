@@ -457,4 +457,21 @@ class Test {
             ) as XmlTag).prettyPrint()
         )
     }
+
+    /**
+     * Test valid attribute names
+     */
+    @Test
+    fun testValidAttributeName() {
+        assertEquals(false,isValidAttributeName(""))
+        assertEquals(false,isValidAttributeName("XML"))
+        assertEquals(false,isValidAttributeName("\"123kot"))
+        assertEquals(false,isValidAttributeName("\"123kot"))
+        assertEquals(false,isValidAttributeName("XML"))
+        assertEquals(false,isValidAttributeName("a1 2 3 kot\""))
+        assertEquals(false,isValidAttributeName(",a123xml"))
+        assertEquals(true,isValidAttributeName("_xml"))
+        assertEquals(true,isValidAttributeName("nome"))
+        assertEquals(true,isValidAttributeName("componente"))
+    }
 }
