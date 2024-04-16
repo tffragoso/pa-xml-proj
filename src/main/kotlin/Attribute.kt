@@ -10,7 +10,7 @@ class Attribute(
     var value:String
 ){
     init {
-        require(isValidAttributeName(this.name)) { "Not valid name" }
+        require(isValidAttributeName(this.name) && isValidAttributeValue(this.value)) { "Not valid name" }
     }
 }
 /**
@@ -20,4 +20,8 @@ class Attribute(
  */
 fun isValidAttributeName(name:String): Boolean{
     return name.matches(Regex("^(?!xml|Xml|xMl|xmL|XMl|xML|XmL|XML)[A-Za-z_][A-Za-z0-9-_.]*\$"))
+}
+
+fun isValidAttributeValue(value:String): Boolean{
+    return value.matches(Regex("[^\"<>\\&]*"))
 }

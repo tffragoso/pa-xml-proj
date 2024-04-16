@@ -474,4 +474,22 @@ class Test {
         assertEquals(true,isValidAttributeName("nome"))
         assertEquals(true,isValidAttributeName("componente"))
     }
+
+    /**
+     * Test valid attribute values
+     */
+    @Test
+    fun testValidAttributeValue() {
+        assertEquals(false,isValidAttributeValue("\"123kot"))
+        assertEquals(false,isValidAttributeValue("<123kot"))
+        assertEquals(false,isValidAttributeValue("X>ML"))
+        assertEquals(false,isValidAttributeValue("a1&"))
+        assertEquals(true,isValidAttributeValue(",a123xml"))
+        assertEquals(true,isValidAttributeValue("a1,23xml"))
+        assertEquals(true,isValidAttributeValue("_xml"))
+        assertEquals(true,isValidAttributeValue("nome"))
+        assertEquals(true,isValidAttributeValue("componente"))
+        assertEquals(true,isValidAttributeValue(""))
+        assertEquals(true,isValidAttributeValue("XML"))
+    }
 }
