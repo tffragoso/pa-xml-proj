@@ -57,8 +57,8 @@ class Test {
             mutableListOf(Attribute("nome", "Discussão"), Attribute("peso", "20%")),
             null
         )
-        var elementToReturn: XmlTag = XmlTag("none")
-        var i: Int = 0
+        var elementToReturn = XmlTag("none")
+        var i = 0
         planoTest.accept {
             if (it.name == elementName) {
                 i++
@@ -411,12 +411,50 @@ class Test {
                 attributeValue = "valor"
             ) as XmlTag).prettyPrint()
         )
+    }
 
-        var expectedObject: XmlTag = createXML1("fuc", 1)
-        expectedObject.children.forEach() { e ->
-            if (e.name == "componente") {
-                e.addAttribute(Attribute("teste", "valor"))
-            }
-        }
+    /**
+     * Test renaming all attributes of an element and his children
+     */
+    @Test
+    fun testRenameAttributeGlobally() {
+        var expected = "<fuc codigo=\"M4310\">"
+        expected += "<nome>Programação Avançada</nome>"
+        expected += "<ects>6.0</ects>"
+        expected += "<avaliacao>"
+        expected += "<componente tipo=\"Quizzes\" peso=\"20%\"/>"
+        expected += "<componente tipo=\"Projeto\" peso=\"80%\"/>"
+        expected += "</avaliacao>"
+        expected += "</fuc>"
+
+        assertEquals(
+            expected, (createXML1("fuc", 1).renameAttributeGlobally(
+                elementName = "componente",
+                attributeName = "nome",
+                newAttributeName = "tipo"
+            ) as XmlTag).prettyPrint()
+        )
+    }
+
+    /**
+     * Test renaming all attributes of an element and his children
+     */
+    @Test
+    fun testRemoveAttributeGlobally() {
+        var expected = "<fuc codigo=\"M4310\">"
+        expected += "<nome>Programação Avançada</nome>"
+        expected += "<ects>6.0</ects>"
+        expected += "<avaliacao>"
+        expected += "<componente peso=\"20%\"/>"
+        expected += "<componente peso=\"80%\"/>"
+        expected += "</avaliacao>"
+        expected += "</fuc>"
+
+        assertEquals(
+            expected, (createXML1("fuc", 1).removeAttributeGlobally(
+                elementName = "componente",
+                attributeName = "nome",
+            ) as XmlTag).prettyPrint()
+        )
     }
 }

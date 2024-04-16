@@ -16,18 +16,6 @@ sealed interface XmlElement {
         return this
     }
     /**
-     * Adds an attribute with [attributeName] and [attributeValue] to a [XmlElement].
-     * @return [XmlElement]
-     */
-    fun addAttributeGlobally(elementName: String, attributeName: String,attributeValue:String): XmlElement {
-        accept {
-            if (it.name == elementName)
-                it.addAttribute(Attribute(attributeName, attributeValue))
-            true
-        }
-        return this
-    }
-    /**
      * Removes the attribute with the [name] from an [XmlElement].
      * @return [XmlElement]
      */
@@ -51,6 +39,53 @@ sealed interface XmlElement {
         this.attributes?.forEach { e ->
             if(e.name == attribute.name)
                 e.value = attribute.value
+        }
+        return this
+    }
+
+    /**
+     * Adds an attribute with [attributeName] and [attributeValue] to a [XmlElement].
+     * @return [XmlElement]
+     */
+    fun addAttributeGlobally(elementName: String, attributeName: String,attributeValue:String): XmlElement {
+        accept {
+            if (it.name == elementName)
+                it.addAttribute(Attribute(attributeName, attributeValue))
+            true
+        }
+        return this
+    }
+    /**
+     * Updates the name of the attributes [attributeName] of the element [elementName]
+     * with the new name [newAttributeName]
+     */
+
+    fun renameAttributeGlobally(elementName: String,attributeName: String,newAttributeName:String):XmlElement{
+        accept {
+            if(it.name==elementName && !it.attributes.isNullOrEmpty()) {
+                it.attributes!!.forEach() { e ->
+                    if (e.name == attributeName)
+                        e.name = newAttributeName
+                }
+            }
+            true
+        }
+        return this
+    }
+
+    /**
+     * Removes all the attributes with name [attributeName] of the element [elementName]
+     */
+
+    fun removeAttributeGlobally(elementName: String,attributeName: String):XmlElement{
+        accept {
+            if(it.name==elementName && !it.attributes.isNullOrEmpty()) {
+                it.attributes!!.forEach() { e ->
+                    if (e.name == attributeName)
+                        it.attributes!!.remove(e)
+                }
+            }
+            true
         }
         return this
     }

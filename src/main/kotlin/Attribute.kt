@@ -6,7 +6,7 @@
  * @constructor Creates an attribute with name not empty.
  */
 class Attribute(
-    val name:String,
+    var name:String,
     var value:String
 ){
     init {
