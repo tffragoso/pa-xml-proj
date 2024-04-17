@@ -390,6 +390,10 @@ class Test {
 
     }
 
+    //TODO
+    //make test for global functions without prints
+    //do it with objbects
+
     /**
      * Test adding attribute to element and all his children with the given name
      */
