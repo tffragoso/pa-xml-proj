@@ -1,7 +1,7 @@
 data class XmlLeaf(
     override var name: String,
     override var parent: XmlTag? = null,
-    override var attributes : MutableList<Attribute>? = null,
+    override var attributes : MutableList<Attribute>? = mutableListOf(),
     val leafText: String? = null,
 ) : XmlElement {
 
