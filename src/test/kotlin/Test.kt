@@ -18,11 +18,11 @@ class Test {
      */
     private fun createXML1(elementName: String, n: Int): XmlTag {
         val planoTest = XmlTag("plano")
-        val cursoTest = XmlLeaf("curso", planoTest, attributes = null, "Mestrado em Engenharia Informática")
+        val cursoTest = XmlLeaf("curso", planoTest, mutableListOf(), "Mestrado em Engenharia Informática")
         val fuc1Test = XmlTag("fuc", planoTest, mutableListOf(Attribute("codigo", "M4310")))
-        val nomefuc1Test = XmlLeaf("nome", fuc1Test, null, "Programação Avançada")
-        val ectsfuc1Test = XmlLeaf("ects", fuc1Test, null, "6.0")
-        val avaliacaofuc1Test = XmlTag("avaliacao", fuc1Test, null)
+        val nomefuc1Test = XmlLeaf("nome", fuc1Test, mutableListOf(), "Programação Avançada")
+        val ectsfuc1Test = XmlLeaf("ects", fuc1Test, mutableListOf(), "6.0")
+        val avaliacaofuc1Test = XmlTag("avaliacao", fuc1Test, mutableListOf())
         val componente1fuc1Test = XmlLeaf(
             "componente",
             avaliacaofuc1Test,
@@ -36,9 +36,9 @@ class Test {
             null
         )
         val fuc2Test = XmlTag("fuc", planoTest, mutableListOf(Attribute("codigo", "03782")))
-        val nomefuc2Test = XmlLeaf("nome", fuc2Test, null, "Dissertação")
-        val ectsfuc2Test = XmlLeaf("ects", fuc2Test, null, "42.0")
-        val avaliacaofuc2Test = XmlTag("avaliacao", fuc2Test, null)
+        val nomefuc2Test = XmlLeaf("nome", fuc2Test, mutableListOf(), "Dissertação")
+        val ectsfuc2Test = XmlLeaf("ects", fuc2Test, mutableListOf(), "42.0")
+        val avaliacaofuc2Test = XmlTag("avaliacao", fuc2Test, mutableListOf())
         val componente1fuc2Test = XmlLeaf(
             "componente",
             avaliacaofuc2Test,
@@ -141,25 +141,25 @@ class Test {
         componente1fuc1Test.addAttribute(attribute1)
         val attribute2 = Attribute("peso", "20%")
         componente1fuc1Test.addAttribute(attribute2)
-        assert(componente1fuc1Test.attributes!!.containsAll(listOf(attribute1, attribute2)))
+        assert(componente1fuc1Test.attributes.containsAll(listOf(attribute1, attribute2)))
 
         // adding an attribute to a xml leaf that already exist and doesn't update the value
         val attribute3 = Attribute("peso", "40%")
         componente1fuc1Test.addAttribute(attribute3)
-        assert(componente1fuc1Test.attributes!!.containsAll(listOf(attribute1, attribute2)))
+        assert(componente1fuc1Test.attributes.containsAll(listOf(attribute1, attribute2)))
 
         // adding attribute to a xml tag
         attribute1 = Attribute("codigo", "M4310")
         planoTest.addAttribute(attribute1)
-        assert(planoTest.attributes!!.contains(attribute1))
+        assert(planoTest.attributes.contains(attribute1))
 
         // adding two attributes to a xml tag
         planoTest.addAttribute(attribute2)
-        assert(planoTest.attributes!!.containsAll(listOf(attribute1, attribute2)))
+        assert(planoTest.attributes.containsAll(listOf(attribute1, attribute2)))
 
         // adding an attribute to a xml tag that already exist and doesn't update the value
         planoTest.addAttribute(attribute3)
-        assert(planoTest.attributes!!.containsAll(listOf(attribute1, attribute2)))
+        assert(planoTest.attributes.containsAll(listOf(attribute1, attribute2)))
     }
 
     /**
@@ -221,7 +221,7 @@ class Test {
         // remove an attribute from a xml leaf that doesn't exist and the object doesn't have any attributes
         var attribute1 = Attribute("nome", "")
         componente1fuc1Test.removeAttribute(attribute1.getName())
-        assert(componente1fuc1Test.attributes.isNullOrEmpty())
+        assert(componente1fuc1Test.attributes.isEmpty())
 
         // removing an attribute from a xml leaf that doesn't exist and the object has more attributes
         attribute1 = Attribute("nome", "Quizzes")
@@ -232,14 +232,14 @@ class Test {
 
         // removing the only attribute that exists from a xml leaf
         componente1fuc1Test.removeAttribute(attribute1.getName())
-        assert(componente1fuc1Test.attributes.isNullOrEmpty())
+        assert(componente1fuc1Test.attributes.isEmpty())
 
         val planoTest = XmlTag("plano")
 
         // remove an attribute from a xml tag that doesn't exist and the object doesn't have any attributes
         attribute1 = Attribute("nome", "")
         planoTest.removeAttribute(attribute1.getName())
-        assert(planoTest.attributes.isNullOrEmpty())
+        assert(planoTest.attributes.isEmpty())
 
         // removing an attribute from a xml tag that doesn't exist and the object has more attributes
         attribute1 = Attribute("nome", "Quizzes")
@@ -249,7 +249,7 @@ class Test {
 
         // removing the only attribute that exists from a xml tag
         planoTest.removeAttribute(attribute1.getName())
-        assert(componente1fuc1Test.attributes.isNullOrEmpty())
+        assert(componente1fuc1Test.attributes.isEmpty())
     }
 
     /**
@@ -302,8 +302,8 @@ class Test {
         //update attribute that exists in a xml leaf
         componente1fuc1Test.addAttribute(attribute1)
         componente1fuc1Test.updateAttribute(attribute2)
-        assert(componente1fuc1Test.attributes?.none { it.getName() == "nome" && it.getValue() == "Quizzes" } ?: true &&
-                componente1fuc1Test.attributes?.any { it.getName() == "nome" && it.getValue() == "Quizz1" } ?: false)
+        assert(componente1fuc1Test.attributes.none { it.getName() == "nome" && it.getValue() == "Quizzes" } ?: true &&
+                componente1fuc1Test.attributes.any { it.getName() == "nome" && it.getValue() == "Quizz1" } ?: false)
 
         //update attribute that doesn't exist in a xml tag
         assertEquals(planoTest, planoTest.updateAttribute(attribute1))
@@ -311,8 +311,8 @@ class Test {
         //update attribute that exists in a xml tag
         planoTest.addAttribute(attribute1)
         planoTest.updateAttribute(attribute2)
-        assert(planoTest.attributes?.none { it.getName() == "nome" && it.getValue() == "Quizzes" } ?: true &&
-                planoTest.attributes?.any { it.getName() == "nome" && it.getValue() == "Quizz1" } ?: false)
+        assert(planoTest.attributes.none { it.getName() == "nome" && it.getValue() == "Quizzes" } ?: true &&
+                planoTest.attributes.any { it.getName() == "nome" && it.getValue() == "Quizz1" } ?: false)
     }
 
     /**
@@ -392,7 +392,7 @@ class Test {
 
     //TODO
     //make test for global functions without prints
-    //do it with objbects
+    //do it with objects
 
     /**
      * Test adding attribute to element and all his children with the given name

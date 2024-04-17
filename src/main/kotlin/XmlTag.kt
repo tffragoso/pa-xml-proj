@@ -1,7 +1,9 @@
 data class XmlTag(
     override var name: String,
     override var parent: XmlTag? = null,
-    override var attributes : MutableList<Attribute>? = mutableListOf()
+    //TODO
+    // private val attributes
+    override var attributes : MutableList<Attribute> = mutableListOf()
 ) : XmlElement {
 
     val children: MutableList<XmlElement> = mutableListOf()
@@ -47,8 +49,8 @@ data class XmlTag(
     fun print(): String{
         var dirString = "<"
         dirString += this.name
-        if(!this.attributes.isNullOrEmpty()){
-            val attributesString = attributes!!.joinToString(separator = " ") { "${it.getName()}=\"${it.getValue()}\"" }
+        if(this.attributes.isNotEmpty()){
+            val attributesString = attributes.joinToString(separator = " ") { "${it.getName()}=\"${it.getValue()}\"" }
             dirString += " $attributesString"
         }
         dirString += ">"
@@ -62,8 +64,8 @@ data class XmlTag(
         }
         dirString += "<"
         dirString += this.name
-        if (!this.attributes.isNullOrEmpty()) {
-             val attributesString = attributes!!.joinToString(separator = " ") { "${it.getName()}=\"${it.getValue()}\"" }
+        if (this.attributes.isNotEmpty()) {
+             val attributesString = attributes.joinToString(separator = " ") { "${it.getName()}=\"${it.getValue()}\"" }
              dirString += " $attributesString"
         }
         dirString += ">"

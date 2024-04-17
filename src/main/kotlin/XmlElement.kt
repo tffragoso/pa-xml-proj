@@ -1,27 +1,29 @@
 sealed interface XmlElement {
     var name: String
     var parent: XmlTag?
-    var attributes: MutableList<Attribute>?
+    //TODO
+    //private val attributes
+    var attributes: MutableList<Attribute>
 
     /**
      * Adds an [attribute] to a [XmlElement].
+     * if the attribute exists the element maintains the same and the method returns false
      * @return [XmlElement]
      */
-    fun addAttribute(attribute: Attribute): XmlElement{
-        if (this.attributes == null) {
-            this.attributes = mutableListOf(attribute)
-        } else if (attribute.getName() !in this.attributes!!.map{it.getName()}){
-            attributes!!.add(attribute)
-        }
-        return this
+    fun addAttribute(attribute: Attribute): Boolean{
+        if (attribute.getName() !in this.attributes.map{it.getName()}){
+            attributes.add(attribute)
+            return true
+        }else
+            return false
     }
     /**
      * Removes the attribute with the [name] from an [XmlElement].
      * @return [XmlElement]
      */
     fun removeAttribute(name: String): XmlElement{
-        val i = this.attributes?.iterator()
-        while (i?.hasNext() == true) {
+        val i = this.attributes.iterator()
+        while (i.hasNext()) {
             val attribute = i.next()
             if (attribute.getName() == name) {
                 i.remove()
@@ -36,7 +38,7 @@ sealed interface XmlElement {
      * @return [XmlElement]
      */
     fun updateAttribute(attribute: Attribute): XmlElement{
-        this.attributes?.forEach { e ->
+        this.attributes.forEach { e ->
             if(e.getName() == attribute.getName())
                 e.setValue(attribute.getValue())
         }
@@ -62,8 +64,8 @@ sealed interface XmlElement {
 
     fun renameAttributeGlobally(elementName: String,attributeName: String,newAttributeName:String):XmlElement{
         accept {
-            if(it.name==elementName && !it.attributes.isNullOrEmpty()) {
-                it.attributes!!.forEach() { e ->
+            if(it.name==elementName && it.attributes.isNotEmpty()) {
+                it.attributes.forEach() { e ->
                     if (e.getName() == attributeName)
                         e.setName(newAttributeName)
                 }
@@ -79,10 +81,10 @@ sealed interface XmlElement {
 
     fun removeAttributeGlobally(elementName: String,attributeName: String):XmlElement{
         accept {
-            if(it.name==elementName && !it.attributes.isNullOrEmpty()) {
-                it.attributes!!.forEach() { e ->
+            if(it.name==elementName && it.attributes.isNotEmpty()) {
+                it.attributes.forEach() { e ->
                     if (e.getName() == attributeName)
-                        it.attributes!!.remove(e)
+                        it.attributes.remove(e)
                 }
             }
             true
