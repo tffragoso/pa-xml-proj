@@ -496,4 +496,7 @@ class Test {
         assertEquals(true,isValidAttributeValue(""))
         assertEquals(true,isValidAttributeValue("XML"))
     }
+
+    //TODO
+    //Testar a função accept do visitor
 }
