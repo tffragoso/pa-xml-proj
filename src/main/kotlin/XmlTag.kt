@@ -18,7 +18,7 @@ data class XmlTag(
     fun addChildElement(child: XmlElement) {
         // Add child to the list of children
         this.children.add(child)
-        // Remove child from previous parent list of children
+        // Remove child from previous parent's list of children
         child.parent?.children?.remove(child)
         // Assign new parent to child
         child.parent = this

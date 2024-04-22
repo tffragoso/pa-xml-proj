@@ -122,6 +122,15 @@ class Test {
         )
     }
 
+    @Test
+    fun testRemoveElements() {
+        val fuc2 = XmlTag("fuc", plano)
+        plano.removeElements("blabla")
+        assertEquals(mutableListOf(curso, fuc1, fuc2), plano.children)
+        plano.removeElements("fuc")
+        assertEquals(mutableListOf(curso), plano.children)
+    }
+
     /**
      * Test adding attribute to element
      */

@@ -133,3 +133,19 @@ fun XmlElement.renameElements(elementName: String, newName: String) {
         true
     }
 }
+
+/**
+ *
+ *
+ */
+fun XmlElement.removeElements(elementName: String) {
+    val elementsToRemove: MutableList<XmlElement> = mutableListOf()
+    accept {
+        if(it.name == elementName )
+            elementsToRemove.add(it)
+        true
+    }
+    elementsToRemove.forEach{
+        it.parent?.removeChildElement(it)
+    }
+}
