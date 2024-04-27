@@ -506,6 +506,16 @@ class Test {
         assertEquals(true,isValidAttributeValue("XML"))
     }
 
+    @Test
+    fun testMicroXpath() {
+        assertEquals(listOf(componente1fuc1), plano.microXpath("fuc/avaliacao/componente"))
+        val componente2fuc1 = XmlTag("componente")
+        avaliacaofuc1.addChildElement(componente2fuc1)
+        assertEquals(listOf(componente1fuc1, componente2fuc1), plano.microXpath("fuc/avaliacao/componente"))
+        assertEquals(listOf(componente1fuc1, componente2fuc1), fuc1.microXpath("avaliacao/componente"))
+        assertEquals(listOf<XmlElement>(), plano.microXpath(""))
+    }
+
     //TODO
     //Testar a função accept do visitor
 }

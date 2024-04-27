@@ -7,6 +7,7 @@ data class XmlTag(
 ) : XmlElement {
 
     val children: MutableList<XmlElement> = mutableListOf()
+
     init {
         parent?.children?.add(this) //this chain returns null if any of the properties is null
     }
@@ -37,7 +38,7 @@ data class XmlTag(
 
     override fun accept(visitor: (XmlElement) -> Boolean) {
         if (visitor(this))
-            children.forEach{
+            children.forEach {
                 it.accept(visitor)
             }
     }
@@ -46,10 +47,10 @@ data class XmlTag(
      * return a String with XmlElement and attributes
      * @return [String]
      */
-    fun print(): String{
+    fun print(): String {
         var dirString = "<"
         dirString += this.name
-        if(this.attributes.isNotEmpty()){
+        if (this.attributes.isNotEmpty()) {
             val attributesString = attributes.joinToString(separator = " ") { "${it.getName()}=\"${it.getValue()}\"" }
             dirString += " $attributesString"
         }
@@ -57,7 +58,7 @@ data class XmlTag(
         return dirString
     }
 
-    fun prettyPrint():String {
+    fun prettyPrint(): String {
         var dirString = ""
         if (this.parent == null) {
             dirString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -65,18 +66,31 @@ data class XmlTag(
         dirString += "<"
         dirString += this.name
         if (this.attributes.isNotEmpty()) {
-             val attributesString = attributes.joinToString(separator = " ") { "${it.getName()}=\"${it.getValue()}\"" }
-             dirString += " $attributesString"
+            val attributesString = attributes.joinToString(separator = " ") { "${it.getName()}=\"${it.getValue()}\"" }
+            dirString += " $attributesString"
         }
         dirString += ">"
         this.children.forEach { e ->
-           if (e is XmlLeaf)
-               dirString += e.print()
-           else if (e is XmlTag)
-               dirString += e.prettyPrint()
-           }
-        dirString +="</" + this.name + ">"
+            if (e is XmlLeaf)
+                dirString += e.print()
+            else if (e is XmlTag)
+                dirString += e.prettyPrint()
+        }
+        dirString += "</" + this.name + ">"
         return dirString
     }
 
+    fun microXpath(xpath: String): List<XmlElement> {
+        val elements: MutableList<XmlElement> = mutableListOf()
+        val xpathElements = xpath.split("/")
+        this.children.forEach {
+            if(it.name == xpathElements[0]) {
+                if(xpathElements.size == 1)
+                    elements.add(it)
+            }
+            if(it is XmlTag)
+                elements.addAll(it.microXpath(xpath.substringAfter("/")))
+            }
+        return elements
+    }
 }
