@@ -14,7 +14,7 @@ data class XmlTag(
 
     /*
     * Adds a XmlElement as child of a XmlElement.
-    * If the child already has a parent, this new parent is assigned to the child
+    * If the child already has a parent, the new parent is assigned as parent of the child.
     * */
     fun addChildElement(child: XmlElement) {
         // Add child to the list of children
