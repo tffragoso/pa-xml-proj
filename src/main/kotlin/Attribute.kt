@@ -6,11 +6,11 @@
  * @constructor Creates an attribute with name not empty.
  */
 class Attribute(
-    private var name:String,
-    private var value:String
+    private var name: String,
+    private var value: String
 ){
     init {
-        require(isValidAttributeName(this.name) && isValidAttributeValue(this.value)) { "Not valid name" }
+        require(isValidAttributeName(this.name) && isValidAttributeValue(this.value)) { "Not a valid name" }
     }
 
     fun getName() = this.name
@@ -21,11 +21,11 @@ class Attribute(
      * the property [name] is updated with [newName] and returns true
      * if [newName] is NOT a valid name for an XML entity the method returns false
      */
-    fun setName(newName:String) : Boolean{
-        if(isValidAttributeName(newName)){
-            this.name=newName
+    fun setName(newName:String): Boolean {
+        if(isValidAttributeName(newName)) {
+            this.name = newName
             return true
-        }else
+        } else
             return false
     }
     /**
@@ -33,24 +33,25 @@ class Attribute(
      * the property [value] is updated with [newValue] and returns true
      * if [newValue] is NOT a valid name for an XML entity the method returns false
      */
-    fun setValue(newValue:String) : Boolean{
-        if(isValidAttributeValue(newValue)){
-            this.value=newValue
+    fun setValue(newValue:String): Boolean {
+        if(isValidAttributeValue(newValue)) {
+            this.value = newValue
             return true
         }
         else
             return false
     }
 }
+
 /**
  * XML attributes can contain letters, digits, underscores, hyphens and periods
  * must start with a letter, underscore, or colon
- * cannot star with letters xml and cannot contain spaces
+ * cannot star with sequence of characters 'xml' and cannot contain spaces
  */
-fun isValidAttributeName(name:String): Boolean{
+fun isValidAttributeName(name: String): Boolean {
     return name.matches(Regex("^(?!xml|Xml|xMl|xmL|XMl|xML|XmL|XML)[A-Za-z_][A-Za-z0-9-_.]*\$"))
 }
 
-fun isValidAttributeValue(value:String): Boolean{
+fun isValidAttributeValue(value:String): Boolean {
     return value.matches(Regex("[^\"<>\\&]*"))
 }
