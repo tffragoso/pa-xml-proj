@@ -3,7 +3,7 @@ data class XmlLeaf(
     override var parent: XmlTag? = null,
     //TODO
     //private val attributes
-    override var attributes : MutableList<Attribute> = mutableListOf(),
+    override var attributes: MutableList<Attribute> = mutableListOf(),
     val leafText: String? = null,
 ) : XmlElement {
 
@@ -16,19 +16,19 @@ data class XmlLeaf(
      * just prints a line
      * @return [String]
      */
-    fun print(): String{
+    fun print(): String {
         var dirString = "<"
         dirString += this.name
         if(this.attributes.isNotEmpty()){
             val attributesString = attributes.joinToString(separator = " ") { "${it.getName()}=\"${it.getValue()}\"" }
             dirString += " $attributesString"
         }
-        dirString += if(this.leafText== null)
+        dirString += if(this.leafText == null)
             "/>"
-        else if(this.leafText.isEmpty())
+            else if(this.leafText.isEmpty())
                 "/>"
-        else
-            ">"+this.leafText+"</"+this.name+">"
+            else
+                ">"+this.leafText+"</"+this.name+">"
         return dirString
     }
 

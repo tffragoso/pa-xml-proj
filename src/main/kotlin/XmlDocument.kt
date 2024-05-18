@@ -3,7 +3,7 @@ class XmlDocument(
     val name: String,
     var config : XmlLeaf,
     var body : XmlTag
-)  {
+) {
 
     init {
         config = XmlLeaf("xml")
