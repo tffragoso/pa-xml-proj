@@ -11,6 +11,7 @@ data class XmlLeaf(
         parent?.children?.add(this)
     }
 
+    // TO DO: change method name since nothing is being printed
     /**
      * return a String with XmlElement and attributes
      * just prints a line

@@ -52,6 +52,7 @@ sealed interface XmlElement {
 
     //TODO
     // change return of the next method to boolean and review comment
+    // mover para XMLDOcument
     /**
      * Adds an attribute with [attributeName] and [attributeValue] to a [XmlElement].
      * @return [XmlElement]
@@ -67,6 +68,7 @@ sealed interface XmlElement {
 
     //TODO
     // change return of the next method to boolean and review comment
+    // mover para XMLDOcument
     /**
      * Updates the name of the attributes [attributeName] of the element [elementName]
      * with the new name [newAttributeName]
@@ -86,6 +88,7 @@ sealed interface XmlElement {
 
     //TODO
     // change return of the next method to boolean and review comment
+    // mover para XMLDOcument
     /**
      * Removes all the attributes with name [attributeName] of the element [elementName]
      */
@@ -109,6 +112,7 @@ sealed interface XmlElement {
 
 }
 
+// mover para dentro do XMLelement
 /**
  * Return a list of distinct names of all elements in the XmlElement´s tree.
  * This list includes the XmlElement's name.
@@ -120,32 +124,4 @@ fun XmlElement.listDistinctElementNames(): MutableSet<String>  {
         true
     }
     return distinctElementNames
-}
-
-/**
- * Given a XmlElement, this function renames all entities in that XmlElement's tree
- * to newName, if their name matches the input elementName
- */
-fun XmlElement.renameElements(elementName: String, newName: String) {
-    accept {
-        if(it.name == elementName )
-            it.name = newName
-        true
-    }
-}
-
-/**
- *
- *
- */
-fun XmlElement.removeElements(elementName: String) {
-    val elementsToRemove: MutableList<XmlElement> = mutableListOf()
-    accept {
-        if(it.name == elementName )
-            elementsToRemove.add(it)
-        true
-    }
-    elementsToRemove.forEach{
-        it.parent?.removeChildElement(it)
-    }
 }

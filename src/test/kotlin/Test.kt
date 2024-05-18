@@ -13,6 +13,22 @@ class Test {
     val avaliacaofuc1 = XmlTag("avaliacao", fuc1)
     val componente1fuc1 = XmlLeaf("componente", avaliacaofuc1)
 
+    val doc = XmlDocument("PA", plano)
+plano = plano()
+    @Test
+    fun testRenameElementsDoc() {
+        val fuc2 = XmlTag("fuc", plano)
+        doc.renameElements("fuc", "fichaUnidadeCurricular")
+        assertEquals("fichaUnidadeCurricular", fuc1.name)
+        assertEquals("fichaUnidadeCurricular", fuc2.name)
+        assertEquals(setOf("fichaUnidadeCurricular", "avaliacao", "componente"), fuc1.listDistinctElementNames())
+
+        doc.renameElements("abc", "def")
+        assertEquals(
+            setOf("plano", "curso", "fichaUnidadeCurricular", "avaliacao", "componente"),
+            plano.listDistinctElementNames()
+        )
+    }
     /**
      * Return the [n] occurrence [XmlTag] with the name [elementName]
      */
@@ -106,7 +122,7 @@ class Test {
         assertEquals(listOf<XmlElement>(), fuc1.children)
         assertNull(avaliacaofuc1.parent)
     }
-
+/*
     @Test
     fun testRenameElements() {
         val fuc2 = XmlTag("fuc", plano)
@@ -121,7 +137,7 @@ class Test {
             plano.listDistinctElementNames()
         )
     }
-
+*/
     @Test
     fun testRemoveElements() {
         val fuc2 = XmlTag("fuc", plano)

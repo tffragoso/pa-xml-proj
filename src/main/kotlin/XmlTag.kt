@@ -43,6 +43,7 @@ data class XmlTag(
             }
     }
 
+    // TO DO: change method name since nothing is being printed
     /**
      * return a String with XmlElement and attributes
      * @return [String]
@@ -58,6 +59,7 @@ data class XmlTag(
         return dirString
     }
 
+    // To Do : escrever para ficheiro xml, nao devolver string nem print
     fun prettyPrint(): String {
         var dirString = ""
         if (this.parent == null) {
@@ -80,6 +82,7 @@ data class XmlTag(
         return dirString
     }
 
+    //TO DO : mover para XMLDOcument
     fun microXpath(xpath: String): List<XmlElement> {
         val elements: MutableList<XmlElement> = mutableListOf()
         val xpathElements = xpath.split("/")
