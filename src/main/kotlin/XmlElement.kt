@@ -5,6 +5,10 @@ sealed interface XmlElement {
     //private val attributes
     var attributes: MutableList<Attribute>
 
+    fun accept(visitor: (XmlElement) -> Boolean) {
+        visitor(this)
+    }
+
     /**
      * Adds an [attribute] to a [XmlElement].
      * if the attribute exists the element maintains the same
@@ -57,8 +61,36 @@ sealed interface XmlElement {
         return distinctElementNames
     }
 
-    fun accept(visitor: (XmlElement) -> Boolean) {
-        visitor(this)
-    }
+    /**
+     * return a String with XmlElement and attributes
+     * @return [String]
+     */
+    fun elementToString(): String {
+        // Tag opening and name
+        var output = "<"
 
+        output += if(this.name == "xml")
+            "?" + this.name
+        else
+            this.name
+
+        // Adding in the attributes, if any exist
+        if(this.attributes.isNotEmpty()) {
+            val attributesString = attributes.joinToString(separator = " ") { "${it.getName()}=\"${it.getValue()}\"" }
+            output += " $attributesString"
+        }
+
+        // Tag closing
+        if(this is XmlTag)
+            output += ">"
+        else if(this is XmlLeaf)
+            if(this.name == "xml")
+                output += "?>"
+            else if(this.leafText.isNullOrEmpty())
+                output += "/>"
+            else
+                output += ">" + this.leafText + "</" + this.name + ">"
+
+        return output
+    }
 }

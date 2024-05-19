@@ -43,43 +43,4 @@ data class XmlTag(
             }
     }
 
-    // TO DO: change method name since nothing is being printed
-    /**
-     * return a String with XmlElement and attributes
-     * @return [String]
-     */
-    fun print(): String {
-        var dirString = "<"
-        dirString += this.name
-        if (this.attributes.isNotEmpty()) {
-            val attributesString = attributes.joinToString(separator = " ") { "${it.getName()}=\"${it.getValue()}\"" }
-            dirString += " $attributesString"
-        }
-        dirString += ">"
-        return dirString
-    }
-
-    // To Do : escrever para ficheiro xml, nao devolver string nem print
-    fun prettyPrint(): String {
-        var dirString = ""
-        if (this.parent == null) {
-            dirString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-        }
-        dirString += "<"
-        dirString += this.name
-        if (this.attributes.isNotEmpty()) {
-            val attributesString = attributes.joinToString(separator = " ") { "${it.getName()}=\"${it.getValue()}\"" }
-            dirString += " $attributesString"
-        }
-        dirString += ">"
-        this.children.forEach { e ->
-            if (e is XmlLeaf)
-                dirString += e.print()
-            else if (e is XmlTag)
-                dirString += e.prettyPrint()
-        }
-        dirString += "</" + this.name + ">"
-        return dirString
-    }
-
 }

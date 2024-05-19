@@ -96,5 +96,24 @@ class XmlDocument(
         return elements
     }
 
+    // To Do : escrever para ficheiro xml, nao devolver string nem print
+    fun prettyPrint(): String {
+
+        fun auxPrint(element: XmlElement): String {
+            var auxOutput = element.elementToString()
+            if(element is XmlTag) {
+                element.children.forEach {
+                    auxOutput += "\n" + auxPrint(it)
+                }
+                auxOutput += "\n" + "</" + element.name + ">"
+            }
+            return auxOutput
+        }
+
+        var output = config.elementToString() + "\n"
+        output += auxPrint(body)
+
+        return output
+    }
 }
 
