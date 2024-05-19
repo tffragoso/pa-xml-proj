@@ -11,8 +11,9 @@ class XmlDocument(
     }
 
     /**
-     * Given a XmlElement, this function renames all entities in that XmlElement's tree
-     * to newName, if their name matches the input elementName
+     * Renames all XmlElements in the document to newName,
+     * if the element's name matches the input elementName.
+     * If the provided elementName does not exist in the document, this method does not update any elements.
      */
     fun renameElements(elementName: String, newName: String) {
         body.accept {
@@ -23,7 +24,8 @@ class XmlDocument(
     }
 
     /**
-     *
+     * Removes all XmlElements in the document whose name matches the input elementName.
+     * If the provided elementName does not exist in the document, nothing is removed.
      */
     fun removeElements(elementName: String) {
         val elementsToRemove: MutableList<XmlElement> = mutableListOf()
@@ -35,6 +37,63 @@ class XmlDocument(
         elementsToRemove.forEach{
             it.parent?.removeChildElement(it)
         }
+    }
+
+    /**
+     * Adds an attribute with [attributeName] and [attributeValue]
+     * to all [XmlElement] with name equal to [elementName].
+     */
+    fun addAttributeGlobally(elementName: String, attributeName: String, attributeValue:String) {
+        body.accept {
+            if (it.name == elementName)
+                it.addAttribute(Attribute(attributeName, attributeValue))
+            true
+        }
+    }
+
+    /**
+     * Updates the name of the attributes [attributeName] of the elements [elementName]
+     * with the new name [newAttributeName]
+     */
+    fun renameAttributeGlobally(elementName: String, attributeName: String, newAttributeName: String) {
+        body.accept {
+            if(it.name == elementName && it.attributes.isNotEmpty()) {
+                it.attributes.forEach() { e ->
+                    if (e.getName() == attributeName)
+                        e.setName(newAttributeName)
+                }
+            }
+            true
+        }
+    }
+
+    /**
+     * Removes all the attributes with name [attributeName] of the elements [elementName]
+     */
+    fun removeAttributeGlobally(elementName: String, attributeName: String) {
+        body.accept {
+            if(it.name==elementName && it.attributes.isNotEmpty()) {
+                it.attributes.forEach() { e ->
+                    if (e.getName() == attributeName)
+                        it.attributes.remove(e)
+                }
+            }
+            true
+        }
+    }
+
+    fun microXpath(xpath: String, node: XmlTag): List<XmlElement> {
+        val elements: MutableList<XmlElement> = mutableListOf()
+        val xpathElements = xpath.split("/")
+        node.children.forEach {
+            if(it.name == xpathElements[0]) {
+                if(xpathElements.size == 1)
+                    elements.add(it)
+            }
+            if(it is XmlTag)
+                elements.addAll(microXpath(xpath.substringAfter("/"), it))
+        }
+        return elements
     }
 
 }

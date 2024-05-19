@@ -82,18 +82,4 @@ data class XmlTag(
         return dirString
     }
 
-    //TO DO : mover para XMLDOcument
-    fun microXpath(xpath: String): List<XmlElement> {
-        val elements: MutableList<XmlElement> = mutableListOf()
-        val xpathElements = xpath.split("/")
-        this.children.forEach {
-            if(it.name == xpathElements[0]) {
-                if(xpathElements.size == 1)
-                    elements.add(it)
-            }
-            if(it is XmlTag)
-                elements.addAll(it.microXpath(xpath.substringAfter("/")))
-            }
-        return elements
-    }
 }

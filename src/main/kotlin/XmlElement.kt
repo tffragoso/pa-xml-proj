@@ -15,6 +15,7 @@ sealed interface XmlElement {
             attributes.add(attribute)
         }
     }
+
     /**
      * Removes the attribute with the [name] from an [XmlElement].
      * if the attribute exists then is deleted
@@ -43,78 +44,21 @@ sealed interface XmlElement {
         }
     }
 
-    //TODO
-    // change return of the next method to boolean and review comment
-    // mover para XMLDOcument
     /**
-     * Adds an attribute with [attributeName] and [attributeValue] to a [XmlElement].
-     * @return [XmlElement]
+     * Return a list of distinct names of all elements in the XmlElement´s tree.
+     * This list includes the XmlElement's name.
      */
-    fun addAttributeGlobally(elementName: String, attributeName: String,attributeValue:String): XmlElement {
+    fun listDistinctElementNames(): MutableSet<String>  {
+        val distinctElementNames: MutableSet<String> = mutableSetOf()
         accept {
-            if (it.name == elementName)
-                it.addAttribute(Attribute(attributeName, attributeValue))
+            distinctElementNames.add(it.name)
             true
         }
-        return this
-    }
-
-    //TODO
-    // change return of the next method to boolean and review comment
-    // mover para XMLDOcument
-    /**
-     * Updates the name of the attributes [attributeName] of the element [elementName]
-     * with the new name [newAttributeName]
-     */
-    fun renameAttributeGlobally(elementName: String,attributeName: String,newAttributeName:String): XmlElement {
-        accept {
-            if(it.name==elementName && it.attributes.isNotEmpty()) {
-                it.attributes.forEach() { e ->
-                    if (e.getName() == attributeName)
-                        e.setName(newAttributeName)
-                }
-            }
-            true
-        }
-        return this
-    }
-
-    //TODO
-    // change return of the next method to boolean and review comment
-    // mover para XMLDOcument
-    /**
-     * Removes all the attributes with name [attributeName] of the element [elementName]
-     */
-
-    fun removeAttributeGlobally(elementName: String,attributeName: String):XmlElement{
-        accept {
-            if(it.name==elementName && it.attributes.isNotEmpty()) {
-                it.attributes.forEach() { e ->
-                    if (e.getName() == attributeName)
-                        it.attributes.remove(e)
-                }
-            }
-            true
-        }
-        return this
+        return distinctElementNames
     }
 
     fun accept(visitor: (XmlElement) -> Boolean) {
         visitor(this)
     }
 
-}
-
-// mover para dentro do XMLelement
-/**
- * Return a list of distinct names of all elements in the XmlElement´s tree.
- * This list includes the XmlElement's name.
- */
-fun XmlElement.listDistinctElementNames(): MutableSet<String>  {
-    val distinctElementNames: MutableSet<String> = mutableSetOf()
-    accept {
-        distinctElementNames.add(it.name)
-        true
-    }
-    return distinctElementNames
 }

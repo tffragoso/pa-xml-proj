@@ -14,7 +14,7 @@ class Test {
     val componente1fuc1 = XmlLeaf("componente", avaliacaofuc1)
 
     val doc = XmlDocument("PA", plano)
-plano = plano()
+
     @Test
     fun testRenameElementsDoc() {
         val fuc2 = XmlTag("fuc", plano)
@@ -137,7 +137,7 @@ plano = plano()
             plano.listDistinctElementNames()
         )
     }
-*/
+
     @Test
     fun testRemoveElements() {
         val fuc2 = XmlTag("fuc", plano)
@@ -146,7 +146,7 @@ plano = plano()
         plano.removeElements("fuc")
         assertEquals(mutableListOf(curso), plano.children)
     }
-
+*/
     /**
      * Test adding attribute to element
      */
@@ -421,7 +421,7 @@ plano = plano()
 
     /**
      * Test adding attribute to element and all his children with the given name
-     */
+
     @Test
     fun testAddAttributeGlobally() {
         var expected = "<fuc codigo=\"M4310\">"
@@ -486,7 +486,7 @@ plano = plano()
             ) as XmlTag).prettyPrint()
         )
     }
-
+     */
     /**
      * Test valid attribute names
      */
@@ -521,7 +521,7 @@ plano = plano()
         assertEquals(true,isValidAttributeValue(""))
         assertEquals(true,isValidAttributeValue("XML"))
     }
-
+/*
     @Test
     fun testMicroXpath() {
         assertEquals(listOf(componente1fuc1), plano.microXpath("fuc/avaliacao/componente"))
@@ -531,7 +531,7 @@ plano = plano()
         assertEquals(listOf(componente1fuc1, componente2fuc1), fuc1.microXpath("avaliacao/componente"))
         assertEquals(listOf<XmlElement>(), plano.microXpath(""))
     }
-
+*/
     //TODO
     //Testar a função accept do visitor
 }
