@@ -7,47 +7,40 @@ sealed interface XmlElement {
 
     /**
      * Adds an [attribute] to a [XmlElement].
-     * if the attribute exists the element maintains the same and the method returns false
-     * if the attribute doesn't exist then the attribute is added and the method return true
+     * if the attribute exists the element maintains the same
+     * if the attribute doesn't exist then the attribute is added
      */
-    fun addAttribute(attribute: Attribute): Boolean {
+    fun addAttribute(attribute: Attribute) {
         if (attribute.getName() !in this.attributes.map{it.getName()}) {
             attributes.add(attribute)
-            return true
-        } else
-            return false
+        }
     }
     /**
      * Removes the attribute with the [name] from an [XmlElement].
-     * if the attribute exists then is deleted and the method returns true
-     * if the attribute doesn't exist then the method returns false
+     * if the attribute exists then is deleted
+     * if the attribute doesn't exist the object maintains the same
      */
-    fun removeAttribute(name: String): Boolean {
+    fun removeAttribute(name: String) {
         val i = this.attributes.iterator()
         while (i.hasNext()) {
             val attribute = i.next()
             if (attribute.getName() == name) {
                 i.remove()
-                return true
             }
         }
-        return false
     }
 
     /**
      * Updates [attribute] with the [attribute] value.
-     * if the attribute exists then the value is updated and the method returns true
-     * if the attribute doesn't exist then the method returns false
+     * if the attribute exists then the value is updated
+     * if the attribute doesn't exist the object maintains the same
      */
-    fun updateAttribute(attribute: Attribute): Boolean {
-        var updated = false
+    fun updateAttribute(attribute: Attribute) {
         this.attributes.forEach { e ->
             if(e.getName() == attribute.getName()) {
                 e.setValue(attribute.getValue())
-                updated = true
             }
         }
-        return updated
     }
 
     //TODO
