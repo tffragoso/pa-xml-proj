@@ -1,4 +1,18 @@
 import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.full.hasAnnotation
+
+@Target(AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
+annotation class IsTag
+
+@Target(AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
+annotation class IsLeaf
+
+@Target(AnnotationTarget.PROPERTY)
+annotation class IsAttribute
+
+@Target(AnnotationTarget.PROPERTY)
+annotation class Hiden
 
 sealed interface XmlElement {
     var name: String
@@ -100,8 +114,14 @@ sealed interface XmlElement {
 fun mapXml(obj: Any): XmlTag {
     val objClass = obj::class
     val elementName = objClass.simpleName
-    //val attributes = objClass.declaredMemberProperties.toMutableList()
+    val attributes: MutableList<Attribute> = mutableListOf()
+
+    objClass.declaredMemberProperties.forEach {
+        if(it.hasAnnotation<IsAttribute>())
+            attributes.add(Attribute(it.name, it.call(obj).toString()))
+    }
 
 
-    return XmlTag(elementName!!)
+
+    return XmlTag(elementName!!, attributes = attributes)
 }

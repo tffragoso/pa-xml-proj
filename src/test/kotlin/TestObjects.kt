@@ -3,18 +3,6 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-@Target(AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
-annotation class IsTag
-
-@Target(AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
-annotation class IsLeaf
-
-@Target(AnnotationTarget.PROPERTY)
-annotation class IsAttribute
-
-@Target(AnnotationTarget.PROPERTY)
-annotation class Hiden
-
 class FUC(
     @IsAttribute
     val codigo: String,
