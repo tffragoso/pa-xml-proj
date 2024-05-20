@@ -1,3 +1,5 @@
+import kotlin.reflect.full.declaredMemberProperties
+
 sealed interface XmlElement {
     var name: String
     var parent: XmlTag?
@@ -93,4 +95,13 @@ sealed interface XmlElement {
 
         return output
     }
+}
+
+fun mapXml(obj: Any): XmlTag {
+    val objClass = obj::class
+    val elementName = objClass.simpleName
+    //val attributes = objClass.declaredMemberProperties.toMutableList()
+
+
+    return XmlTag(elementName!!)
 }
