@@ -3,7 +3,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class TestXmlTag {
-
     val plano = XmlTag("plano")
     val curso = XmlLeaf("curso", plano, leafText = "MEI")
     val fuc1 = XmlTag("fuc", plano)

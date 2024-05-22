@@ -1,5 +1,5 @@
+
 import kotlin.reflect.full.declaredMemberProperties
-import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.hasAnnotation
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
@@ -13,6 +13,12 @@ annotation class IsAttribute
 
 @Target(AnnotationTarget.PROPERTY)
 annotation class Hiden
+
+@Target(AnnotationTarget.PROPERTY)
+annotation class ListObjects
+
+@Target(AnnotationTarget.PROPERTY)
+annotation class ListObjectsNoName
 
 sealed interface XmlElement {
     var name: String
@@ -113,15 +119,44 @@ sealed interface XmlElement {
 
 fun mapXml(obj: Any): XmlTag {
     val objClass = obj::class
-    val elementName = objClass.simpleName
-    val attributes: MutableList<Attribute> = mutableListOf()
+    var tagObject = XmlTag(objClass.simpleName!!.lowercase(),null,mutableListOf())
+    //val elementName = objClass.simpleName
+    //val attributes: MutableList<Attribute> = mutableListOf()
+    //val children: MutableList<XmlElement> = mutableListOf()
 
     objClass.declaredMemberProperties.forEach {
         if(it.hasAnnotation<IsAttribute>())
-            attributes.add(Attribute(it.name, it.call(obj).toString()))
+            tagObject.attributes.add(Attribute(it.name, it.call(obj).toString()))
+        else if(it.hasAnnotation<IsLeaf>())
+            XmlLeaf(it.name,tagObject,mutableListOf(),it.call(obj).toString())
+        else if(it.hasAnnotation<ListObjects>()){
+            var tagaux = XmlTag(it.name,tagObject, mutableListOf())
+            val result = it.call(obj)
+            if (result is Collection<*>) {
+                result.forEach { item ->
+                    tagaux.addChildElement(mapXml(item!!))
+                }
+            }
+        }else if(it.hasAnnotation<ListObjectsNoName>()){
+            val result = it.call(obj)
+            if (result is Collection<*>) {
+                result.forEach { item ->
+                    tagObject.addChildElement(mapXml(item!!))
+                }
+            }
+        }
     }
 
+    return tagObject
+}
 
-
-    return XmlTag(elementName!!, attributes = attributes)
+fun auxPrint(element: XmlElement): String {
+    var auxOutput = element.elementToString()
+    if(element is XmlTag) {
+        element.children.forEach {
+            auxOutput += auxPrint(it)
+        }
+        auxOutput += "</" + element.name + ">"
+    }
+    return auxOutput
 }
