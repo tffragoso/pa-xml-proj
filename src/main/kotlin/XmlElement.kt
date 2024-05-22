@@ -12,9 +12,6 @@ annotation class IsLeaf
 annotation class IsAttribute
 
 @Target(AnnotationTarget.PROPERTY)
-annotation class Hiden
-
-@Target(AnnotationTarget.PROPERTY)
 annotation class ListObjects
 
 @Target(AnnotationTarget.PROPERTY)
@@ -25,7 +22,7 @@ sealed interface XmlElement {
     var parent: XmlTag?
     //TODO
     //private val attributes
-    var attributes: MutableList<Attribute>
+    var attributes: MutableList<XmlAttribute>
 
     fun accept(visitor: (XmlElement) -> Boolean) {
         visitor(this)
@@ -36,7 +33,7 @@ sealed interface XmlElement {
      * if the attribute exists the element maintains the same
      * if the attribute doesn't exist then the attribute is added
      */
-    fun addAttribute(attribute: Attribute) {
+    fun addAttribute(attribute: XmlAttribute) {
         if (attribute.getName() !in this.attributes.map{it.getName()}) {
             attributes.add(attribute)
         }
@@ -62,7 +59,7 @@ sealed interface XmlElement {
      * if the attribute exists then the value is updated
      * if the attribute doesn't exist the object maintains the same
      */
-    fun updateAttribute(attribute: Attribute) {
+    fun updateAttribute(attribute: XmlAttribute) {
         this.attributes.forEach { e ->
             if(e.getName() == attribute.getName()) {
                 e.setValue(attribute.getValue())
@@ -126,7 +123,7 @@ fun mapXml(obj: Any): XmlTag {
 
     objClass.declaredMemberProperties.forEach {
         if(it.hasAnnotation<IsAttribute>())
-            tagObject.attributes.add(Attribute(it.name, it.call(obj).toString()))
+            tagObject.attributes.add(XmlAttribute(it.name, it.call(obj).toString()))
         else if(it.hasAnnotation<IsLeaf>())
             XmlLeaf(it.name,tagObject,mutableListOf(),it.call(obj).toString())
         else if(it.hasAnnotation<ListObjects>()){

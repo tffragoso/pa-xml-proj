@@ -5,42 +5,42 @@ import org.junit.jupiter.api.Test
 class TestXmlDocument {
     val plano = XmlTag("plano")
     val curso = XmlLeaf("curso", plano, mutableListOf(), "Mestrado em Engenharia Informática")
-    val fuc1 = XmlTag("fuc", plano, mutableListOf(Attribute("codigo", "M4310")))
+    val fuc1 = XmlTag("fuc", plano, mutableListOf(XmlAttribute("codigo", "M4310")))
     val nomefuc1 = XmlLeaf("nome", fuc1, mutableListOf(), "Programação Avançada")
     val ectsfuc1 = XmlLeaf("ects", fuc1, mutableListOf(), "6.0")
     val avaliacaofuc1 = XmlTag("avaliacao", fuc1, mutableListOf())
     val componente1fuc1 = XmlLeaf(
         "componente",
         avaliacaofuc1,
-        mutableListOf(Attribute("nome", "Quizzes"), Attribute("peso", "20%")),
+        mutableListOf(XmlAttribute("nome", "Quizzes"), XmlAttribute("peso", "20%")),
         null
     )
     val componente2fuc1 = XmlLeaf(
         "componente",
         avaliacaofuc1,
-        mutableListOf(Attribute("nome", "Projeto"), Attribute("peso", "80%")),
+        mutableListOf(XmlAttribute("nome", "Projeto"), XmlAttribute("peso", "80%")),
         null
     )
-    val fuc2 = XmlTag("fuc", plano, mutableListOf(Attribute("codigo", "03782")))
+    val fuc2 = XmlTag("fuc", plano, mutableListOf(XmlAttribute("codigo", "03782")))
     val nomefuc2 = XmlLeaf("nome", fuc2, mutableListOf(), "Dissertação")
     val ectsfuc2 = XmlLeaf("ects", fuc2, mutableListOf(), "42.0")
     val avaliacaofuc2 = XmlTag("avaliacao", fuc2, mutableListOf())
     val componente1fuc2 = XmlLeaf(
         "componente",
         avaliacaofuc2,
-        mutableListOf(Attribute("nome", "Dissertação"), Attribute("peso", "60%")),
+        mutableListOf(XmlAttribute("nome", "Dissertação"), XmlAttribute("peso", "60%")),
         null
     )
     val componente2fuc2 = XmlLeaf(
         "componente",
         avaliacaofuc2,
-        mutableListOf(Attribute("nome", "Apresentação"), Attribute("peso", "20%")),
+        mutableListOf(XmlAttribute("nome", "Apresentação"), XmlAttribute("peso", "20%")),
         null
     )
     val componente3fuc2 = XmlLeaf(
         "componente",
         avaliacaofuc2,
-        mutableListOf(Attribute("nome", "Discussão"), Attribute("peso", "20%")),
+        mutableListOf(XmlAttribute("nome", "Discussão"), XmlAttribute("peso", "20%")),
         null
     )
     val doc = XmlDocument("document", plano)

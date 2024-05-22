@@ -14,13 +14,12 @@ class FUC(
     val nome: String,
     @IsLeaf
     val ects: Double,
-    @Hiden
     val observacoes: String,
     @ListObjects
-    val avaliacao: List<Avaliacao>
+    val avaliacao: List<Componente>
 )
 
-class Avaliacao(
+class Componente(
     @IsAttribute
     val nome: String,
     @IsAttribute
@@ -32,8 +31,8 @@ class testObjects {
     val f = FUC("M4310", "Programação Avançada", 6.0,
         "la la...",
         listOf(
-            Avaliacao("Quizzes", "20"),
-            Avaliacao("Projeto", "80")
+            Componente("Quizzes", "20"),
+            Componente("Projeto", "80")
         ))
 
     val p = Plano("Mestrado em Engenharia Informática",
@@ -41,15 +40,15 @@ class testObjects {
             FUC("M4310", "Programação Avançada", 6.0,
                 "la la...",
                 listOf(
-                    Avaliacao("Quizzes", "20"),
-                    Avaliacao("Projeto", "80")
+                    Componente("Quizzes", "20"),
+                    Componente("Projeto", "80")
                 )),
             FUC("03782", "Dissertação", 42.0,
                 "la la...",
                 listOf(
-                    Avaliacao("Dissertação", "60%"),
-                    Avaliacao("Apresentação", "20%"),
-                    Avaliacao("Discussão", "20%")
+                    Componente("Dissertação", "60%"),
+                    Componente("Apresentação", "20%"),
+                    Componente("Discussão", "20%")
                 ))
         )
         )

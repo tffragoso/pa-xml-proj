@@ -3,7 +3,7 @@ data class XmlTag(
     override var parent: XmlTag? = null,
     //TODO
     // private val attributes
-    override var attributes: MutableList<Attribute> = mutableListOf()
+    override var attributes: MutableList<XmlAttribute> = mutableListOf()
 ) : XmlElement {
 
     val children: MutableList<XmlElement> = mutableListOf()

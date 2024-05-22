@@ -6,8 +6,8 @@ class XmlDocument(
     val config : XmlLeaf
     init {
         config = XmlLeaf("xml")
-        config.addAttribute(Attribute("version", "1.0"))
-        config.addAttribute(Attribute("encoding", "UTF-8"))
+        config.addAttribute(XmlAttribute("version", "1.0"))
+        config.addAttribute(XmlAttribute("encoding", "UTF-8"))
     }
 
     /**
@@ -46,7 +46,7 @@ class XmlDocument(
     fun addAttributeGlobally(elementName: String, attributeName: String, attributeValue:String) {
         body.accept {
             if (it.name == elementName)
-                it.addAttribute(Attribute(attributeName, attributeValue))
+                it.addAttribute(XmlAttribute(attributeName, attributeValue))
             true
         }
     }
