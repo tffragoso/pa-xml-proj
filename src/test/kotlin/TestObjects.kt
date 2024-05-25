@@ -2,27 +2,27 @@
 import org.junit.jupiter.api.Test
 
 class Plano(
-    @IsLeaf
+    @Leaf
     val curso: String,
-    @ListObjectsNoName
+    @Leaf
     val fuc: List<FUC>
 )
 class FUC(
-    @IsAttribute
+    @Attribute
     val codigo: String,
-    @IsLeaf
+    @Leaf
     val nome: String,
-    @IsLeaf
+    @Leaf
     val ects: Double,
     val observacoes: String,
-    @ListObjects
+    @Nested
     val avaliacao: List<Componente>
 )
 
 class Componente(
-    @IsAttribute
+    @Attribute
     val nome: String,
-    @IsAttribute
+    @Attribute
     val peso: String
 )
 
@@ -52,10 +52,13 @@ class testObjects {
                 ))
         )
         )
+
+    val doc = XmlDocument("documento", mapXml(p))
     @Test
     fun testMapXML() {
       //  println(mapXml(f).elementToString())
        // println(auxPrint(mapXml(f)))
-        println(auxPrint(mapXml(p)))
+        //println(auxPrint(mapXml(p)))
+        println(doc.prettyPrint())
     }
 }

@@ -3,19 +3,19 @@ import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.hasAnnotation
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
-annotation class IsTag
+annotation class Tag
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
-annotation class IsLeaf
+annotation class Leaf
 
 @Target(AnnotationTarget.PROPERTY)
-annotation class IsAttribute
+annotation class Attribute
 
 @Target(AnnotationTarget.PROPERTY)
-annotation class ListObjects
+annotation class Inline
 
 @Target(AnnotationTarget.PROPERTY)
-annotation class ListObjectsNoName
+annotation class Nested
 
 sealed interface XmlElement {
     var name: String
@@ -122,11 +122,11 @@ fun mapXml(obj: Any): XmlTag {
     //val children: MutableList<XmlElement> = mutableListOf()
 
     objClass.declaredMemberProperties.forEach {
-        if(it.hasAnnotation<IsAttribute>())
+        if(it.hasAnnotation<Attribute>())
             tagObject.attributes.add(XmlAttribute(it.name, it.call(obj).toString()))
-        else if(it.hasAnnotation<IsLeaf>())
+        else if(it.hasAnnotation<Leaf>())
             XmlLeaf(it.name,tagObject,mutableListOf(),it.call(obj).toString())
-        else if(it.hasAnnotation<ListObjects>()){
+        else if(it.hasAnnotation<Nested>()){
             var tagaux = XmlTag(it.name,tagObject, mutableListOf())
             val result = it.call(obj)
             if (result is Collection<*>) {
@@ -134,7 +134,7 @@ fun mapXml(obj: Any): XmlTag {
                     tagaux.addChildElement(mapXml(item!!))
                 }
             }
-        }else if(it.hasAnnotation<ListObjectsNoName>()){
+        }else if(it.hasAnnotation<Inline>()){
             val result = it.call(obj)
             if (result is Collection<*>) {
                 result.forEach { item ->
