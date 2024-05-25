@@ -16,49 +16,49 @@ class FUC(
     val ects: Double,
     val observacoes: String,
     @Nested @Leaf
-    val avaliacao: List<Componente>
+    val avaliacao: List<ComponenteAvaliacao>
 )
 
-class Componente(
+class ComponenteAvaliacao(
     @Attribute
     val nome: String,
-    @Attribute
+    @Attribute @XmlString(AddPercentage::class)
     val peso: String
 )
 
-class testObjects {
+class TestObjects {
 
-    val f = FUC("M4310", "Programação Avançada", 6.0,
+    private val f = FUC("M4310", "Programação Avançada", 6.0,
         "la la...",
         listOf(
-            Componente("Quizzes", "20"),
-            Componente("Projeto", "80")
+            ComponenteAvaliacao("Quizzes", "20"),
+            ComponenteAvaliacao("Projeto", "80")
         ))
 
-    val p = Plano("Mestrado em Engenharia Informática",
+    private val p = Plano("Mestrado em Engenharia Informática",
         listOf(
             FUC("M4310", "Programação Avançada", 6.0,
                 "la la...",
                 listOf(
-                    Componente("Quizzes", "20"),
-                    Componente("Projeto", "80")
+                    ComponenteAvaliacao("Quizzes", "20"),
+                    ComponenteAvaliacao("Projeto", "80")
                 )),
             FUC("03782", "Dissertação", 42.0,
                 "la la...",
                 listOf(
-                    Componente("Dissertação", "60%"),
-                    Componente("Apresentação", "20%"),
-                    Componente("Discussão", "20%")
+                    ComponenteAvaliacao("Dissertação", "60%"),
+                    ComponenteAvaliacao("Apresentação", "20%"),
+                    ComponenteAvaliacao("Discussão", "20%")
                 ))
         )
-        )
+    )
 
-    val doc = XmlDocument("documento", mapXml(p))
+    private val doc = XmlDocument("documento", mapXml(p))
     @Test
     fun testMapXML() {
-      //  println(mapXml(f).elementToString())
-       // println(auxPrint(mapXml(f)))
-        //println(auxPrint(mapXml(p)))
+        println(mapXml(f).elementToString())
+        println(printTag(mapXml(f)))
+        println(printTag(mapXml(p)))
         println(doc.prettyPrint())
     }
 }

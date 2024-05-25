@@ -103,15 +103,15 @@ class XmlDocument(
             var auxOutput = element.elementToString()
             if(element is XmlTag) {
                 element.children.forEach {
-                    auxOutput += "\n" + auxPrint(it)
+                    auxOutput += auxPrint(it)
                 }
-                auxOutput += "\n</" + element.name + ">"
+                auxOutput += element.name + ">"
             }
             return auxOutput
         }
 
         var output = config.elementToString()
-        output += "\n" + auxPrint(body)
+        output += auxPrint(body)
 
         return output
     }

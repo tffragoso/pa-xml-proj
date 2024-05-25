@@ -1,3 +1,8 @@
+import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.full.hasAnnotation
+import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.full.memberProperties
+
 data class XmlTag(
     override var name: String,
     override var parent: XmlTag? = null,
@@ -42,5 +47,51 @@ data class XmlTag(
                 it.accept(visitor)
             }
     }
+}
 
+fun mapXml(obj: Any): XmlTag {
+    val objClass = obj::class
+    val tagObject = XmlTag(objClass.simpleName!!.lowercase(),null,mutableListOf())
+
+    objClass.declaredMemberProperties.forEach {
+        if(it.hasAnnotation<Attribute>())
+            tagObject.attributes.add(XmlAttribute(it.name, it.call(obj).toString()))
+        else if(it.hasAnnotation<Leaf>() and !it.hasAnnotation<Nested>())
+            XmlLeaf(it.name,tagObject,mutableListOf(),it.call(obj).toString())
+        else if(it.hasAnnotation<Inline>()){
+            val result = it.call(obj)
+            if (result is Collection<*>) {
+                result.forEach { item ->
+                    tagObject.addChildElement(mapXml(item!!))
+                }
+            }
+        }
+        else if(it.hasAnnotation<Nested>() and it.hasAnnotation<Leaf>()){
+            var tagaux = XmlTag(it.name,tagObject, mutableListOf())
+            val result = it.call(obj)
+            if (result is Collection<*>) {
+                result.forEach { item ->
+                    tagaux.addChildElement(mapXmlLeaf(item!!))
+                }
+            }
+        }
+        else if(it.hasAnnotation<Nested>()){
+            var tagaux = XmlTag(it.name,tagObject, mutableListOf())
+            val result = it.call(obj)
+            if (result is Collection<*>) {
+                result.forEach { item ->
+                    tagaux.addChildElement(mapXml(item!!))
+                }
+            }
+        }else if(it.hasAnnotation<Inline>()){
+            val result = it.call(obj)
+            if (result is Collection<*>) {
+                result.forEach { item ->
+                    tagObject.addChildElement(mapXml(item!!))
+                }
+            }
+        }
+    }
+
+    return tagObject
 }

@@ -1,22 +1,3 @@
-
-import kotlin.reflect.full.declaredMemberProperties
-import kotlin.reflect.full.hasAnnotation
-
-@Target(AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
-annotation class Tag
-
-@Target(AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
-annotation class Leaf
-
-@Target(AnnotationTarget.PROPERTY)
-annotation class Attribute
-
-@Target(AnnotationTarget.PROPERTY)
-annotation class Inline
-
-@Target(AnnotationTarget.PROPERTY)
-annotation class Nested
-
 sealed interface XmlElement {
     var name: String
     var parent: XmlTag?
@@ -114,75 +95,11 @@ sealed interface XmlElement {
     }
 }
 
-fun mapXml(obj: Any): XmlTag {
-    val objClass = obj::class
-    var tagObject = XmlTag(objClass.simpleName!!.lowercase(),null,mutableListOf())
-    //val elementName = objClass.simpleName
-    //val attributes: MutableList<Attribute> = mutableListOf()
-    //val children: MutableList<XmlElement> = mutableListOf()
-
-    objClass.declaredMemberProperties.forEach {
-        if(it.hasAnnotation<Attribute>())
-            tagObject.attributes.add(XmlAttribute(it.name, it.call(obj).toString()))
-        else if(it.hasAnnotation<Leaf>() and !it.hasAnnotation<Nested>())
-            XmlLeaf(it.name,tagObject,mutableListOf(),it.call(obj).toString())
-        else if(it.hasAnnotation<Inline>()){
-            val result = it.call(obj)
-            if (result is Collection<*>) {
-                result.forEach { item ->
-                    tagObject.addChildElement(mapXml(item!!))
-                }
-            }
-        }
-        else if(it.hasAnnotation<Nested>() and it.hasAnnotation<Leaf>()){
-            var tagaux = XmlTag(it.name,tagObject, mutableListOf())
-            val result = it.call(obj)
-            if (result is Collection<*>) {
-                result.forEach { item ->
-                    tagaux.addChildElement(mapXmlLeaf(item!!))
-                }
-            }
-        }
-        else if(it.hasAnnotation<Nested>()){
-            var tagaux = XmlTag(it.name,tagObject, mutableListOf())
-            val result = it.call(obj)
-            if (result is Collection<*>) {
-                result.forEach { item ->
-                    tagaux.addChildElement(mapXml(item!!))
-                }
-            }
-        }else if(it.hasAnnotation<Inline>()){
-            val result = it.call(obj)
-            if (result is Collection<*>) {
-                result.forEach { item ->
-                    tagObject.addChildElement(mapXml(item!!))
-                }
-            }
-        }
-    }
-
-    return tagObject
-}
-
-fun mapXmlLeaf(obj: Any): XmlLeaf {
-    val objClass = obj::class
-    var leafObject = XmlLeaf(objClass.simpleName!!.lowercase(),null,mutableListOf())
-    //val elementName = objClass.simpleName
-    //val attributes: MutableList<Attribute> = mutableListOf()
-    //val children: MutableList<XmlElement> = mutableListOf()
-
-    objClass.declaredMemberProperties.forEach {
-        if (it.hasAnnotation<Attribute>())
-            leafObject.attributes.add(XmlAttribute(it.name, it.call(obj).toString()))
-    }
-
-    return leafObject
-}
-fun auxPrint(element: XmlElement): String {
+fun printTag(element: XmlElement): String {
     var auxOutput = element.elementToString()
     if(element is XmlTag) {
         element.children.forEach {
-            auxOutput += auxPrint(it)
+            auxOutput += printTag(it)
         }
         auxOutput += "</" + element.name + ">"
     }
