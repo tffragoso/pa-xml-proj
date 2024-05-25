@@ -124,8 +124,25 @@ fun mapXml(obj: Any): XmlTag {
     objClass.declaredMemberProperties.forEach {
         if(it.hasAnnotation<Attribute>())
             tagObject.attributes.add(XmlAttribute(it.name, it.call(obj).toString()))
-        else if(it.hasAnnotation<Leaf>())
+        else if(it.hasAnnotation<Leaf>() and !it.hasAnnotation<Nested>())
             XmlLeaf(it.name,tagObject,mutableListOf(),it.call(obj).toString())
+        else if(it.hasAnnotation<Inline>()){
+            val result = it.call(obj)
+            if (result is Collection<*>) {
+                result.forEach { item ->
+                    tagObject.addChildElement(mapXml(item!!))
+                }
+            }
+        }
+        else if(it.hasAnnotation<Nested>() and it.hasAnnotation<Leaf>()){
+            var tagaux = XmlTag(it.name,tagObject, mutableListOf())
+            val result = it.call(obj)
+            if (result is Collection<*>) {
+                result.forEach { item ->
+                    tagaux.addChildElement(mapXmlLeaf(item!!))
+                }
+            }
+        }
         else if(it.hasAnnotation<Nested>()){
             var tagaux = XmlTag(it.name,tagObject, mutableListOf())
             val result = it.call(obj)
@@ -147,6 +164,20 @@ fun mapXml(obj: Any): XmlTag {
     return tagObject
 }
 
+fun mapXmlLeaf(obj: Any): XmlLeaf {
+    val objClass = obj::class
+    var leafObject = XmlLeaf(objClass.simpleName!!.lowercase(),null,mutableListOf())
+    //val elementName = objClass.simpleName
+    //val attributes: MutableList<Attribute> = mutableListOf()
+    //val children: MutableList<XmlElement> = mutableListOf()
+
+    objClass.declaredMemberProperties.forEach {
+        if (it.hasAnnotation<Attribute>())
+            leafObject.attributes.add(XmlAttribute(it.name, it.call(obj).toString()))
+    }
+
+    return leafObject
+}
 fun auxPrint(element: XmlElement): String {
     var auxOutput = element.elementToString()
     if(element is XmlTag) {

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test
 class Plano(
     @Leaf
     val curso: String,
-    @Leaf
+    @Inline
     val fuc: List<FUC>
 )
 class FUC(
@@ -15,7 +15,7 @@ class FUC(
     @Leaf
     val ects: Double,
     val observacoes: String,
-    @Nested
+    @Nested @Leaf
     val avaliacao: List<Componente>
 )
 
