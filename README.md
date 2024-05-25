@@ -12,3 +12,12 @@ With this library the user can build XML entities out of objects they provide.\
 This library does not read XML files as input.
 
 ## How to use
+*italic like this*
+
+```
+code like this
+```
+
+**bold like this**
+
+`highlight like this`
