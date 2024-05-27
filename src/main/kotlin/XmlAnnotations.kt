@@ -13,7 +13,7 @@ annotation class Inline
 annotation class Nested
 
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.FUNCTION)
-annotation class XmlString(val value: KClass<*>)
+annotation class XmlString(val value: KClass<out Any>)
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
 annotation class XmlAdapter(

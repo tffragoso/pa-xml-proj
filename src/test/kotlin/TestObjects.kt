@@ -30,7 +30,7 @@ class ComponenteAvaliacao(
 )
 
 class AddPercentage {
-    fun addPercentage(value: String): String {
+    fun addPercentage(value: Any): String {
         return "$value%"
     }
 }

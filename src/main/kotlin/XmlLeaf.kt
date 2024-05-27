@@ -1,6 +1,7 @@
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.hasAnnotation
+import kotlin.reflect.full.primaryConstructor
 
 data class XmlLeaf(
     override var name: String,
@@ -37,15 +38,14 @@ fun mapXmlLeaf(obj: Any): XmlLeaf {
         if (it.hasAnnotation<Attribute>()){
             val xmlStringAnnotation = it.findAnnotation<XmlString>()
             var value = it.call(obj).toString()
+            var newvalue = ""
             if (xmlStringAnnotation != null) {
                 val processorClass = xmlStringAnnotation.value
-                val processorInstance = processorClass.java.getDeclaredConstructor().newInstance()
-                value =
-                    processorClass.java.getMethod("addPercentage",
-                        String::class.java).invoke(processorInstance, value)
-                        .toString()
+                val processorInstance = processorClass.primaryConstructor?.call()
+                var metodo = processorClass.members.first { a -> a.name == "addPercentage" }
+                value = metodo.call(processorInstance, value) as String
             }
-            leafObject.attributes.add(XmlAttribute(it.name, value))
+            leafObject.attributes.add(XmlAttribute(it.name, newvalue))
         }
     }
     return leafObject
