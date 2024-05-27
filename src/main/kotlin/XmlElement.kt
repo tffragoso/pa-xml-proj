@@ -97,6 +97,7 @@ sealed interface XmlElement {
     }
 }
 
+//REMOVER ANTES DE ENTREGAR
 fun printTag(element: XmlElement): String {
     var auxOutput = element.elementToString()
     if(element is XmlTag) {
