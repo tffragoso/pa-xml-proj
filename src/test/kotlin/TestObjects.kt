@@ -19,6 +19,7 @@ class FUC(
     val avaliacao: List<ComponenteAvaliacao>
 )
 
+@XmlAdapter(ComponenteAvaliacaoAdapter::class, newName ="componente")
 class ComponenteAvaliacao(
     @Attribute
     val nome: String,
@@ -59,6 +60,6 @@ class TestObjects {
         //println(mapXml(f).elementToString())
         //println(printTag(mapXml(f)))
         //println(printTag(mapXml(p)))
-        doc.prettyPrint("C:\\Users\\tffra\\Desktop\\pa24\\XmlOutput.txt")
+        doc.prettyPrint(".\\XmlOutput.txt")
     }
 }

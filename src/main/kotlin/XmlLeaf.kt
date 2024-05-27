@@ -17,7 +17,20 @@ data class XmlLeaf(
 
 fun mapXmlLeaf(obj: Any): XmlLeaf {
     val objClass = obj::class
-    var leafObject = XmlLeaf(objClass.simpleName!!.lowercase(),null,mutableListOf())
+
+    //change the tag name as required by the user
+    var className = objClass.simpleName!!.lowercase()
+    val xmlAdapterAnnotation = objClass.findAnnotation<XmlAdapter>()
+    if (xmlAdapterAnnotation != null) {
+        val processorClass = xmlAdapterAnnotation.value
+        val processorInstance = processorClass.java.getDeclaredConstructor().newInstance()
+        val newTagName = xmlAdapterAnnotation.newName
+        className =
+            processorClass.java.getMethod("changeName", String::class.java).invoke(processorInstance,newTagName)
+                .toString()
+    }
+
+    var leafObject = XmlLeaf(className,null,mutableListOf())
 
     objClass.declaredMemberProperties.forEach {
         if (it.hasAnnotation<Attribute>()){

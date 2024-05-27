@@ -1,7 +1,6 @@
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.findAnnotation
-import kotlin.reflect.full.memberProperties
 
 data class XmlTag(
     override var name: String,
@@ -49,6 +48,7 @@ data class XmlTag(
 
 fun mapXml(obj: Any): XmlTag {
     val objClass = obj::class
+
     val tagObject = XmlTag(objClass.simpleName!!.lowercase(),null,mutableListOf())
 
     objClass.declaredMemberProperties.forEach {
