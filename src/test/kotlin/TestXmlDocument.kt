@@ -128,9 +128,11 @@ class TestXmlDocument {
         assertEquals(listOf<XmlElement>(), doc.microXpath("", doc.body))
     }
 
+    //Comentário Tomás: Por mim removemos este testPrettyPrint, porque o nosso
+    // pretty print vai escrever para um ficheiro txt
     /**
      * Test prettyprint
-     */
+
     @Test
     fun testPrettyPrint() {
         var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -157,5 +159,5 @@ class TestXmlDocument {
 
         Assertions.assertEquals(expected, doc.prettyPrint())
 
-    }
+    } */
 }

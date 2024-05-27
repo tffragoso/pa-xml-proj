@@ -1,3 +1,5 @@
+import java.io.File
+
 class XmlDocument(
     val name: String,
     var body : XmlTag
@@ -96,24 +98,31 @@ class XmlDocument(
         return elements
     }
 
-    // To Do : escrever para ficheiro xml, nao devolver string nem print
-    fun prettyPrint(): String {
+    fun prettyPrint(outputFilePath: String) {
+
+        val file = File(outputFilePath)
 
         fun auxPrint(element: XmlElement): String {
             var auxOutput = element.elementToString()
             if(element is XmlTag) {
                 element.children.forEach {
-                    auxOutput += auxPrint(it)
+                    auxOutput += "\n" + "\t".repeat(it.depth) + auxPrint(it)
                 }
-                auxOutput += "</" + element.name + ">"
+                if(element.parent == null)
+                    auxOutput += "\n</" + element.name + ">"
+                else
+                    auxOutput += "\n" + "\t".repeat(element.depth) + "</" + element.name + ">"
             }
             return auxOutput
         }
 
         var output = config.elementToString()
-        output += auxPrint(body)
+        output += "\n" + auxPrint(body)
+        file.writeText(output)
 
-        return output
+        println("Text written successfully to file in specified path.")
+        println("\n") //REMOVER NO FIM DO PROJ
+        println(output) //REMOVER NO FIM DO PROJ
     }
 
 }

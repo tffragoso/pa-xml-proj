@@ -47,7 +47,7 @@ class XmlAttribute(
 /**
  * XML attributes can contain letters, digits, underscores, hyphens and periods
  * must start with a letter, underscore, or colon
- * cannot star with sequence of characters 'xml' and cannot contain spaces
+ * cannot start with sequence of characters 'xml' and cannot contain spaces
  */
 fun isValidAttributeName(name: String): Boolean {
     return name.matches(Regex("^(?!xml|Xml|xMl|xmL|XMl|xML|XmL|XML)[A-Za-z_][A-Za-z0-9-_.]*\$"))

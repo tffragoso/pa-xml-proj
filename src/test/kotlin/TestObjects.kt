@@ -56,9 +56,9 @@ class TestObjects {
     private val doc = XmlDocument("documento", mapXml(p))
     @Test
     fun testMapXML() {
-        println(mapXml(f).elementToString())
-        println(printTag(mapXml(f)))
-        println(printTag(mapXml(p)))
-        println(doc.prettyPrint())
+        //println(mapXml(f).elementToString())
+        //println(printTag(mapXml(f)))
+        //println(printTag(mapXml(p)))
+        doc.prettyPrint("C:\\Users\\tffra\\Desktop\\pa24\\XmlOutput.txt")
     }
 }

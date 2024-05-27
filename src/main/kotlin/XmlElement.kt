@@ -2,7 +2,11 @@ sealed interface XmlElement {
     var name: String
     var parent: XmlTag?
     var attributes: MutableList<XmlAttribute>
-
+    val depth: Int
+        get() = if(parent == null)
+            0
+        else
+            1 + parent!!.depth
     fun accept(visitor: (XmlElement) -> Boolean) {
         visitor(this)
     }
