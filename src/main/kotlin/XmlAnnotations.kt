@@ -1,9 +1,6 @@
 import kotlin.reflect.KClass
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
-annotation class Tag
-
-@Target(AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
 annotation class Leaf
 
 @Target(AnnotationTarget.PROPERTY)
@@ -21,17 +18,6 @@ annotation class XmlString(val value: KClass<*>)
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
 annotation class XmlAdapter(
     val value: KClass<*>,
+    val function : String ="",
     val newName: String = ""
 )
-
-class AddPercentage {
-    fun addPercentage(value: String): String {
-        return "$value%"
-    }
-}
-
-class ComponenteAvaliacaoAdapter{
-    fun changeName(newName: String): String {
-        return newName
-    }
-}

@@ -25,8 +25,9 @@ fun mapXmlLeaf(obj: Any): XmlLeaf {
         val processorClass = xmlAdapterAnnotation.value
         val processorInstance = processorClass.java.getDeclaredConstructor().newInstance()
         val newTagName = xmlAdapterAnnotation.newName
+        var newFunction = xmlAdapterAnnotation.function
         className =
-            processorClass.java.getMethod("changeName", String::class.java).invoke(processorInstance,newTagName)
+            processorClass.java.getMethod(newFunction, String::class.java).invoke(processorInstance,newTagName)
                 .toString()
     }
 
@@ -40,7 +41,8 @@ fun mapXmlLeaf(obj: Any): XmlLeaf {
                 val processorClass = xmlStringAnnotation.value
                 val processorInstance = processorClass.java.getDeclaredConstructor().newInstance()
                 value =
-                    processorClass.java.getMethod("addPercentage", String::class.java).invoke(processorInstance, value)
+                    processorClass.java.getMethod("addPercentage",
+                        String::class.java).invoke(processorInstance, value)
                         .toString()
             }
             leafObject.attributes.add(XmlAttribute(it.name, value))

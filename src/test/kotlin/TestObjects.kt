@@ -19,13 +19,27 @@ class FUC(
     val avaliacao: List<ComponenteAvaliacao>
 )
 
-@XmlAdapter(ComponenteAvaliacaoAdapter::class, newName ="componente")
+@XmlAdapter(ComponenteAvaliacaoAdapter::class,
+    function = "changeName",
+    newName ="componente")
 class ComponenteAvaliacao(
     @Attribute
     val nome: String,
     @Attribute @XmlString(AddPercentage::class)
     val peso: String
 )
+
+class AddPercentage {
+    fun addPercentage(value: String): String {
+        return "$value%"
+    }
+}
+
+class ComponenteAvaliacaoAdapter{
+    fun changeName(newName: String): String {
+        return newName
+    }
+}
 
 class TestObjects {
 
@@ -35,7 +49,6 @@ class TestObjects {
             ComponenteAvaliacao("Quizzes", "20"),
             ComponenteAvaliacao("Projeto", "80")
         ))
-
     private val p = Plano("Mestrado em Engenharia Informática",
         listOf(
             FUC("M4310", "Programação Avançada", 6.0,
