@@ -6,8 +6,6 @@ import kotlin.reflect.full.memberProperties
 data class XmlTag(
     override var name: String,
     override var parent: XmlTag? = null,
-    //TODO
-    // private val attributes
     override var attributes: MutableList<XmlAttribute> = mutableListOf()
 ) : XmlElement {
 

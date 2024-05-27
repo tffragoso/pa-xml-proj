@@ -6,7 +6,6 @@
  * @constructor Creates an attribute with name not empty.
  */
 
-//TODO alterar o nome da classe e documento para XMLAttribute
 class XmlAttribute(
     private var name: String,
     private var value: String

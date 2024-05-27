@@ -1,8 +1,6 @@
 sealed interface XmlElement {
     var name: String
     var parent: XmlTag?
-    //TODO
-    //private val attributes
     var attributes: MutableList<XmlAttribute>
 
     fun accept(visitor: (XmlElement) -> Boolean) {

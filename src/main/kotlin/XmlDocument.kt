@@ -105,7 +105,7 @@ class XmlDocument(
                 element.children.forEach {
                     auxOutput += auxPrint(it)
                 }
-                auxOutput += element.name + ">"
+                auxOutput += "</" + element.name + ">"
             }
             return auxOutput
         }
