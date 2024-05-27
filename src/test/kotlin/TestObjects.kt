@@ -26,13 +26,19 @@ class ComponenteAvaliacao(
     @Attribute
     val nome: String,
     @Attribute @XmlString(AddPercentage::class)
-    val peso: String
+    val peso: Any
 )
 
 class AddPercentage {
-    fun addPercentage(value: Any): String {
-        return "$value%"
-    }
+    fun addPercentage(value: Any): String =
+        when(value) {
+            is Int, Double, Float -> value.toString() + "%"
+            is String -> if(value.endsWith("%"))
+                value
+            else
+                "$value%"
+            else -> value.toString()
+        }
 }
 
 class ComponenteAvaliacaoAdapter{
@@ -54,8 +60,8 @@ class TestObjects {
             FUC("M4310", "Programação Avançada", 6.0,
                 "la la...",
                 listOf(
-                    ComponenteAvaliacao("Quizzes", "20"),
-                    ComponenteAvaliacao("Projeto", "80")
+                    ComponenteAvaliacao("Quizzes", 20),
+                    ComponenteAvaliacao("Projeto", 80.5)
                 )),
             FUC("03782", "Dissertação", 42.0,
                 "la la...",

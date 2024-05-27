@@ -45,7 +45,7 @@ fun mapXmlLeaf(obj: Any): XmlLeaf {
                 var metodo = processorClass.members.first { a -> a.name == "addPercentage" }
                 value = metodo.call(processorInstance, value) as String
             }
-            leafObject.attributes.add(XmlAttribute(it.name, newvalue))
+            leafObject.attributes.add(XmlAttribute(it.name, value))
         }
     }
     return leafObject
