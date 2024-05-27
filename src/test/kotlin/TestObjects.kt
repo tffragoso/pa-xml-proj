@@ -1,5 +1,5 @@
-
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 
 class Plano(
     @Leaf
@@ -25,7 +25,7 @@ class FUC(
 class ComponenteAvaliacao(
     @Attribute
     val nome: String,
-    @Attribute @XmlString(AddPercentage::class)
+    @Attribute @XmlString(AddPercentage::class,function="addPercentage")
     val peso: Any
 )
 
@@ -80,5 +80,12 @@ class TestObjects {
         //println(printTag(mapXml(f)))
         //println(printTag(mapXml(p)))
         doc.prettyPrint(".\\XmlOutput.txt")
+    }
+
+    @Test
+    fun testRenameLeaf(){
+        val expectedLeaf = XmlLeaf("componente",null,mutableListOf())
+        val changedLeaf = ComponenteAvaliacao("Quizzes", 20)
+        assertEquals(expectedLeaf,renameLeaf(changedLeaf::class))
     }
 }

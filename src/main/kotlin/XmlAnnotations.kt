@@ -12,8 +12,13 @@ annotation class Inline
 @Target(AnnotationTarget.PROPERTY)
 annotation class Nested
 
+//TODO não estamos a utilizar AnnotationTarget.FUNCTION
+//TODO ou seja, a utilizar a mesma anotação para funções e não só para classes
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.FUNCTION)
-annotation class XmlString(val value: KClass<out Any>)
+annotation class XmlString(
+    val value: KClass<out Any>,
+    val function : String =""
+    )
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
 annotation class XmlAdapter(
