@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
+import kotlin.math.sqrt
 
 class Plano(
     @Leaf
@@ -37,7 +38,7 @@ class AddPercentage {
                 value
             else
                 "$value%"
-            else -> value.toString()
+            else -> "$value%"
         }
 }
 
@@ -87,5 +88,16 @@ class TestObjects {
         val expectedLeaf = XmlLeaf("componente",null,mutableListOf())
         val changedLeaf = ComponenteAvaliacao("Quizzes", 20)
         assertEquals(expectedLeaf,renameLeaf(changedLeaf::class))
+    }
+
+    @Test
+    fun testAddPercentage(){
+        assertEquals("20%",AddPercentage().addPercentage(20))
+        val value : Double = 5.0
+        assertEquals("5.0%",AddPercentage().addPercentage(value))
+        assertEquals("5.87%",AddPercentage().addPercentage(5.87F))
+        assertEquals("456gght%",AddPercentage().addPercentage("456gght%"))
+        assertEquals("456gght%",AddPercentage().addPercentage("456gght"))
+        assertEquals("456.89%",AddPercentage().addPercentage("456.89"))
     }
 }
