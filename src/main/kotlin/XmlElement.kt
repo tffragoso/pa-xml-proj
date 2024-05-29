@@ -7,6 +7,7 @@ sealed interface XmlElement {
             0
         else
             1 + parent!!.depth
+
     fun accept(visitor: (XmlElement) -> Boolean) {
         visitor(this)
     }
@@ -95,6 +96,10 @@ sealed interface XmlElement {
 
         return output
     }
+}
+
+fun isValidElementName(name: String): Boolean {
+    return name.matches(Regex("^[A-Za-z_][A-Za-z0-9-_.]*\$"))
 }
 
 //REMOVER ANTES DE ENTREGAR

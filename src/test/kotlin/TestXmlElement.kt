@@ -1,4 +1,5 @@
 
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -9,6 +10,20 @@ class TestXmlElement {
     val fuc1 = XmlTag("fuc", plano)
     val avaliacaofuc1 = XmlTag("avaliacao", fuc1)
     val componente1fuc1 = XmlLeaf("componente", avaliacaofuc1)
+
+    /**
+     * Test valid element name
+     */
+    @Test
+    fun testValidElementName() {
+        Assertions.assertEquals(false, isValidElementName("\"123kot"))
+        Assertions.assertEquals(false, isValidElementName("<123kot"))
+        Assertions.assertEquals(false, isValidElementName("Te>st"))
+        Assertions.assertEquals(false, isValidElementName("a1&"))
+        Assertions.assertEquals(true, isValidElementName(plano.name))
+        Assertions.assertEquals(true, isValidElementName("_xml"))
+        Assertions.assertEquals(true, isValidElementName("f.u.c"))
+    }
 
     /**
      * Test adding attribute to element

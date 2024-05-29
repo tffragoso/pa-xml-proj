@@ -13,6 +13,7 @@ data class XmlLeaf(
 
     init {
         parent?.children?.add(this)
+        require(isValidElementName(this.name)) { "Not a valid name" }
     }
 
 }

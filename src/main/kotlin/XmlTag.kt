@@ -13,6 +13,7 @@ data class XmlTag(
 
     init {
         parent?.children?.add(this) //this chain returns null if any of the properties is null
+        require(isValidElementName(this.name)) { "Not a valid name" }
     }
 
     /*
