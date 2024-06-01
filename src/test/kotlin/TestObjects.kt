@@ -1,6 +1,5 @@
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
-import kotlin.math.sqrt
 
 class Plano(
     @Leaf
@@ -8,9 +7,10 @@ class Plano(
     @Inline
     val fuc: List<FUC>
 )
+@XmlAdapter(FUCAdapter::class)
 class FUC(
     @Attribute
-    val codigo: String,
+    var codigo: String,
     @Leaf
     val nome: String,
     @Leaf
@@ -20,9 +20,7 @@ class FUC(
     val avaliacao: List<ComponenteAvaliacao>
 )
 
-@XmlAdapter(ComponenteAvaliacaoAdapter::class,
-    function = "changeName",
-    newName ="componente")
+@XmlAdapter(ComponenteAvaliacaoAdapter::class, function = "changeName", newName ="componente")
 class ComponenteAvaliacao(
     @Attribute
     val nome: String,

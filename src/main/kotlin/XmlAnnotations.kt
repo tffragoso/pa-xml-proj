@@ -1,6 +1,6 @@
 import kotlin.reflect.KClass
 
-@Target(AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY)
 annotation class Leaf
 
 @Target(AnnotationTarget.PROPERTY)
@@ -12,15 +12,13 @@ annotation class Inline
 @Target(AnnotationTarget.PROPERTY)
 annotation class Nested
 
-//TODO não estamos a utilizar AnnotationTarget.FUNCTION
-//TODO ou seja, a utilizar a mesma anotação para funções e não só para classes
-@Target(AnnotationTarget.PROPERTY, AnnotationTarget.FUNCTION)
+@Target(AnnotationTarget.PROPERTY)
 annotation class XmlString(
     val value: KClass<out Any>,
     val function : String =""
     )
 
-@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
+@Target(AnnotationTarget.CLASS)
 annotation class XmlAdapter(
     val value: KClass<*>,
     val function : String ="",
