@@ -1,7 +1,6 @@
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.hasAnnotation
-import kotlin.reflect.full.findAnnotation
 
 /**
  * This class implements a XmlTag.
@@ -70,7 +69,7 @@ fun mapXml(obj: Any): XmlTag {
         else if(it.hasAnnotation<Leaf>() and !it.hasAnnotation<Nested>())
             XmlLeaf(it.name,tagObject,mutableListOf(),it.call(obj).toString())
         else if(it.hasAnnotation<Nested>() and it.hasAnnotation<Leaf>()){
-            var tagChild = XmlTag(it.name,tagObject, mutableListOf())
+            val tagChild = XmlTag(it.name,tagObject, mutableListOf())
             val result = it.call(obj)
             if (result is Collection<*>) {
                 result.forEach { item ->

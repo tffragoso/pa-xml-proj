@@ -3,11 +3,10 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class TestXmlTag {
-    val plano = XmlTag("plano")
-    val curso = XmlLeaf("curso", plano, leafText = "MEI")
-    val fuc1 = XmlTag("fuc", plano)
-    val avaliacaofuc1 = XmlTag("avaliacao", fuc1)
-    val componente1fuc1 = XmlLeaf("componente", avaliacaofuc1)
+    private val plano = XmlTag("plano")
+    private val curso = XmlLeaf("curso", plano, leafText = "MEI")
+    private val fuc1 = XmlTag("fuc", plano)
+    private val avaliacaofuc1 = XmlTag("avaliacao", fuc1)
 
     @Test
     fun testParentAndChildren() {
@@ -17,14 +16,6 @@ class TestXmlTag {
         assertEquals(listOf(curso, fuc1), plano.children)
         assertEquals(listOf(avaliacaofuc1), fuc1.children)
     }
-
-    @Test
-    fun testRemoveChildElement() {
-        fuc1.removeChildElement(avaliacaofuc1)
-        assertEquals(listOf<XmlElement>(), fuc1.children)
-        Assertions.assertNull(avaliacaofuc1.parent)
-    }
-
     @Test
     fun testAddChildElement() {
         val fuc2 = XmlTag("fuc2")
@@ -38,5 +29,10 @@ class TestXmlTag {
         assertEquals(avaliacaofuc1.parent, fuc2)
         assertEquals(listOf<XmlElement>(), fuc1.children)
     }
-
+    @Test
+    fun testRemoveChildElement() {
+        fuc1.removeChildElement(avaliacaofuc1)
+        assertEquals(listOf<XmlElement>(), fuc1.children)
+        Assertions.assertNull(avaliacaofuc1.parent)
+    }
 }
