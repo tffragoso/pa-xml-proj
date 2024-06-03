@@ -1,5 +1,14 @@
 import java.io.File
 
+/**
+ * This class implements a XmlDocument.
+ * XmlDocument is the class to build xml document type objects.
+ * It has a [config] block and [body] block.
+ *
+ * @property [name] the name of the xml document.
+ * @property [body] the body of the xml document; it is a XmlTag.
+ * @constructor Creates a XmlDocument with the standard xml header tag as [config].
+ */
 class XmlDocument(
     val name: String,
     var body : XmlTag
@@ -13,9 +22,8 @@ class XmlDocument(
     }
 
     /**
-     * Renames all XmlElements in the document to newName,
-     * if the element's name matches the input elementName.
-     * If the provided elementName does not exist in the document, this method does not update any elements.
+     * Renames all elements in the XmlDocument [body] to [newName] if the element's name matches the input [elementName].
+     * If the input [elementName] does not exist in the [body], this method does not update any elements.
      */
     fun renameElements(elementName: String, newName: String) {
         body.accept {
@@ -26,8 +34,8 @@ class XmlDocument(
     }
 
     /**
-     * Removes all XmlElements in the document whose name matches the input elementName.
-     * If the provided elementName does not exist in the document, nothing is removed.
+     * Removes all elements in the XmlDocument [body] whose [name] matches the input [elementName].
+     * If the provided [elementName] does not exist in the document, this method does not remove any elements.
      */
     fun removeElements(elementName: String) {
         val elementsToRemove: MutableList<XmlElement> = mutableListOf()
@@ -42,8 +50,8 @@ class XmlDocument(
     }
 
     /**
-     * Adds an attribute with [attributeName] and [attributeValue]
-     * to all [XmlElement] with name equal to [elementName].
+     * Adds an attribute with [attributeName] and [attributeValue] to all elements in the XmlDocument
+     * whose [name] matches the input [elementName].
      */
     fun addAttributeGlobally(elementName: String, attributeName: String, attributeValue:String) {
         body.accept {
@@ -54,8 +62,8 @@ class XmlDocument(
     }
 
     /**
-     * Updates the name of the attributes [attributeName] of the elements [elementName]
-     * with the new name [newAttributeName]
+     * Renames the attribute with name [attributeName] to [newAttributeName],
+     * in all elements whose [name] matches the input [elementName].
      */
     fun renameAttributeGlobally(elementName: String, attributeName: String, newAttributeName: String) {
         body.accept {
@@ -70,7 +78,8 @@ class XmlDocument(
     }
 
     /**
-     * Removes all the attributes with name [attributeName] of the elements [elementName]
+     * Removes the attribute with name [attributeName] from all
+     * the elements whose [name] matches the input [elementName].
      */
     fun removeAttributeGlobally(elementName: String, attributeName: String) {
         body.accept {
@@ -84,6 +93,13 @@ class XmlDocument(
         }
     }
 
+    /**
+     * Lists all elements in the specified element [node] (sub)tree which match the input [xpath].
+     * [xpath] is a sequence of element names separated by "/", which form the "path" where the elements live.
+     * If the [xpath] is blank, or contains a non-existing element name, the outputed list is empty.
+     *
+     * @return a list of all elements in the specified [xpath].
+     */
     fun microXpath(xpath: String, node: XmlTag): List<XmlElement> {
         val elements: MutableList<XmlElement> = mutableListOf()
         val xpathElements = xpath.split("/")
@@ -98,6 +114,13 @@ class XmlDocument(
         return elements
     }
 
+    /**
+     * Writes the XmlDocument contents to a file in a location [outputFilePath] specified by the user.
+     * [outputFilePath] should contain the directory and also the file name and extension.
+     * The written text is formatted so that it is easy to understand how the entities are nested.
+     *
+     * @return file with the contents - [config] & [body] - of the XmlDocument.
+     */
     fun prettyPrint(outputFilePath: String) {
 
         val file = File(outputFilePath)
