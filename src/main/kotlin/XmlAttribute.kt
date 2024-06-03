@@ -1,11 +1,11 @@
 /**
- * This class defines an attribute
+ * This class implements a XmlAttribute.
+ * XmlAttribute can be added to all XmlElement's (so both XmlTag and XmlLeaf).
  *
  * @property [name] the name of the attribute.
  * @property [value] the value of the attribute.
- * @constructor Creates an attribute with name not empty.
+ * @constructor Creates an attribute with valid, non-null, [name].
  */
-
 class XmlAttribute(
     private var name: String,
     private var value: String
@@ -18,9 +18,11 @@ class XmlAttribute(
     fun getValue() = this.value
 
     /**
-     * if [newName] is a valid name for an XML entity
-     * the property [name] is updated with [newName] and returns true
-     * if [newName] is NOT a valid name for an XML entity the method returns false
+     * Sets the name for the attribute.
+     * If [newName] is a valid name, the property [name] is updated with [newName].
+     * If [newName] is NOT a valid name, the attribute is not updated.
+     *
+     * @return True if [name] was updated, False otherwise.
      */
     fun setName(newName:String): Boolean {
         if(isValidAttributeName(newName)) {
@@ -29,10 +31,13 @@ class XmlAttribute(
         } else
             return false
     }
+
     /**
-     * if [newValue] is a valid value for an attribute for an XML entity
-     * the property [value] is updated with [newValue] and returns true
-     * if [newValue] is NOT a valid name for an XML entity the method returns false
+     * Sets the value for the attribute.
+     * If [newValue] is a valid value, the property [value] is updated with [newValue].
+     * If [newValue] is NOT a valid value, the attribute is not updated.
+     *
+     * @return True if [value] was updated, False otherwise.
      */
     fun setValue(newValue:String): Boolean {
         if(isValidAttributeValue(newValue)) {
@@ -44,15 +49,23 @@ class XmlAttribute(
     }
 }
 
-/**
- * XML attributes can contain letters, digits, underscores, hyphens and periods
- * must start with a letter, underscore, or colon
- * cannot start with sequence of characters 'xml' and cannot contain spaces
+/*
+ * Checks if XmlAttribute's [name] is valid.
+ * Valid [name] can't be null, and can only contain letters, digits, underscores, hyphens and periods.
+ * Must start with a letter, underscore, or period, and can´t start with sequence of characters 'xml'.
+ *
+ * @return True if [name] is valid, False otherwise.
  */
 fun isValidAttributeName(name: String): Boolean {
     return name.matches(Regex("^(?!xml|Xml|xMl|xmL|XMl|xML|XmL|XML)[A-Za-z_][A-Za-z0-9-_.]*\$"))
 }
 
+/*
+ * Checks if XmlAttribute's [value] is valid.
+ * Valid [value] can't be null, and can´t contain the lesser than/greater than characters that open and close XML entities.
+ *
+ * @return True if [value] is valid, False otherwise.
+ */
 fun isValidAttributeValue(value:String): Boolean {
     return value.matches(Regex("[^\"<>\\&]*"))
 }

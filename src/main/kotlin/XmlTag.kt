@@ -3,6 +3,15 @@ import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.findAnnotation
 
+/**
+ * This class implements a XmlTag.
+ * XmlTag is a xml element that contains other xml element(s) in it (i.e. nested).
+ *
+ * @property [name] the name of the XmlTag.
+ * @property [parent] the parent element of the XmlTag, if there is one.
+ * @property [attributes] the list of attributes of the XmlTag.
+ * @constructor Creates a XmlTag with a valid, non-null, [name].
+ */
 data class XmlTag(
     override var name: String,
     override var parent: XmlTag? = null,
@@ -16,10 +25,10 @@ data class XmlTag(
         require(isValidElementName(this.name)) { "Invalid name. Please provide a valid name for the XmlTag." }
     }
 
-    /*
-    * Adds a XmlElement as child of a XmlElement.
-    * If the child already has a parent, the new parent is assigned as parent of the child.
-    * */
+    /**
+     * Adds a XmlElement as child of a XmlElement.
+     * If the child already has a parent, the new parent is assigned as [parent] of the child.
+     */
     fun addChildElement(child: XmlElement) {
         // Add child to the list of children
         this.children.add(child)
@@ -30,9 +39,9 @@ data class XmlTag(
     }
 
     /*
-    * Removes a XmlElement as child of a XmlElement.
-    * The child is assigned no parent.
-    * */
+     * Removes a XmlElement as child of a XmlElement.
+     * The child's [parent] becomes null (i.e. the child becomes parent-less).
+     */
     fun removeChildElement(child: XmlElement) {
         // Remove child from the list of children
         this.children.remove(child)
@@ -40,6 +49,9 @@ data class XmlTag(
         child.parent = null
     }
 
+    /*
+     * Method to accept visitors.
+     */
     override fun accept(visitor: (XmlElement) -> Boolean) {
         if (visitor(this))
             children.forEach {

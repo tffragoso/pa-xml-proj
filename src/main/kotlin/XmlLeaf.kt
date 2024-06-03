@@ -4,6 +4,16 @@ import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.primaryConstructor
 
+/**
+ * This class implements a XmlLeaf.
+ * XmlLeaf is a xml element that does not contain other xml element(s) in it.
+ *
+ * @property [name] the name of the XmlLeaf.
+ * @property [parent] the parent element of the XmlLeaf, if there is one.
+ * @property [attributes] the list of attributes of the XmlLeaf.
+ * @property [leafText] the nested text of the XmlLead, if there is one.
+ * @constructor Creates a XmlLeaf with a valid, non-null, [name].
+ */
 data class XmlLeaf(
     override var name: String,
     override var parent: XmlTag? = null,
