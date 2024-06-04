@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
+import java.io.File
 
 class Plano(
     @Leaf
@@ -75,10 +76,29 @@ class TestObjects {
     private val doc = XmlDocument("documento", mapXml(p))
     @Test
     fun testMapXML() {
-        //println(mapXml(f).elementToString())
-        //println(printTag(mapXml(f)))
-        //println(printTag(mapXml(p)))
-        doc.prettyPrint(".\\XmlOutput.txt")
+        val expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<plano>\n" +
+                "\t<curso>Mestrado em Engenharia Informática</curso>\n" +
+                "\t<fuc codigo=\"M4310\">\n" +
+                "\t\t<avaliacao>\n" +
+                "\t\t\t<componente nome=\"Quizzes\" peso=\"20%\"/>\n" +
+                "\t\t\t<componente nome=\"Projeto\" peso=\"80.5%\"/>\n" +
+                "\t\t</avaliacao>\n" +
+                "\t\t<ects>6.0</ects>\n" +
+                "\t\t<nome>Programação Avançada</nome>\n" +
+                "\t</fuc>\n" +
+                "\t<fuc codigo=\"03782\">\n" +
+                "\t\t<avaliacao>\n" +
+                "\t\t\t<componente nome=\"Dissertação\" peso=\"60%\"/>\n" +
+                "\t\t\t<componente nome=\"Apresentação\" peso=\"20%\"/>\n" +
+                "\t\t\t<componente nome=\"Discussão\" peso=\"20%\"/>\n" +
+                "\t\t</avaliacao>\n" +
+                "\t\t<ects>42.0</ects>\n" +
+                "\t\t<nome>Dissertação</nome>\n" +
+                "\t</fuc>\n" +
+                "</plano>"
+        val actual = File(".\\XmlOutput.txt").readText()
+        assertEquals(expected,actual)
     }
 
     @Test
