@@ -49,10 +49,6 @@ code like this
 >* removeAttributeGlobally
 >* microXpath
 >* prettyPrint
->
->Example<br>
-><code>val plano = XmlTag("plano")</code><br>
-><code>val doc = XmlDocument("document", plano)</code>
 
 
 ## Anotações
