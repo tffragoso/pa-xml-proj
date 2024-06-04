@@ -11,6 +11,9 @@ ISCTE - Instituto Universitário de Lisboa\
 With this library the user can build XML entities out of objects they provide.\
 This library does not read XML files as input.
 
+The Classes in this project relate to one another as pictured in the following UML diagram:
+![Optional Alt Text](images/classes_uml.png)
+
 ## How to use
 *italic like this*
 
