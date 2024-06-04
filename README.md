@@ -35,7 +35,7 @@ code like this
 >
 >| XML Example  | Kotlin Usage|
 >|------------|------------|
->| ```<nome>Programação Avançada</nome> ```| <code> @Leaf <br> val nome: String,</code>|
+>| ```<nome>Programação Avançada</nome> ```| <code> @Leaf</code><br> <code> val nome: String,</code>|
 
 ### Attribute
 
