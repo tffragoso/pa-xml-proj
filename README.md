@@ -25,6 +25,36 @@ code like this
 
 `highlight like this`
 
+## File XmlDocument
+
+### Class XmlDocument
+
+> **Construtors** 
+>
+>| Name       | Type       | Required   |
+>|------------|------------|------------|
+>| name       | String     | yes        |
+>| body       | XmlTag     | yes        |
+>| config     | XmlLeaf    | no         |
+>
+>Example<br>
+><code>val plano = XmlTag("plano")</code><br>
+><code>val doc = XmlDocument("document", plano)</code>
+>
+> **Methods** 
+>* renameElements 
+>* removeElements
+>* addAttributeGlobally
+>* renameAttributeGlobally
+>* removeAttributeGlobally
+>* microXpath
+>* prettyPrint
+>
+>Example<br>
+><code>val plano = XmlTag("plano")</code><br>
+><code>val doc = XmlDocument("document", plano)</code>
+
+
 ## Anotações
 
 ### Leaf
