@@ -35,7 +35,7 @@ code like this
 >
 >| XML Example  | Kotlin Usage|
 >|------------|------------|
->| ```<nome>Programação Avançada</nome> ```| <code> @Leaf</code><br> <code> val nome: String,</code>|
+>| ```<nome>Programação Avançada</nome> ```| <code> @Leaf</code><br><code>val nome: String,</code>|
 
 ### Attribute
 
@@ -44,7 +44,7 @@ code like this
 >**Description** Identify an attribute
 >| XML Example  | Kotlin Usage|
 >|------------|------------|
->| ```<fuc codigo="M4310">```| <code>class FUC<br>&nbsp;&nbsp;&nbsp;&nbsp;@Attribute<br>&nbsp;&nbsp;&nbsp;&nbsp;var codigo: String,</code>|
+>| ```<fuc codigo="M4310">```| <code>class FUC</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;@Attribute</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;var codigo: String,</code>|
 
 ### Inline
 
@@ -53,7 +53,7 @@ code like this
 >**Description** Identify an element without an aggregator
 >| XML Example  | Kotlin Usage|
 >|------------|------------|
->| ``` <plano> ```<br>&nbsp;&nbsp;&nbsp;&nbsp;```<fuc codigo="M4310">```<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``` <ects>6.0</ects> ```<br>&nbsp;&nbsp;&nbsp;&nbsp;``` </fuc> ```<br> &nbsp;&nbsp;&nbsp;&nbsp;``` <fuc codigo="03782"> ```<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``` <ects>42.0</ects> ```<br> &nbsp;&nbsp;&nbsp;&nbsp;``` </fuc> ```<br> ``` </plano> ```| <code> class Plano(<br> &nbsp;&nbsp;&nbsp;&nbsp;@Inline<br>&nbsp;&nbsp;&nbsp;&nbsp;val fuc:List&lt;FUC&gt;<br>)</code>|
+>| ``` <plano> ```<br>&nbsp;&nbsp;&nbsp;&nbsp;```<fuc codigo="M4310">```<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``` <ects>6.0</ects> ```<br>&nbsp;&nbsp;&nbsp;&nbsp;``` </fuc> ```<br> &nbsp;&nbsp;&nbsp;&nbsp;``` <fuc codigo="03782"> ```<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``` <ects>42.0</ects> ```<br> &nbsp;&nbsp;&nbsp;&nbsp;``` </fuc> ```<br> ``` </plano> ```| <code> class Plano(</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;@Inline</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;val fuc:List&lt;FUC&gt;</code><br><code>)</code>|
 
 ### Nested
 
@@ -62,7 +62,7 @@ code like this
 >**Description** Identify an element with an aggregator
 >| XML Example  | Kotlin Usage|
 >|------------|------------|
->| ``` <fuc codigo="M4310"> ``` <br> &nbsp;&nbsp;&nbsp;&nbsp;``` <avaliacao> ```<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```<componente nome="Quizzes" peso="20%"/>```<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```<componente nome="Projeto" peso="80%"/>```<br> &nbsp;&nbsp;&nbsp;&nbsp;```</avaliacao>```<br> ``` <\fuc> ```| <code> class FUC(<br> &nbsp;&nbsp;&nbsp;&nbsp;@Nested<br>&nbsp;&nbsp;&nbsp;&nbsp;val avaliacao: List&lt;Componente&gt;<br>)</code>|
+>| ``` <fuc codigo="M4310"> ``` <br> &nbsp;&nbsp;&nbsp;&nbsp;``` <avaliacao> ```<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```<componente nome="Quizzes" peso="20%"/>```<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```<componente nome="Projeto" peso="80%"/>```</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;```</avaliacao>```</code><br><code>``` <\fuc> ```| <code> class FUC(</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;@Nested</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;val avaliacao: List&lt;Componente&gt;</code><br><code>)</code>|
 
 ### XmlString
 
@@ -71,7 +71,7 @@ code like this
 >**Description** Apply user-defined function to an element (in this example, adds a percentage to the attribute value)
 >| XML Example  | Kotlin Usage|
 >|------------|------------|
->| ```<componente nome="Quizzes" peso="20%"/>```| <code>@XmlString(AddPercentage::class,function="addPercentage")<br>val peso: Any</code>|
+>| ```<componente nome="Quizzes" peso="20%"/>```| <code>@XmlString(AddPercentage::class,function="addPercentage")</code><br><code>val peso: Any</code>|
 
 ### XmlAdapter
 
@@ -80,4 +80,4 @@ code like this
 >**Description** Apply user-defined function to the element after mapping (in this example, changes an attribute value)
 >| XML Example  | Kotlin Usage|
 >|------------|------------|
->| Before<br>```<fuc codigo="M4310">```<br><br>After<br>```<fuc codigo="AAAAAA23657">```| <code>@XmlAdapter(FUCAdapter::class)<br>class FUC(<br>&nbsp;&nbsp;&nbsp;&nbsp;@Attribute<br>&nbsp;&nbsp;&nbsp;&nbsp;var codigo: String<br>)<br><br>class FUCAdapter {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun ChangeCodigoValue(objFuc:FUC, newValue:String){<br>&nbsp;&nbsp;&nbsp;&nbsp;objFuc.codigo= newValue<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br><br>FUCAdapter().ChangeCodigoValue(f,"AAAAAA23657")</code>|
+>| Before<br>```<fuc codigo="M4310">```<br><br>After<br>```<fuc codigo="AAAAAA23657">```| <code>@XmlAdapter(FUCAdapter::class)<br>class FUC(</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;@Attribute</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;var codigo: String</code><br><code>)</code><br><br><code>class FUCAdapter {</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;fun ChangeCodigoValue(objFuc:FUC, newValue:String){</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;objFuc.codigo= newValue</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;}</code><br><code>}</code><br><br><code>FUCAdapter().ChangeCodigoValue(f,"AAAAAA23657")</code>|
