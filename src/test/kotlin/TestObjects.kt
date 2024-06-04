@@ -73,7 +73,6 @@ class TestObjects {
         )
     )
 
-    private val doc = XmlDocument("documento", mapXml(p))
     @Test
     fun testMapXML() {
         val expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
@@ -97,6 +96,8 @@ class TestObjects {
                 "\t\t<nome>Dissertação</nome>\n" +
                 "\t</fuc>\n" +
                 "</plano>"
+        val doc = XmlDocument("documento", mapXml(p))
+        doc.prettyPrint(".\\XmlOutput.txt")
         val actual = File(".\\XmlOutput.txt").readText()
         assertEquals(expected,actual)
     }

@@ -144,9 +144,6 @@ class XmlDocument(
         file.writeText(output)
 
         println("Text written successfully to file in specified path.")
-        println("\n") //REMOVER NO FIM DO PROJ
-        println(output) //REMOVER NO FIM DO PROJ
     }
-
 }
 
