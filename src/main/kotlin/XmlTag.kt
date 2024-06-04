@@ -21,7 +21,7 @@ data class XmlTag(
 
     init {
         parent?.children?.add(this) //this chain returns null if any of the properties is null
-        require(isValidElementName(this.name)) { "Invalid name. Please provide a valid name for the XmlTag." }
+        require(this.isValidElementName()) { "Invalid name. Please provide a valid name for the XmlTag." }
     }
 
     /**

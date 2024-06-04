@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
+/**
+ * This is a Test class where methods relating to XmlAttribute objects are tested.
+ */
 class TestXmlAttribute {
 
     /**

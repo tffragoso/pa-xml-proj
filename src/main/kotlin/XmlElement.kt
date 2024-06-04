@@ -10,7 +10,7 @@ sealed interface XmlElement {
     var parent: XmlTag?
     var attributes: MutableList<XmlAttribute>
 
-    /*
+    /**
      * A numeric value representing the depth of the element in the Xml tree.
      * A parent-less element has depth 0.
      */
@@ -20,7 +20,7 @@ sealed interface XmlElement {
         else
             1 + parent!!.depth
 
-    /*
+    /**
      * Method to accept visitors.
      */
     fun accept(visitor: (XmlElement) -> Boolean) {
@@ -114,16 +114,16 @@ sealed interface XmlElement {
 
         return output
     }
-}
 
-/**
- * Checks if XmlElement's [name] is valid.
- * Valid [name] can't be null, and can only contain letters, digits, underscores, hyphens and periods.
- *
- * @return True if [name] is valid, False otherwise.
- */
-fun isValidElementName(name: String): Boolean {
-    return name.matches(Regex("^[A-Za-z_][A-Za-z0-9-_.]*\$"))
+    /**
+     * Checks if XmlElement's [name] is valid.
+     * Valid [name] can't be null, and can only contain letters, digits, underscores, hyphens and periods.
+     *
+     * @return True if [name] is valid, False otherwise.
+     */
+     fun isValidElementName(): Boolean {
+        return this.name.matches(Regex("^[A-Za-z_][A-Za-z0-9-_.]*\$"))
+    }
 }
 
 //REMOVER ANTES DE ENTREGAR

@@ -1,7 +1,9 @@
-
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+/**
+ * This is a Test class where methods relating to XmlTag objects are tested.
+ */
 class TestXmlDocument {
     val plano = XmlTag("plano")
     val curso = XmlLeaf("curso", plano, mutableListOf(), "Mestrado em Engenharia Informática")
@@ -45,6 +47,9 @@ class TestXmlDocument {
     )
     val doc = XmlDocument("document", plano)
 
+    /**
+     * Test renaming all elements with a given name.
+     */
     @Test
     fun testRenameElements() {
         doc.renameElements("fuc", "fichaUnidadeCurricular")
@@ -59,6 +64,9 @@ class TestXmlDocument {
         )
     }
 
+    /**
+     * Test removing all elements with a given name.
+     */
     @Test
     fun testRemoveElements() {
         doc.removeElements("blabla")
@@ -68,7 +76,7 @@ class TestXmlDocument {
     }
 
     /**
-     * Test adding attribute to element and all his children with the given name
+     * Test adding an attribute to all elements with the given name.
      */
     @Test
     fun testAddAttributeGlobally() {
@@ -87,7 +95,7 @@ class TestXmlDocument {
     }
 
     /**
-     * * Test renaming all attributes of an element and his children
+     * Test renaming an attribute in all elements with the given name.
      */
     @Test
     fun testRenameAttributeGlobally() {
@@ -102,8 +110,8 @@ class TestXmlDocument {
     }
 
     /**
-     * * Test renaming all attributes of an element and his children
-     * */
+     * Test removing an attribute from all elements with the given name.
+     */
     @Test
     fun testRemoveAttributeGlobally() {
         doc.removeAttributeGlobally("componente", "nome")
@@ -115,6 +123,9 @@ class TestXmlDocument {
         assertEquals(listOf("peso"), componente3fuc2.attributes.map { it.getName() })
     }
 
+    /**
+     * Test the microXpath method to list all elements within a specified xpath.
+     */
     @Test
     fun testMicroXpath() {
         assertEquals(
@@ -127,37 +138,4 @@ class TestXmlDocument {
         )
         assertEquals(listOf<XmlElement>(), doc.microXpath("", doc.body))
     }
-
-    //Comentário Tomás: Por mim removemos este testPrettyPrint, porque o nosso
-    // pretty print vai escrever para um ficheiro txt
-    /**
-     * Test prettyprint
-
-    @Test
-    fun testPrettyPrint() {
-        var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-        expected += "<plano>"
-        expected += "<curso>Mestrado em Engenharia Informática</curso>"
-        expected += "<fuc codigo=\"M4310\">"
-        expected += "<nome>Programação Avançada</nome>"
-        expected += "<ects>6.0</ects>"
-        expected += "<avaliacao>"
-        expected += "<componente nome=\"Quizzes\" peso=\"20%\"/>"
-        expected += "<componente nome=\"Projeto\" peso=\"80%\"/>"
-        expected += "</avaliacao>"
-        expected += "</fuc>"
-        expected += "<fuc codigo=\"03782\">"
-        expected += "<nome>Dissertação</nome>"
-        expected += "<ects>42.0</ects>"
-        expected += "<avaliacao>"
-        expected += "<componente nome=\"Dissertação\" peso=\"60%\"/>"
-        expected += "<componente nome=\"Apresentação\" peso=\"20%\"/>"
-        expected += "<componente nome=\"Discussão\" peso=\"20%\"/>"
-        expected += "</avaliacao>"
-        expected += "</fuc>"
-        expected += "</plano>"
-
-        Assertions.assertEquals(expected, doc.prettyPrint())
-
-    } */
 }

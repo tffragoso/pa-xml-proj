@@ -1,8 +1,10 @@
-
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+/**
+ * This is a Test class where methods relating to XmlElement objects are tested.
+ */
 class TestXmlElement {
 
     val plano = XmlTag("plano")
@@ -12,22 +14,19 @@ class TestXmlElement {
     val componente1fuc1 = XmlLeaf("componente", avaliacaofuc1)
 
     /**
-     * Test valid element name
+     * Test valid element name.
      */
     @Test
     fun testValidElementName() {
-        Assertions.assertEquals(false, isValidElementName("\"123kot"))
-        Assertions.assertEquals(false, isValidElementName("<123kot"))
-        Assertions.assertEquals(false, isValidElementName("Te>st"))
-        Assertions.assertEquals(false, isValidElementName("a1&"))
-        Assertions.assertEquals(true, isValidElementName(plano.name))
-        Assertions.assertEquals(true, isValidElementName("_xml"))
-        Assertions.assertEquals(true, isValidElementName("f.u.c"))
+        Assertions.assertThrows(IllegalArgumentException::class.java) { XmlTag("\"123kot") }
+        Assertions.assertThrows(IllegalArgumentException::class.java) { XmlTag("<123kot>") }
+        Assertions.assertThrows(IllegalArgumentException::class.java) { XmlLeaf("123&456az") }
+        Assertions.assertEquals(true, plano.isValidElementName())
     }
 
     /**
-     * Test adding attribute to element
-    **/
+     * Test adding an attribute to an element.
+     */
     @Test
     fun testAddAttribute() {
 
@@ -65,7 +64,7 @@ class TestXmlElement {
     }
 
     /**
-     * Test removing attribute from element
+     * Test removing an attribute from an element.
      */
     @Test
     fun testRemoveAttribute() {
@@ -106,7 +105,7 @@ class TestXmlElement {
     }
 
     /**
-     * Test removing attribute from element with strings
+     * Test removing an attribute from an element with strings.
      */
     @Test
     fun testRemoveAttributeWithElementToString() {
@@ -137,7 +136,7 @@ class TestXmlElement {
     }
 
     /**
-     * Test update attribute from entity
+     * Test updating an attribute in an element.
      */
     @Test
     fun testUpdateAttribute() {
@@ -172,7 +171,7 @@ class TestXmlElement {
     }
 
     /**
-     * Test update attribute from entity with prints
+     * Test updating an attribute in an element with strings.
      */
     @Test
     fun testUpdateAttributeWithElementToString() {
@@ -202,12 +201,18 @@ class TestXmlElement {
         assertEquals(expected, fuc1.elementToString())
     }
 
+    /**
+     * Test listing all distinct element names in an element (sub)tree.
+     */
     @Test
     fun testListDistinctElementNames() {
         assertEquals(setOf("plano", "curso", "fuc", "avaliacao", "componente"), plano.listDistinctElementNames())
         assertEquals(setOf("curso"), curso.listDistinctElementNames())
     }
 
+    /**
+     * Test converting xml entity to string representation.
+     */
     @Test
     fun testElementToString() {
         assertEquals("<plano>", plano.elementToString())

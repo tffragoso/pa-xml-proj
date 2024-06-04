@@ -10,17 +10,19 @@ class FUCAdapter {
     }
 }
 
-class TestFucAdapterClass (){
+class TestFucAdapterClass () {
 
-    private val f = FUC("M4310", "Programação Avançada", 6.0,
+    private val f = FUC(
+        "M4310", "Programação Avançada", 6.0,
         "la la...",
         listOf(
             ComponenteAvaliacao("Quizzes", "20"),
             ComponenteAvaliacao("Projeto", "80")
-        ))
+        )
+    )
 
     @Test
-    fun testFucAdapterClass(){
+    fun testFucAdapterClass() {
         val expected = "<fuc codigo=\"M4313\">" +
                 "<avaliacao>" +
                 "<componente nome=\"Quizzes\" peso=\"20%\"/>" +
@@ -29,14 +31,14 @@ class TestFucAdapterClass (){
                 "<ects>6.0</ects>" +
                 "<nome>Programação Avançada</nome>" +
                 "</fuc>"
-/*
+        /*
         val fParsed = mapXml(f)
         val fParsedClass = fParsed::class
         fParsedClass.declaredMemberProperties.forEach { println(it) }
         fParsedClass.declaredMemberFunctions.forEach { println(it) }
         */
-        FUCAdapter().ChangeCodigoValue(f,"M4313")
+        FUCAdapter().ChangeCodigoValue(f, "M4313")
         var fucMapped = mapXml(f)
-        assertEquals(expected,printTag(fucMapped))
+        assertEquals(expected, printTag(fucMapped))
     }
 }
