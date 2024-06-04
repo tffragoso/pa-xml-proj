@@ -125,15 +125,3 @@ sealed interface XmlElement {
         return this.name.matches(Regex("^[A-Za-z_][A-Za-z0-9-_.]*\$"))
     }
 }
-
-//REMOVER ANTES DE ENTREGAR
-fun printTag(element: XmlElement): String {
-    var auxOutput = element.elementToString()
-    if(element is XmlTag) {
-        element.children.forEach {
-            auxOutput += printTag(it)
-        }
-        auxOutput += "</" + element.name + ">"
-    }
-    return auxOutput
-}

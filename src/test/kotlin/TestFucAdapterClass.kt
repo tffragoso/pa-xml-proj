@@ -31,20 +31,4 @@ class TestFucAdapterClass (){
         FUCAdapter().ChangeCodigoValue(f,"M4313")
         assertEquals(g.codigo,f.codigo)
     }
-
-    @Test
-    fun testFucAdapterClassWithPrint(){
-        val expected = "<fuc codigo=\"M4313\">" +
-                "<avaliacao>" +
-                "<componente nome=\"Quizzes\" peso=\"20%\"/>" +
-                "<componente nome=\"Projeto\" peso=\"80%\"/>" +
-                "</avaliacao>" +
-                "<ects>6.0</ects>" +
-                "<nome>Programação Avançada</nome>" +
-                "</fuc>"
-
-        FUCAdapter().ChangeCodigoValue(f,"M4313")
-        val fucMapped = mapXml(f)
-        assertEquals(expected, printTag(fucMapped))
-    }
 }
