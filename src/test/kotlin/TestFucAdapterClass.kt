@@ -4,12 +4,22 @@ import kotlin.reflect.full.declaredMemberFunctions
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.memberProperties
 
+/**
+ * For testing purposes: class to test XmlAdapter annotation.
+ */
 class FUCAdapter {
-    fun ChangeCodigoValue(objFuc:FUC, newValue:String){
-        objFuc.codigo= newValue
+
+    /**
+     * Method to update attribute "codigo" value.
+     */
+    fun changeCodigoValue(objFuc: FUC, newValue: String) {
+        objFuc.codigo = newValue
     }
 }
 
+/**
+ * This is a Test class where the XmlAdapter annotation is tested.
+ */
 class TestFucAdapterClass (){
 
     private val f = FUC("M4310", "Programação Avançada", 6.0,
@@ -19,6 +29,9 @@ class TestFucAdapterClass (){
             ComponenteAvaliacao("Projeto", "80")
         ))
 
+    /**
+     * Test the example FucAdapterClass.
+     */
     @Test
     fun testFucAdapterClass(){
         val g=FUC("M4313", "Programação Avançada", 6.0,
@@ -28,7 +41,7 @@ class TestFucAdapterClass (){
                 ComponenteAvaliacao("Projeto", "80")
             ))
 
-        FUCAdapter().ChangeCodigoValue(f,"M4313")
+        FUCAdapter().changeCodigoValue(f,"M4313")
         assertEquals(g.codigo,f.codigo)
     }
 }

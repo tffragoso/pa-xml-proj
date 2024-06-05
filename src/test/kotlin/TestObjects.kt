@@ -2,12 +2,19 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import java.io.File
 
+/**
+ * For testing purposes: class Plano.
+ */
 class Plano(
     @Leaf
     val curso: String,
     @Inline
     val fuc: List<FUC>
 )
+
+/**
+ * For testing purposes: class FUC.
+ */
 @XmlAdapter(FUCAdapter::class)
 class FUC(
     @Attribute
@@ -21,6 +28,9 @@ class FUC(
     val avaliacao: List<ComponenteAvaliacao>
 )
 
+/**
+ * For testing purposes: class ComponenteAvaliacao.
+ */
 @XmlAdapter(ComponenteAvaliacaoAdapter::class, function = "changeName", newName ="componente")
 class ComponenteAvaliacao(
     @Attribute
@@ -29,7 +39,14 @@ class ComponenteAvaliacao(
     val peso: Any
 )
 
+/**
+ * For testing purposes: class to test XmlString annotation.
+ */
 class AddPercentage {
+
+    /**
+     * Method to add percentage "%" character to string.
+     */
     fun addPercentage(value: Any): String =
         when(value) {
             is Int, Double, Float -> value.toString() + "%"
@@ -41,12 +58,22 @@ class AddPercentage {
         }
 }
 
+/**
+ * For testing purposes: class to test XmlString annotation
+ */
 class ComponenteAvaliacaoAdapter{
+
+    /**
+     * Method to change the name of the mapped xml object.
+     */
     fun changeName(newName: String): String {
         return newName
     }
 }
 
+/**
+ * This is a Test class where the mapping of objects to xml entities, and post-mapping tweaks are tested.
+ */
 class TestObjects {
 
     private val f = FUC("M4310", "Programação Avançada", 6.0,
@@ -73,6 +100,10 @@ class TestObjects {
         )
     )
 
+    /**
+     * Test mapping object of class Any to xml element.
+     * Also tests prettyPrint method.
+     */
     @Test
     fun testMapXML() {
         val expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
@@ -102,6 +133,9 @@ class TestObjects {
         assertEquals(expected,actual)
     }
 
+    /**
+     * Test creating xml element with a name different from the class name.
+     */
     @Test
     fun testRenameLeaf(){
         val expectedLeaf = XmlLeaf("componente",null,mutableListOf())
@@ -109,6 +143,9 @@ class TestObjects {
         assertEquals(expectedLeaf,renameLeaf(changedLeaf::class))
     }
 
+    /**
+     * Test adding percent character to values.
+     */
     @Test
     fun testAddPercentage(){
         assertEquals("20%",AddPercentage().addPercentage(20))

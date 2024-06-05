@@ -26,7 +26,10 @@ annotation class Inline
 annotation class Nested
 
 /**
+ * XmlString is an annotation that allows the user to modify the text values in the xml entities. after they have been mapped.
  *
+ * @property [value] the class that contains the methods/logic that the user wants to apply to the text entry.
+ * @property [function] the name of the method that the user wants to apply to the text entry.
  */
 @Target(AnnotationTarget.PROPERTY)
 annotation class XmlString(
@@ -35,7 +38,10 @@ annotation class XmlString(
     )
 
 /**
+ * XmlAdapter is an annotation that allows the user to modify the xml entity after it has been mapped.
  *
+ * @property [value] the adapter class that contains the methods/logic that the user wants to apply to the xml entity.
+ * @property [function] the name of the method that the user wants to apply to the xml entity.
  */
 @Target(AnnotationTarget.CLASS)
 annotation class XmlAdapter(

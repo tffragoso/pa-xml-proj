@@ -28,13 +28,18 @@ data class XmlLeaf(
 
 }
 
+/**
+ * Create a [XmlLeaf] element from the provided object [obj] of any class.
+ * Object [obj] properties should have the correct annotations so that this function produces the right result.
+ *
+ * @return Object of class XmlLeaf that represents the input [obj].
+ */
 fun mapXmlLeaf(obj: Any): XmlLeaf {
     val objClass = obj::class
-    val className = objClass.simpleName!!.lowercase()
     var leafObject = renameLeaf(objClass)
 
     objClass.declaredMemberProperties.forEach {
-        if (it.hasAnnotation<Attribute>()){
+        if (it.hasAnnotation<Attribute>()) {
             val xmlStringAnnotation = it.findAnnotation<XmlString>()
             var value = it.call(obj).toString()
             if (xmlStringAnnotation != null) {
@@ -51,8 +56,15 @@ fun mapXmlLeaf(obj: Any): XmlLeaf {
     return leafObject
 }
 
-fun renameLeaf(obj: KClass<out Any>):XmlLeaf{
-    //change the tag name as required by the user
+/**
+ * Create a [XmlLeaf] element from the provided object [obj] of any class, but using an input name [newName]
+ * for the element's name.
+ * Object [obj] properties should have the correct annotations so that this function produces the right result.
+ *
+ * @return Object of class XmlLeaf that represents the input [obj].
+ */
+fun renameLeaf(obj: KClass<out Any>): XmlLeaf {
+    //change the element name as required by the user
     var className = obj.simpleName!!.lowercase()
     val xmlAdapterAnnotation = obj.findAnnotation<XmlAdapter>()
     if (xmlAdapterAnnotation != null) {
@@ -64,5 +76,5 @@ fun renameLeaf(obj: KClass<out Any>):XmlLeaf{
                 a -> a.name == processorFunctionName }
         className = processorFunction.call(processorInstance, newTagName) as String
     }
-    return XmlLeaf(className,null,mutableListOf())
+    return XmlLeaf(className,null, mutableListOf())
 }

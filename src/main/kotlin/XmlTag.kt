@@ -59,17 +59,23 @@ data class XmlTag(
     }
 }
 
+/**
+ * Create a [XmlTag] element from the provided object [obj] of any class.
+ * Object [obj] properties should have the correct annotations so that this function produces the right result.
+ *
+ * @return Object of class XmlTag that represents the input [obj].
+ */
 fun mapXml(obj: Any): XmlTag {
     val objClass = obj::class
-    val tagObject = XmlTag(objClass.simpleName!!.lowercase(),null,mutableListOf())
+    val tagObject = XmlTag(objClass.simpleName!!.lowercase(),null, mutableListOf())
 
     objClass.declaredMemberProperties.forEach {
         if(it.hasAnnotation<Attribute>())
             tagObject.attributes.add(XmlAttribute(it.name, it.call(obj).toString()))
         else if(it.hasAnnotation<Leaf>() and !it.hasAnnotation<Nested>())
-            XmlLeaf(it.name,tagObject,mutableListOf(),it.call(obj).toString())
-        else if(it.hasAnnotation<Nested>() and it.hasAnnotation<Leaf>()){
-            val tagChild = XmlTag(it.name,tagObject, mutableListOf())
+            XmlLeaf(it.name, tagObject, mutableListOf(), it.call(obj).toString())
+        else if(it.hasAnnotation<Nested>() and it.hasAnnotation<Leaf>()) {
+            val tagChild = XmlTag(it.name, tagObject, mutableListOf())
             val result = it.call(obj)
             if (result is Collection<*>) {
                 result.forEach { item ->
@@ -77,10 +83,10 @@ fun mapXml(obj: Any): XmlTag {
                 }
             }
         }
-        else if(it.hasAnnotation<Nested>()){
-            val tagChild = XmlTag(it.name,tagObject, mutableListOf())
-            mapChildElements(it,obj,tagChild)
-        }else if(it.hasAnnotation<Inline>()){
+        else if(it.hasAnnotation<Nested>()) {
+            val tagChild = XmlTag(it.name, tagObject, mutableListOf())
+            mapChildElements(it, obj, tagChild)
+        } else if(it.hasAnnotation<Inline>()) {
             mapChildElements(it,obj,tagObject)
         }
     }
@@ -88,7 +94,11 @@ fun mapXml(obj: Any): XmlTag {
     return tagObject
 }
 
-private fun mapChildElements(parent:KProperty<*>,obj:Any,tag:XmlTag){
+/**
+ * Auxiliary method to create the XmlTag elements from the supplied Class properties.
+ * This method calls the main method [mapXml].
+ */
+private fun mapChildElements(parent: KProperty<*>, obj: Any, tag: XmlTag) {
     val result = parent.call(obj)
     if (result is Collection<*>) {
         result.forEach { item ->
