@@ -14,22 +14,15 @@ This library does not read XML files as input.
 The Classes in this project relate to one another as pictured in the following UML diagram:
 ![Optional Alt Text](images/classes_uml.png)
 
-## How to use
-*italic like this*
+## Using the API
+In this section we´ll look at the classes and annotations and what can be achieved with them, with examples of usage.
 
-```
-code like this
-```
+### `Classes`
 
-**bold like this**
+### XmlDocument
+<p>This class is the aggregator of the entire xml. Saves the xml configuration and its content.</p>
 
-`highlight like this`
-
-## File XmlDocument
-
-### Class XmlDocument
-
-> **Construtors** 
+> **Constructors** 
 >
 >| Name       | Type       | Required   |
 >|------------|------------|------------|
@@ -50,8 +43,87 @@ code like this
 >* microXpath
 >* prettyPrint
 
+### XmlElement
 
-## Anotações
+This is the abstract interface that includes the class XmlLeaf and the composite XmlTag.
+> **Constructors** 
+>
+>| Name       | Type       | Required   |
+>|------------|------------|------------|
+>| name       | String     | yes        |
+>
+> **Methods** 
+>* accept 
+>* addAttribute
+>* removeAttribute
+>* updateAttribute
+>* listDistinctElementNames
+>* elementToString
+>* isValidElementName
+
+### XmlTag
+
+This is the composite class that represents a xml entity with other elements nested in it (children).
+> **Constructors** 
+>
+>| Name       | Type                      | Required   |
+>|------------|---------------------------|------------|
+>| name       | String                    | yes        |
+>| parent     | XmlTag                    | no         |
+>| attributes | MutableList<XmlAttribute> | no         |
+>
+>Example<br>
+><code>val plano = XmlTag("plano")</code><br>
+><code>val fuc1 = XmlTag("fuc", plano)</code>
+>
+> **Methods** 
+>* addChildElement 
+>* removeChildElement
+>* accept
+>* mapXml
+
+### XmlLeaf
+
+This class represents a final xml entity, i.e, with no elements nested in it (children).
+> **Constructors** 
+>
+>| Name       | Type                      | Required   |
+>|------------|---------------------------|------------|
+>| name       | String                    | yes        |
+>| parent     | XmlTag                    | no         |
+>| attributes | MutableList<XmlAttribute> | no         |
+>| leafText   | String                    | no         | 
+>
+>Example<br>
+><code>val plano = XmlTag("plano")</code><br>
+><code>val curso = XmlLeaf("curso", plano, leafText = "MEI")</code>
+>
+> **Methods** 
+>* mapXmlLeaf
+
+### XmlAttribute
+<p>This class defines a xml attribute with a name and a value. Is used by XmlElement, XmlDocument, XmlTag and XmlLeaf to define the list of attribute given to a xml tag or leaf.</p>
+
+>**Construtors** 
+>
+>| Name       | Type       | Required   |
+>|------------|------------|------------|
+>| name       | String     | yes        |
+>| value      | XmlTag     | yes        |
+>
+>Example<br>
+>**Kotlin**&nbsp;&nbsp;&nbsp;<code>val fuc1 = XmlTag("fuc", plano, mutableListOf(XmlAttribute("codigo", "M4310")))</code><br>
+>**Xml**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```<fuc codigo="M4310">```
+>
+> **Methods** 
+>* getName 
+>* getValue
+>* setName
+>* setValue
+>* isValidAttributeName
+>* isValidAttributeValue
+
+### `Annotations`
 
 ### Leaf
 
