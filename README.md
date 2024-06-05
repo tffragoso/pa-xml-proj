@@ -51,18 +51,14 @@ This is the abstract interface that includes the class XmlLeaf and the composite
 >|------------|------------|------------|
 >| name       | String     | yes        |
 >
->Example<br>
-><code>val plano = XmlTag("plano")</code><br>
-><code>val doc = XmlDocument("document", plano)</code>
->
 > **Methods** 
->* renameElements 
->* removeElements
->* addAttributeGlobally
->* renameAttributeGlobally
->* removeAttributeGlobally
->* microXpath
->* prettyPrint
+>* accept 
+>* addAttribute
+>* removeAttribute
+>* updateAttribute
+>* listDistinctElementNames
+>* elementToString
+>* isValidElementName
 
 
 ### `Annotations`
