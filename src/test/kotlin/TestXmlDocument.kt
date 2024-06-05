@@ -137,5 +137,9 @@ class TestXmlDocument {
             doc.microXpath("avaliacao/componente", doc.body)
         )
         assertEquals(listOf<XmlElement>(), doc.microXpath("", doc.body))
+        assertEquals(
+            listOf<XmlElement>(),
+            doc.microXpath("avaliacao,componente", doc.body)
+        )
     }
 }

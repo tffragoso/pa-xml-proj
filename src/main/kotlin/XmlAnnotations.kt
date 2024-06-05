@@ -13,14 +13,15 @@ annotation class Leaf
 annotation class Attribute
 
 /**
- * Inline annotation means the property/object name should be featured in the XML output as a tag.
+ * Inline annotation means the property/object name should not be featured in the XML output
+ * as a tag, only its value.
  */
 @Target(AnnotationTarget.PROPERTY)
 annotation class Inline
 
 /**
- * Nested annotation means the property/object name should not be featured in the XML output
- * as a tag, only its value.
+ * Nested annotation means the property/object name should be featured in the XML output as a tag,
+ * and its value as nested elements.
  */
 @Target(AnnotationTarget.PROPERTY)
 annotation class Nested
