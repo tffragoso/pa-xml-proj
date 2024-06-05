@@ -61,6 +61,31 @@ This is the abstract interface that includes the class XmlLeaf and the composite
 >* elementToString
 >* isValidElementName
 
+### XmlAttribute
+<p>This class defines a xml attribute with a name and a value. Is used by XmlElement, XmlDocument, XmlTag and XmlLeaf to define the list of attribute given to a xml tag or leaf.</p>
+
+>**Construtors** 
+>
+>| Name       | Type       | Required   |
+>|------------|------------|------------|
+>| name       | String     | yes        |
+>| value      | XmlTag     | yes        |
+>
+>Example<br>
+>**Kotlin**&nbsp;&nbsp;&nbsp;<code>val fuc1 = XmlTag("fuc", plano, mutableListOf(XmlAttribute("codigo", "M4310")))</code><br>
+>**Xml**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>val doc = XmlDocument("document", plano)</code>
+>
+> **Methods** 
+>* getName 
+>* getValue
+>* setName
+>* setValue
+>* isValidAttributeName
+>* isValidAttributeValue
+>
+>Example<br>
+><code>val plano = XmlTag("plano")</code><br>
+><code>val doc = XmlDocument("document", plano)</code>
 
 ### `Annotations`
 
@@ -118,13 +143,3 @@ This is the abstract interface that includes the class XmlLeaf and the composite
 >| XML Example  | Kotlin Usage|
 >|------------|------------|
 >| Before<br>```<fuc codigo="M4310">```<br><br>After<br>```<fuc codigo="AAAAAA23657">```| <code>@XmlAdapter(FUCAdapter::class)</code><br><code>class FUC(</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;@Attribute</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;var codigo: String</code><br><code>)</code><br><br><code>class FUCAdapter {</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;fun ChangeCodigoValue(objFuc:FUC, newValue:String){</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;objFuc.codigo= newValue</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;}</code><br><code>}</code><br><br><code>FUCAdapter().ChangeCodigoValue(f,"AAAAAA23657")</code>|
-
-
-*italic like this*
-
-```
-code like this
-```
-**bold like this**
-
-`highlight like this`
