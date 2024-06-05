@@ -17,9 +17,9 @@ The Classes in this project relate to one another as pictured in the following U
 ## Using the API
 In this section we´ll look at the classes and annotations and what can be achieved with them, with examples of usage.
 
-### Classes
+### `Classes`
 
-#### XmlDocument
+### XmlDocument
 
 > **Constructors** 
 >
@@ -42,10 +42,32 @@ In this section we´ll look at the classes and annotations and what can be achie
 >* microXpath
 >* prettyPrint
 
+### XmlElement
 
-### Annotations
+This is the abstract interface that includes the class XmlLeaf and the composite XmlTag.
+> **Constructors** 
+>
+>| Name       | Type       | Required   |
+>|------------|------------|------------|
+>| name       | String     | yes        |
+>
+>Example<br>
+><code>val plano = XmlTag("plano")</code><br>
+><code>val doc = XmlDocument("document", plano)</code>
+>
+> **Methods** 
+>* renameElements 
+>* removeElements
+>* addAttributeGlobally
+>* renameAttributeGlobally
+>* removeAttributeGlobally
+>* microXpath
+>* prettyPrint
 
-#### Leaf
+
+### `Annotations`
+
+### Leaf
 
 > **Target** Property
 >
@@ -55,7 +77,7 @@ In this section we´ll look at the classes and annotations and what can be achie
 >|------------|------------|
 >| ```<nome>Programação Avançada</nome> ```| <code> @Leaf</code><br><code>val nome: String,</code>|
 
-#### Attribute
+### Attribute
 
 >**Target** Property
 >
@@ -64,7 +86,7 @@ In this section we´ll look at the classes and annotations and what can be achie
 >|------------|------------|
 >| ```<fuc codigo="M4310">```| <code>class FUC</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;@Attribute</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;var codigo: String,</code>|
 
-#### Inline
+### Inline
 
 >**Target** Property
 >
@@ -73,7 +95,7 @@ In this section we´ll look at the classes and annotations and what can be achie
 >|------------|------------|
 >| ``` <plano> ```<br>&nbsp;&nbsp;&nbsp;&nbsp;```<fuc codigo="M4310">```<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``` <ects>6.0</ects> ```<br>&nbsp;&nbsp;&nbsp;&nbsp;``` </fuc> ```<br> &nbsp;&nbsp;&nbsp;&nbsp;``` <fuc codigo="03782"> ```<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``` <ects>42.0</ects> ```<br> &nbsp;&nbsp;&nbsp;&nbsp;``` </fuc> ```<br> ``` </plano> ```| <code>class Plano(</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;@Inline</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;val fuc:List&lt;FUC&gt;</code><br><code>)</code>|
 
-#### Nested
+### Nested
 
 >**Target** Property
 >
@@ -82,7 +104,7 @@ In this section we´ll look at the classes and annotations and what can be achie
 >|------------|------------|
 >| ``` <fuc codigo="M4310"> ``` <br> &nbsp;&nbsp;&nbsp;&nbsp;``` <avaliacao> ```<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```<componente nome="Quizzes" peso="20%"/>```<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```<componente nome="Projeto" peso="80%"/>```</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;```</avaliacao>```</code><br><code>``` <\fuc> ```| <code>class FUC(</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;@Nested</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;val avaliacao: List&lt;Componente&gt;</code><br><code>)</code>|
 
-#### XmlString
+### XmlString
 
 >**Target** Property
 >
@@ -91,7 +113,7 @@ In this section we´ll look at the classes and annotations and what can be achie
 >|------------|------------|
 >| ```<componente nome="Quizzes" peso="20%"/>```| <code>@XmlString(AddPercentage::class,function="addPercentage")</code><br><code>val peso: Any</code>|
 
-#### XmlAdapter
+### XmlAdapter
 
 >**Target** Class
 >
