@@ -21,6 +21,7 @@ In this section we´ll look at the classes and annotations and what can be achie
 
 ### XmlDocument
 <p>This class is the aggregator of the entire xml. Saves the xml configuration and its content.</p>
+
 > **Constructors** 
 >
 >| Name       | Type       | Required   |
