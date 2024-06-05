@@ -113,7 +113,7 @@ This class represents a final xml entity, i.e, with no elements nested in it (ch
 >
 >Example<br>
 >**Kotlin**&nbsp;&nbsp;&nbsp;<code>val fuc1 = XmlTag("fuc", plano, mutableListOf(XmlAttribute("codigo", "M4310")))</code><br>
->**Xml**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>val doc = XmlDocument("document", plano)</code>
+>**Xml**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```<fuc codigo="M4310">```
 >
 > **Methods** 
 >* getName 
@@ -122,10 +122,6 @@ This class represents a final xml entity, i.e, with no elements nested in it (ch
 >* setValue
 >* isValidAttributeName
 >* isValidAttributeValue
->
->Example<br>
-><code>val plano = XmlTag("plano")</code><br>
-><code>val doc = XmlDocument("document", plano)</code>
 
 ### `Annotations`
 
