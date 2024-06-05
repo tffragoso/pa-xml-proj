@@ -14,22 +14,14 @@ This library does not read XML files as input.
 The Classes in this project relate to one another as pictured in the following UML diagram:
 ![Optional Alt Text](images/classes_uml.png)
 
-## How to use
-*italic like this*
+## Using the API
+In this section we´ll look at the classes and annotations and what can be achieved with them, with examples of usage.
 
-```
-code like this
-```
+### Classes
 
-**bold like this**
+#### XmlDocument
 
-`highlight like this`
-
-## File XmlDocument
-
-### Class XmlDocument
-
-> **Construtors** 
+> **Constructors** 
 >
 >| Name       | Type       | Required   |
 >|------------|------------|------------|
@@ -51,9 +43,9 @@ code like this
 >* prettyPrint
 
 
-## Anotações
+### Annotations
 
-### Leaf
+#### Leaf
 
 > **Target** Property
 >
@@ -63,7 +55,7 @@ code like this
 >|------------|------------|
 >| ```<nome>Programação Avançada</nome> ```| <code> @Leaf</code><br><code>val nome: String,</code>|
 
-### Attribute
+#### Attribute
 
 >**Target** Property
 >
@@ -72,7 +64,7 @@ code like this
 >|------------|------------|
 >| ```<fuc codigo="M4310">```| <code>class FUC</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;@Attribute</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;var codigo: String,</code>|
 
-### Inline
+#### Inline
 
 >**Target** Property
 >
@@ -81,7 +73,7 @@ code like this
 >|------------|------------|
 >| ``` <plano> ```<br>&nbsp;&nbsp;&nbsp;&nbsp;```<fuc codigo="M4310">```<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``` <ects>6.0</ects> ```<br>&nbsp;&nbsp;&nbsp;&nbsp;``` </fuc> ```<br> &nbsp;&nbsp;&nbsp;&nbsp;``` <fuc codigo="03782"> ```<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``` <ects>42.0</ects> ```<br> &nbsp;&nbsp;&nbsp;&nbsp;``` </fuc> ```<br> ``` </plano> ```| <code>class Plano(</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;@Inline</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;val fuc:List&lt;FUC&gt;</code><br><code>)</code>|
 
-### Nested
+#### Nested
 
 >**Target** Property
 >
@@ -90,7 +82,7 @@ code like this
 >|------------|------------|
 >| ``` <fuc codigo="M4310"> ``` <br> &nbsp;&nbsp;&nbsp;&nbsp;``` <avaliacao> ```<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```<componente nome="Quizzes" peso="20%"/>```<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```<componente nome="Projeto" peso="80%"/>```</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;```</avaliacao>```</code><br><code>``` <\fuc> ```| <code>class FUC(</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;@Nested</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;val avaliacao: List&lt;Componente&gt;</code><br><code>)</code>|
 
-### XmlString
+#### XmlString
 
 >**Target** Property
 >
@@ -99,7 +91,7 @@ code like this
 >|------------|------------|
 >| ```<componente nome="Quizzes" peso="20%"/>```| <code>@XmlString(AddPercentage::class,function="addPercentage")</code><br><code>val peso: Any</code>|
 
-### XmlAdapter
+#### XmlAdapter
 
 >**Target** Class
 >
@@ -107,3 +99,13 @@ code like this
 >| XML Example  | Kotlin Usage|
 >|------------|------------|
 >| Before<br>```<fuc codigo="M4310">```<br><br>After<br>```<fuc codigo="AAAAAA23657">```| <code>@XmlAdapter(FUCAdapter::class)</code><br><code>class FUC(</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;@Attribute</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;var codigo: String</code><br><code>)</code><br><br><code>class FUCAdapter {</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;fun ChangeCodigoValue(objFuc:FUC, newValue:String){</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;objFuc.codigo= newValue</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;}</code><br><code>}</code><br><br><code>FUCAdapter().ChangeCodigoValue(f,"AAAAAA23657")</code>|
+
+
+*italic like this*
+
+```
+code like this
+```
+**bold like this**
+
+`highlight like this`
