@@ -61,6 +61,46 @@ This is the abstract interface that includes the class XmlLeaf and the composite
 >* elementToString
 >* isValidElementName
 
+### XmlTag
+
+This is the composite class that represents a xml entity with other elements nested in it (children).
+> **Constructors** 
+>
+>| Name       | Type                      | Required   |
+>|------------|---------------------------|------------|
+>| name       | String                    | yes        |
+>| parent     | XmlTag                    | no         |
+>| attributes | MutableList<XmlAttribute> | no         |
+>
+>Example<br>
+><code>val plano = XmlTag("plano")</code><br>
+><code>val fuc1 = XmlTag("fuc", plano)</code>
+>
+> **Methods** 
+>* addChildElement 
+>* removeChildElement
+>* accept
+>* mapXml
+
+### XmlLeaf
+
+This class represents a final xml entity, i.e, with no elements nested in it (children).
+> **Constructors** 
+>
+>| Name       | Type                      | Required   |
+>|------------|---------------------------|------------|
+>| name       | String                    | yes        |
+>| parent     | XmlTag                    | no         |
+>| attributes | MutableList<XmlAttribute> | no         |
+>| leafText   | String                    | no         | 
+>
+>Example<br>
+><code>val plano = XmlTag("plano")</code><br>
+><code>val curso = XmlLeaf("curso", plano, leafText = "MEI")</code>
+>
+> **Methods** 
+>* mapXmlLeaf
+
 ### XmlAttribute
 <p>This class defines a xml attribute with a name and a value. Is used by XmlElement, XmlDocument, XmlTag and XmlLeaf to define the list of attribute given to a xml tag or leaf.</p>
 
